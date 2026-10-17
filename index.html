@@ -210,7 +210,7 @@
                 <div class="w-8 h-8 rounded-xl bg-cyan-500/20 text-cyan-400 flex items-center justify-center shadow-neon"><i class="fa-solid fa-music"></i></div>
                 <div>
                     <h4 class="font-bold text-xs text-white truncate max-w-[180px]" id="current-track-title">Chưa có bài hát</h4>
-                    <p class="text-[10px] text-slate-400">YouTube Background Player</p>
+                    <p class="text-[10px] text-slate-400">Playlist Riêng Tư Cloud</p>
                 </div>
             </div>
             <div class="flex items-center gap-1.5">
@@ -253,26 +253,29 @@
         </div>
     </div>
 
-    <!-- Modal Quản Lý Playlist YouTube -->
+    <!-- Modal Quản Lý Playlist YouTube Cá Nhân (Có Sắp Xếp Lên/Xuống & Đổi Tên) -->
     <div id="playlist-modal" class="fixed inset-0 z-50 hidden items-center justify-center bg-black/80 backdrop-blur-sm p-4">
         <div class="glass-card max-w-lg w-full p-6 rounded-3xl border border-cyan-500/40 shadow-neon-lg space-y-4">
             <div class="flex items-center justify-between border-b border-slate-800 pb-3">
-                <h3 class="font-bold text-base text-white flex items-center gap-2"><i class="fa-solid fa-list-music text-cyan-400"></i> Danh Sách Phát Nhạc YouTube</h3>
+                <h3 class="font-bold text-base text-white flex items-center gap-2"><i class="fa-solid fa-list-music text-cyan-400"></i> Playlist Riêng Tư Của Bạn</h3>
                 <button onclick="togglePlaylistModal()" class="text-slate-400 hover:text-white"><i class="fa-solid fa-xmark text-lg"></i></button>
             </div>
 
-            <!-- Thêm Link YouTube Mới -->
+            <!-- Thêm Link YouTube Mới kèm Tên Gợi Nhớ -->
             <div class="space-y-2">
-                <label class="block text-xs font-semibold text-slate-300">Thêm Link Video YouTube</label>
-                <div class="flex gap-2">
-                    <input type="text" id="youtube-link-input" placeholder="Dán link (ví dụ: https://www.youtube.com/watch?v=...)" class="flex-grow bg-slate-900 border border-slate-700 rounded-xl px-3 py-2 text-xs text-slate-200 outline-none focus:border-cyan-400">
-                    <button onclick="addYouTubeTrack()" class="px-4 py-2 rounded-xl bg-gradient-to-r from-cyan-500 to-blue-600 text-white font-bold text-xs shadow-neon shrink-0"><i class="fa-solid fa-plus mr-1"></i> Thêm</button>
+                <label class="block text-xs font-semibold text-slate-300">Thêm Link Video & Tên Bài Hát</label>
+                <div class="space-y-2">
+                    <input type="text" id="youtube-link-input" placeholder="Dán link YouTube (ví dụ: https://youtu.be/...)" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-3 py-2 text-xs text-slate-200 outline-none focus:border-cyan-400">
+                    <div class="flex gap-2">
+                        <input type="text" id="youtube-title-input" placeholder="Tên bài nhạc dễ nhớ (ví dụ: Lofi Chill Học Bài)" class="flex-grow bg-slate-900 border border-slate-700 rounded-xl px-3 py-2 text-xs text-slate-200 outline-none focus:border-cyan-400">
+                        <button onclick="addYouTubeTrack()" class="px-4 py-2 rounded-xl bg-gradient-to-r from-cyan-500 to-blue-600 text-white font-bold text-xs shadow-neon shrink-0"><i class="fa-solid fa-plus mr-1"></i> Thêm Bài</button>
+                    </div>
                 </div>
             </div>
 
             <!-- Danh Sách Bài Hát Trong Playlist -->
             <div class="space-y-2">
-                <label class="block text-xs font-semibold text-slate-300">Playlist Hiện Tại (<span id="playlist-count">0</span> bài)</label>
+                <label class="block text-xs font-semibold text-slate-300">Danh Sách Của Tôi (<span id="playlist-count">0</span> bài)</label>
                 <div id="playlist-items-container" class="space-y-2 max-h-60 overflow-y-auto pr-1 text-xs">
                     <p class="text-slate-500 italic text-center py-4">Chưa có bài hát nào trong playlist.</p>
                 </div>
@@ -295,20 +298,20 @@
         </div>
     </div>
 
-    <!-- Modal Đăng Nhập -->
-    <div id="auth-modal" class="fixed inset-0 z-50 hidden items-center justify-center bg-black/85 backdrop-blur-sm p-4">
+    <!-- Modal Đăng Nhập (Bắt buộc đăng nhập khi vào web) -->
+    <div id="auth-modal" class="fixed inset-0 z-50 flex items-center justify-center bg-black/90 backdrop-blur-md p-4">
         <div class="glass-card max-w-md w-full p-8 rounded-3xl border border-cyan-500/40 shadow-neon-lg relative">
-            <button onclick="closeAuthModal()" class="absolute top-5 right-5 text-slate-400 hover:text-white"><i class="fa-solid fa-xmark text-xl"></i></button>
             <div class="text-center mb-6">
                 <div class="w-14 h-14 rounded-2xl bg-cyan-500/20 text-cyan-400 mx-auto flex items-center justify-center text-2xl mb-3 shadow-neon"><i class="fa-solid fa-user-lock"></i></div>
                 <h3 id="auth-modal-title" class="text-2xl font-bold text-white">Đăng Nhập Tài Khoản</h3>
+                <p class="text-xs text-slate-400 mt-1">Vui lòng đăng nhập để tiếp tục sử dụng hệ thống EduSpace.</p>
             </div>
             <form onsubmit="handleAuthSubmit(event)" class="space-y-4">
-                <div><label class="block text-xs font-semibold text-slate-300 mb-1.5">Tên đăng nhập hoặc Email</label><input type="text" id="auth-username" required class="w-full bg-slate-900 border border-slate-700 rounded-xl px-4 py-3 text-sm text-slate-200"></div>
-                <div><label class="block text-xs font-semibold text-slate-300 mb-1.5">Mật khẩu</label><input type="password" id="auth-password" required class="w-full bg-slate-900 border border-slate-700 rounded-xl px-4 py-3 text-sm text-slate-200"></div>
+                <div><label class="block text-xs font-semibold text-slate-300 mb-1.5">Tên đăng nhập hoặc Email</label><input type="text" id="auth-username" required class="w-full bg-slate-900 border border-slate-700 rounded-xl px-4 py-3 text-sm text-slate-200 outline-none focus:border-cyan-400"></div>
+                <div><label class="block text-xs font-semibold text-slate-300 mb-1.5">Mật khẩu</label><input type="password" id="auth-password" required class="w-full bg-slate-900 border border-slate-700 rounded-xl px-4 py-3 text-sm text-slate-200 outline-none focus:border-cyan-400"></div>
                 <button type="submit" id="auth-submit-btn" class="w-full py-3.5 rounded-xl bg-gradient-to-r from-cyan-500 to-blue-600 text-white font-bold shadow-neon">Đăng Nhập Ngay</button>
             </form>
-            <div class="mt-6 text-center text-xs text-slate-400"><span id="auth-switch-text">Chưa có tài khoản?</span><button onclick="toggleAuthMode()" id="auth-switch-btn" class="text-cyan-400 font-bold ml-1 hover:underline">Tạo mới</button></div>
+            <div class="mt-6 text-center text-xs text-slate-400"><span id="auth-switch-text">Chưa có tài khoản?</span><button type="button" onclick="toggleAuthMode()" id="auth-switch-btn" class="text-cyan-400 font-bold ml-1 hover:underline">Tạo mới</button></div>
         </div>
     </div>
 
@@ -356,7 +359,8 @@
             }
         };
 
-        let currentAuthUser = 'hoangphihung2k11@gmail.com';
+        // Mặc định ban đầu chưa đăng nhập (Khách / Rỗng)
+        let currentAuthUser = localStorage.getItem('eduspace_current_user') || 'Khách';
         let isRegisterMode = false;
         let globalData = defaultAppData;
         let globalUsers = { 'hoangphihung2k11_gmail_com': { password: '123', name: 'Hoàng Phi Hùng (Admin)' } };
@@ -369,7 +373,7 @@
         };
         let chessGame = new Chess();
         let activeGameId = null;
-        let myColor = 'all'; // 'w', 'b', hoặc 'all'
+        let myColor = 'all';
         let selectedSquare = null;
         let validMoves = [];
         let whiteTime = 600;
@@ -377,12 +381,9 @@
         let timerInterval = null;
         let isGameOver = false;
 
-        // ========================== TRÌNH PHÁT NHẠC YOUTUBE CHẠY NỀN ==========================
+        // ========================== TRÌNH PHÁT NHẠC YOUTUBE & PLAYLIST RIÊNG TƯ CLOUD ==========================
         let ytPlayer = null;
-        let playlist = [
-            { id: 'jfKfPfyJRdk', title: 'Lofi Hip Hop Radio - Beats to Study/Relax to' },
-            { id: '5qap5aO4i9A', title: 'Lofi Hip Hop Radio - Live stream' }
-        ];
+        let playlist = []; 
         let currentTrackIndex = 0;
         let isLooping = false;
         let isShuffle = false;
@@ -393,7 +394,7 @@
                 ytPlayer = new YT.Player('youtube-player-hidden', {
                     height: '0',
                     width: '0',
-                    videoId: playlist.length > 0 ? playlist[0].id : '',
+                    videoId: '',
                     playerVars: {
                         'autoplay': 0,
                         'controls': 0,
@@ -412,10 +413,7 @@
         };
 
         function onPlayerReady(event) {
-            updatePlaylistUI();
-            if(playlist.length > 0) {
-                document.getElementById('current-track-title').innerText = playlist[0].title;
-            }
+            loadUserPlaylistFromCloud();
         }
 
         function onPlayerStateChange(event) {
@@ -427,10 +425,12 @@
                 }
             }
             if (event.data === YT.PlayerState.PLAYING) {
-                document.getElementById('play-pause-btn').innerHTML = '<i class="fa-solid fa-pause"></i>';
+                const playBtn = document.getElementById('play-pause-btn');
+                if(playBtn) playBtn.innerHTML = '<i class="fa-solid fa-pause"></i>';
                 startProgressInterval();
             } else {
-                document.getElementById('play-pause-btn').innerHTML = '<i class="fa-solid fa-play"></i>';
+                const playBtn = document.getElementById('play-pause-btn');
+                if(playBtn) playBtn.innerHTML = '<i class="fa-solid fa-play"></i>';
                 stopProgressInterval();
             }
         }
@@ -438,6 +438,42 @@
         function onPlayerError(event) {
             console.error("Lỗi YouTube Player Error Code:", event.data);
             showCustomModal("Lỗi Phát Nhạc", "Video YouTube này có thể đã bị chủ sở hữu chặn nhúng hoặc không tồn tại.");
+        }
+
+        // Tải Playlist riêng tư từ Server Cloud theo tài khoản đang đăng nhập
+        function loadUserPlaylistFromCloud() {
+            if (!currentAuthUser || currentAuthUser === 'Khách') {
+                playlist = [];
+                updatePlaylistUI();
+                const titleEl = document.getElementById('current-track-title');
+                if(titleEl) titleEl.innerText = "Vui lòng đăng nhập";
+                return;
+            }
+
+            const cleanUser = cleanKey(currentAuthUser);
+            db.ref(`eduspace_playlists/${cleanUser}`).once('value').then((snapshot) => {
+                const data = snapshot.val();
+                if (data) {
+                    playlist = Array.isArray(data) ? data : Object.values(data);
+                } else {
+                    playlist = [{ id: 'jfKfPfyJRdk', title: 'Lofi Hip Hop Radio (Mẫu)' }];
+                    db.ref(`eduspace_playlists/${cleanUser}`).set(playlist);
+                }
+                updatePlaylistUI();
+                if (playlist.length > 0 && ytPlayer && typeof ytPlayer.cueVideoById === 'function') {
+                    ytPlayer.cueVideoById(playlist[currentTrackIndex].id);
+                    const titleEl = document.getElementById('current-track-title');
+                    if(titleEl) titleEl.innerText = playlist[currentTrackIndex].title;
+                }
+            }).catch((error) => {
+                console.error("Lỗi khi tải playlist từ Firebase:", error);
+            });
+        }
+
+        function saveUserPlaylistToCloud() {
+            if (!currentAuthUser || currentAuthUser === 'Khách') return;
+            const cleanUser = cleanKey(currentAuthUser);
+            db.ref(`eduspace_playlists/${cleanUser}`).set(playlist);
         }
 
         function extractYouTubeID(url) {
@@ -463,8 +499,14 @@
         }
 
         function addYouTubeTrack() {
-            const input = document.getElementById('youtube-link-input');
-            const url = input.value.trim();
+            if (!currentAuthUser || currentAuthUser === 'Khách') {
+                showCustomModal("Cần Đăng Nhập", "Vui lòng đăng nhập để thêm và lưu playlist cá nhân trên cloud.");
+                return;
+            }
+            const inputLink = document.getElementById('youtube-link-input');
+            const inputTitle = document.getElementById('youtube-title-input');
+            const url = inputLink.value.trim();
+            const customTitle = inputTitle.value.trim();
             const videoId = extractYouTubeID(url);
 
             if (!videoId) {
@@ -472,11 +514,15 @@
                 return;
             }
 
-            const trackTitle = `YouTube Track (${videoId})`;
+            const trackTitle = customTitle !== "" ? customTitle : `Bài hát (${videoId})`;
             playlist.push({ id: videoId, title: trackTitle });
-            input.value = '';
+            
+            saveUserPlaylistToCloud();
+
+            inputLink.value = '';
+            inputTitle.value = '';
             updatePlaylistUI();
-            showCustomModal("Thành Công", "Đã thêm bài hát vào playlist!");
+            showCustomModal("Thành Công", "Đã thêm và lưu bài hát vào playlist riêng tư của bạn trên Cloud!");
 
             if (playlist.length === 1 && ytPlayer && typeof ytPlayer.loadVideoById === 'function') {
                 loadAndPlayTrack(0);
@@ -486,6 +532,8 @@
         function removeTrack(index, event) {
             event.stopPropagation();
             playlist.splice(index, 1);
+            saveUserPlaylistToCloud();
+
             if (currentTrackIndex >= playlist.length) {
                 currentTrackIndex = Math.max(0, playlist.length - 1);
             }
@@ -496,6 +544,28 @@
             } else if (currentTrackIndex === index) {
                 loadAndPlayTrack(currentTrackIndex);
             }
+        }
+
+        // Đảo vị trí bài hát lên trên hoặc xuống dưới
+        function moveTrack(index, direction, event) {
+            event.stopPropagation();
+            const newIndex = index + direction;
+            if (newIndex < 0 || newIndex >= playlist.length) return;
+
+            // Đổi chỗ 2 phần tử trong mảng playlist
+            const temp = playlist[index];
+            playlist[index] = playlist[newIndex];
+            playlist[newIndex] = temp;
+
+            // Nếu bài đang phát bị đổi vị trí, cập nhật lại chỉ số đang phát
+            if (currentTrackIndex === index) {
+                currentTrackIndex = newIndex;
+            } else if (currentTrackIndex === newIndex) {
+                currentTrackIndex = index;
+            }
+
+            saveUserPlaylistToCloud();
+            updatePlaylistUI();
         }
 
         function loadAndPlayTrack(index) {
@@ -580,9 +650,12 @@
                     const duration = ytPlayer.getDuration();
                     if (duration > 0) {
                         const percent = (currentTime / duration) * 100;
-                        document.getElementById('seek-bar').value = percent;
-                        document.getElementById('current-time').innerText = formatTime(currentTime);
-                        document.getElementById('total-duration').innerText = formatTime(duration);
+                        const seekBar = document.getElementById('seek-bar');
+                        const curTimeEl = document.getElementById('current-time');
+                        const durEl = document.getElementById('total-duration');
+                        if(seekBar) seekBar.value = percent;
+                        if(curTimeEl) curTimeEl.innerText = formatTime(currentTime);
+                        if(durEl) durEl.innerText = formatTime(duration);
                     }
                 }
             }, 1000);
@@ -612,6 +685,7 @@
             icon.classList.toggle('fa-chevron-up');
         }
 
+        // Cập nhật giao diện Playlist tích hợp nút Lên / Xuống thay đổi thứ tự
         function updatePlaylistUI() {
             const container = document.getElementById('playlist-items-container');
             const badge = document.getElementById('playlist-count');
@@ -619,7 +693,7 @@
             badge.innerText = playlist.length;
 
             if (playlist.length === 0) {
-                container.innerHTML = `<p class="text-slate-500 italic text-center py-4">Chưa có bài hát nào trong playlist.</p>`;
+                container.innerHTML = `<p class="text-slate-500 italic text-center py-4">Chưa có bài hát nào trong playlist cá nhân.</p>`;
                 return;
             }
 
@@ -629,8 +703,13 @@
                         <span class="font-mono text-[10px] text-slate-500">${idx + 1}.</span>
                         <span class="truncate font-medium">${track.title}</span>
                     </div>
-                    <div class="flex items-center gap-2 shrink-0">
-                        ${idx === currentTrackIndex ? '<i class="fa-solid fa-volume-high text-cyan-400 animate-pulse text-xs"></i>' : ''}
+                    <div class="flex items-center gap-1.5 shrink-0" onclick="event.stopPropagation()">
+                        ${idx === currentTrackIndex ? '<i class="fa-solid fa-volume-high text-cyan-400 animate-pulse text-xs mr-1"></i>' : ''}
+                        <!-- Nút Di Chuyển Lên -->
+                        <button onclick="moveTrack(${idx}, -1, event)" ${idx === 0 ? 'disabled class="opacity-30 cursor-not-allowed p-1.5 rounded-lg bg-slate-800 text-slate-400"' : 'class="p-1.5 rounded-lg bg-slate-800 text-slate-300 hover:bg-cyan-500 hover:text-slate-950 transition"'} title="Chuyển lên trên"><i class="fa-solid fa-arrow-up text-[10px]"></i></button>
+                        <!-- Nút Di Chuyển Xuống -->
+                        <button onclick="moveTrack(${idx}, 1, event)" ${idx === playlist.length - 1 ? 'disabled class="opacity-30 cursor-not-allowed p-1.5 rounded-lg bg-slate-800 text-slate-400"' : 'class="p-1.5 rounded-lg bg-slate-800 text-slate-300 hover:bg-cyan-500 hover:text-slate-950 transition"'} title="Chuyển xuống dưới"><i class="fa-solid fa-arrow-down text-[10px]"></i></button>
+                        <!-- Nút Xóa Bài -->
                         <button onclick="removeTrack(${idx}, event)" class="p-1.5 rounded-lg bg-slate-800 text-rose-400 hover:bg-rose-500 hover:text-white transition" title="Xóa bài"><i class="fa-solid fa-trash text-[10px]"></i></button>
                     </div>
                 </div>
@@ -662,13 +741,19 @@
                 if (val) globalProgress = val;
             });
 
-            const savedUser = localStorage.getItem('eduspace_current_user');
-            if (savedUser) currentAuthUser = savedUser;
+            // Kiểm tra trạng thái đăng nhập ban đầu
+            checkAuthGuard();
+        }
 
-            const cleanUser = cleanKey(currentAuthUser);
-            db.ref(`eduspace_invites/${cleanUser}`).on('value', (snapshot) => {
-                renderMailbox(snapshot.val());
-            });
+        // Bắt buộc đăng nhập: Nếu chưa đăng nhập hoặc là 'Khách', mở modal đăng nhập và ẩn nội dung trang web
+        function checkAuthGuard() {
+            const authModal = document.getElementById('auth-modal');
+            if (!currentAuthUser || currentAuthUser === 'Khách') {
+                if (authModal) authModal.classList.remove('hidden');
+            } else {
+                if (authModal) authModal.classList.add('hidden');
+            }
+            renderAuthNavbar();
         }
 
         function saveAppData(data) { db.ref('eduspace_data').set(data); }
@@ -696,12 +781,17 @@
             }
         }
 
-        function openAuthModal() { document.getElementById('auth-modal').classList.remove('hidden'); document.getElementById('auth-modal').classList.add('flex'); }
-        function closeAuthModal() { document.getElementById('auth-modal').classList.remove('flex'); document.getElementById('auth-modal').classList.add('hidden'); }
+        function openAuthModal() { 
+            const authModal = document.getElementById('auth-modal');
+            if(authModal) authModal.classList.remove('hidden'); 
+        }
+
         function toggleAuthMode() {
             isRegisterMode = !isRegisterMode;
             document.getElementById('auth-modal-title').innerText = isRegisterMode ? "Tạo Tài Khoản Mới" : "Đăng Nhập Tài Khoản";
             document.getElementById('auth-submit-btn').innerText = isRegisterMode ? "Đăng Ký Tài Khoản" : "Đăng Nhập Ngay";
+            document.getElementById('auth-switch-text').innerText = isRegisterMode ? "Đã có tài khoản?" : "Chưa có tài khoản?";
+            document.getElementById('auth-switch-btn').innerText = isRegisterMode ? "Đăng nhập" : "Tạo mới";
         }
 
         function handleAuthSubmit(e) {
@@ -720,12 +810,25 @@
             }
             localStorage.setItem('eduspace_current_user', username);
             currentAuthUser = username;
-            renderAuthNavbar(); closeAuthModal(); render();
+            
+            // Ẩn bảng đăng nhập khi đăng nhập thành công
+            const authModal = document.getElementById('auth-modal');
+            if(authModal) authModal.classList.add('hidden');
+
+            loadUserPlaylistFromCloud();
+            renderAuthNavbar(); 
+            render();
         }
 
         function handleLogout() {
-            localStorage.setItem('eduspace_current_user', 'Khách'); currentAuthUser = 'Khách';
-            renderAuthNavbar(); showCustomModal("Đã Đăng Xuất", "Đã thoát tài khoản."); render();
+            localStorage.removeItem('eduspace_current_user'); 
+            currentAuthUser = 'Khách';
+            playlist = [];
+            updatePlaylistUI();
+            checkAuthGuard();
+            renderAuthNavbar(); 
+            showCustomModal("Đã Đăng Xuất", "Đã thoát tài khoản."); 
+            render();
         }
 
         function toggleMailbox() { document.getElementById('mailbox-dropdown').classList.toggle('hidden'); }
@@ -839,6 +942,8 @@
             const container = document.getElementById('app-content');
             const data = globalData;
             renderAuthNavbar();
+            checkAuthGuard();
+
             if (router.currentView === 'home') container.innerHTML = renderHome(data);
             else if (router.currentView === 'subjects') container.innerHTML = renderSubjects(data);
             else if (router.currentView === 'subject') container.innerHTML = renderSubjectDetail(data, router.params.subjectId);
