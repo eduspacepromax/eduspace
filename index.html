@@ -3,7 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>EduSpace - Hệ Thống Học Tập Thông Minh Toán, Lý, Anh</title>
+    <title>EduSpace - Hệ Thống Học Tập & Giải Trí Thông Minh</title>
+    <!-- Tailwind CSS CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
         tailwind.config = {
@@ -26,14 +27,21 @@
             }
         }
     </script>
+    <!-- FontAwesome 6 Icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <!-- KaTeX Math Renderer -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/katex.min.css">
     <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/katex.min.js"></script>
     <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/contrib/auto-render.min.js" onload="renderAllMath();"></script>
 
+    <!-- Firebase SDK (v9 Compat) -->
     <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-database-compat.js"></script>
+
+    <!-- Chess Engine (Chess.js v0.10.3) -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/chess.js/0.10.3/chess.min.js"></script>
 
     <style>
         body { font-family: 'Inter', sans-serif; }
@@ -46,6 +54,56 @@
             border-color: rgba(0, 242, 254, 0.6);
             box-shadow: 0 0 25px rgba(0, 242, 254, 0.2);
         }
+
+        /* Chess Board Large Grid Styling */
+        .chess-grid {
+            display: grid;
+            grid-template-columns: repeat(8, 1fr);
+            grid-template-rows: repeat(8, 1fr);
+            width: 100%;
+            max-width: 560px;
+            aspect-ratio: 1 / 1;
+            border-radius: 1.25rem;
+            overflow: hidden;
+            border: 3px solid rgba(0, 242, 254, 0.4);
+            box-shadow: 0 0 30px rgba(0, 242, 254, 0.25);
+        }
+        .chess-square {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 3rem;
+            font-weight: 800;
+            cursor: pointer;
+            user-select: none;
+            transition: all 0.15s ease;
+            position: relative;
+        }
+        .chess-square:hover { opacity: 0.9; transform: scale(0.97); }
+        .chess-square.selected { outline: 4px solid #00f2fe; z-index: 20; box-shadow: inset 0 0 15px rgba(0, 242, 254, 0.6); }
+        .chess-square.valid-move::after {
+            content: '';
+            width: 16px;
+            height: 16px;
+            background-color: rgba(0, 245, 212, 0.75);
+            border-radius: 50%;
+            position: absolute;
+            box-shadow: 0 0 10px #00f5d4;
+        }
+
+        /* Themes */
+        .theme-neon .sq-white { background-color: #1e293b; color: #00f2fe; text-shadow: 0 0 8px rgba(0, 242, 254, 0.6); }
+        .theme-neon .sq-black { background-color: #0f172a; color: #f43f5e; text-shadow: 0 0 8px rgba(244, 63, 94, 0.6); }
+
+        .theme-wood .sq-white { background-color: #f0d9b5; color: #fff; text-shadow: 1px 1px 2px #000; }
+        .theme-wood .sq-black { background-color: #b58863; color: #000; }
+
+        .theme-emerald .sq-white { background-color: #e2e8f0; color: #0284c7; }
+        .theme-emerald .sq-black { background-color: #059669; color: #ffffff; }
+
+        .theme-purple .sq-white { background-color: #334155; color: #a855f7; text-shadow: 0 0 8px rgba(168, 85, 247, 0.6); }
+        .theme-purple .sq-black { background-color: #1e1b4b; color: #f43f5e; }
+
         ::-webkit-scrollbar { width: 8px; height: 8px; }
         ::-webkit-scrollbar-track { background: #0b0f19; }
         ::-webkit-scrollbar-thumb { background: #1f2937; border-radius: 4px; }
@@ -54,6 +112,7 @@
 </head>
 <body class="bg-darkBg text-slate-100 min-h-screen flex flex-col selection:bg-cyan-500 selection:text-white">
 
+    <!-- Header Navigation -->
     <header class="sticky top-0 z-50 glass-card border-b border-cyan-500/20">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between">
             <div class="flex items-center space-x-3 cursor-pointer group" onclick="router.navigate('home')">
@@ -66,57 +125,51 @@
                 </div>
             </div>
 
-            <nav class="hidden md:flex items-center space-x-6 text-sm font-semibold">
+            <nav class="hidden md:flex items-center space-x-5 text-sm font-semibold">
                 <button onclick="router.navigate('home')" id="nav-home" class="nav-link text-cyan-400 transition hover:text-cyan-300 flex items-center gap-2 py-2"><i class="fa-solid fa-house"></i> Trang Chủ</button>
-                <button onclick="router.navigate('subjects')" id="nav-subjects" class="nav-link text-slate-300 hover:text-cyan-300 transition flex items-center gap-2 py-2"><i class="fa-solid fa-book-open"></i> Môn Học & Bài Giảng</button>
-                <button onclick="router.navigate('upload')" id="nav-upload" class="nav-link text-slate-300 hover:text-cyan-300 transition flex items-center gap-2 py-2 bg-cyan-500/10 px-3.5 py-1.5 rounded-xl border border-cyan-500/30"><i class="fa-solid fa-cloud-arrow-up text-cyan-400"></i> Quản Lý & Đăng Bài</button>
+                <button onclick="router.navigate('subjects')" id="nav-subjects" class="nav-link text-slate-300 hover:text-cyan-300 transition flex items-center gap-2 py-2"><i class="fa-solid fa-book-open"></i> Môn Học</button>
+                <button onclick="router.navigate('chess')" id="nav-chess" class="nav-link text-amber-400 hover:text-amber-300 transition flex items-center gap-2 py-2 bg-amber-500/10 px-3 py-1.5 rounded-xl border border-amber-500/30"><i class="fa-solid fa-gamepad"></i> Giải Trí (Cờ Vua)</button>
+                <button onclick="router.navigate('upload')" id="nav-upload" class="nav-link text-slate-300 hover:text-cyan-300 transition flex items-center gap-2 py-2 bg-cyan-500/10 px-3 py-1.5 rounded-xl border border-cyan-500/30"><i class="fa-solid fa-cloud-arrow-up text-cyan-400"></i> Quản Lý Bài</button>
                 <button onclick="router.navigate('contact')" id="nav-contact" class="nav-link text-slate-300 hover:text-cyan-300 transition flex items-center gap-2 py-2"><i class="fa-solid fa-headset"></i> Hỗ Trợ</button>
             </nav>
 
             <div class="flex items-center space-x-3">
+                <!-- Hòm Thư Lời Mời Cờ Vua -->
+                <div class="relative">
+                    <button onclick="toggleMailbox()" class="p-2.5 rounded-xl bg-slate-800 border border-slate-700 hover:border-cyan-500 text-slate-300 relative">
+                        <i class="fa-solid fa-envelope text-lg"></i>
+                        <span id="mail-badge" class="hidden absolute -top-1 -right-1 w-5 h-5 rounded-full bg-rose-500 text-white text-[10px] font-bold flex items-center justify-center animate-pulse">0</span>
+                    </button>
+                    <div id="mailbox-dropdown" class="hidden absolute right-0 mt-3 w-80 glass-card rounded-2xl border border-cyan-500/30 shadow-neon-lg p-4 z-50 space-y-3">
+                        <h4 class="font-bold text-sm text-white border-b border-slate-800 pb-2"><i class="fa-solid fa-inbox text-cyan-400 mr-1"></i> Hòm Thư Lời Mời Cờ Vua</h4>
+                        <div id="mailbox-list" class="space-y-2 max-h-60 overflow-y-auto text-xs">
+                            <p class="text-slate-400 italic text-center py-2">Không có lời mời nào.</p>
+                        </div>
+                    </div>
+                </div>
+
                 <div id="auth-user-section" class="flex items-center gap-3"></div>
-                <button onclick="toggleMobileMenu()" class="md:hidden text-slate-300 hover:text-white p-2.5 rounded-xl bg-slate-800/80 border border-slate-700"><i class="fa-solid fa-bars text-xl" id="menu-icon"></i></button>
+                <button onclick="toggleMobileMenu()" class="md:hidden text-slate-300 p-2.5 rounded-xl bg-slate-800 border border-slate-700"><i class="fa-solid fa-bars text-xl" id="menu-icon"></i></button>
             </div>
         </div>
 
         <div id="mobile-menu" class="hidden md:hidden glass-card border-t border-cyan-500/20 px-4 py-4 space-y-2">
             <button onclick="router.navigate('home'); toggleMobileMenu();" class="block w-full text-left py-2.5 px-3 rounded-xl hover:bg-slate-800 text-cyan-400 font-medium"><i class="fa-solid fa-house mr-2"></i> Trang Chủ</button>
             <button onclick="router.navigate('subjects'); toggleMobileMenu();" class="block w-full text-left py-2.5 px-3 rounded-xl hover:bg-slate-800 text-slate-300 font-medium"><i class="fa-solid fa-book-open mr-2"></i> Môn Học</button>
-            <button onclick="router.navigate('upload'); toggleMobileMenu();" class="block w-full text-left py-2.5 px-3 rounded-xl hover:bg-slate-800 text-cyan-300 font-medium bg-cyan-500/10"><i class="fa-solid fa-cloud-arrow-up mr-2 text-cyan-400"></i> Quản Lý & Đăng Bài</button>
-            <button onclick="router.navigate('contact'); toggleMobileMenu();" class="block w-full text-left py-2.5 px-3 rounded-xl hover:bg-slate-800 text-slate-300 font-medium"><i class="fa-solid fa-headset mr-2"></i> Hỗ Trợ (0981128536)</button>
+            <button onclick="router.navigate('chess'); toggleMobileMenu();" class="block w-full text-left py-2.5 px-3 rounded-xl hover:bg-slate-800 text-amber-400 font-medium"><i class="fa-solid fa-gamepad mr-2"></i> Giải Trí (Cờ Vua)</button>
+            <button onclick="router.navigate('upload'); toggleMobileMenu();" class="block w-full text-left py-2.5 px-3 rounded-xl hover:bg-slate-800 text-cyan-300 font-medium bg-cyan-500/10"><i class="fa-solid fa-cloud-arrow-up mr-2 text-cyan-400"></i> Quản Lý Bài</button>
         </div>
     </header>
 
     <main id="app-content" class="flex-grow max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 w-full"></main>
 
-    <footer class="glass-card border-t border-cyan-500/20 mt-auto py-12">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 grid grid-cols-1 md:grid-cols-3 gap-8">
-            <div class="space-y-4">
-                <div class="flex items-center space-x-3">
-                    <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-cyan-500 to-blue-600 flex items-center justify-center shadow-neon"><i class="fa-solid fa-atom text-lg text-white"></i></div>
-                    <span class="font-bold text-lg text-white">EduSpace Pro</span>
-                </div>
-                <p class="text-sm text-slate-400 leading-relaxed">Hệ thống học tập trực tuyến thông minh các môn Toán, Lý, Tiếng Anh Cloud Đồng Bộ.</p>
-            </div>
-            <div>
-                <h4 class="text-sm font-bold text-slate-200 uppercase tracking-wider mb-4 border-l-2 border-cyan-400 pl-3">Hỗ Trợ 24/7</h4>
-                <ul class="space-y-3 text-sm text-slate-300">
-                    <li class="flex items-center gap-3"><div class="w-8 h-8 rounded-lg bg-cyan-500/10 text-cyan-400 flex items-center justify-center"><i class="fa-solid fa-phone"></i></div><span class="font-bold text-cyan-300">0981128536</span></li>
-                    <li class="flex items-center gap-3"><div class="w-8 h-8 rounded-lg bg-blue-500/10 text-blue-400 flex items-center justify-center"><i class="fa-solid fa-envelope"></i></div><span class="font-bold text-blue-300">hoangphihung2k11@gmail.com</span></li>
-                </ul>
-            </div>
-            <div>
-                <h4 class="text-sm font-bold text-slate-200 uppercase tracking-wider mb-4 border-l-2 border-teal-400 pl-3">Môn Học</h4>
-                <div class="flex flex-wrap gap-2">
-                    <span onclick="router.navigate('subject', {subjectId: 'math'})" class="px-3 py-1.5 rounded-xl bg-slate-800 hover:bg-cyan-500/20 text-xs text-slate-300 cursor-pointer border border-slate-700">Toán Học</span>
-                    <span onclick="router.navigate('subject', {subjectId: 'physics'})" class="px-3 py-1.5 rounded-xl bg-slate-800 hover:bg-blue-500/20 text-xs text-slate-300 cursor-pointer border border-slate-700">Vật Lý</span>
-                    <span onclick="router.navigate('subject', {subjectId: 'english'})" class="px-3 py-1.5 rounded-xl bg-slate-800 hover:bg-teal-500/20 text-xs text-slate-300 cursor-pointer border border-slate-700">Tiếng Anh</span>
-                </div>
-                <div class="mt-6 text-xs text-slate-500">© 2026 EduSpace Pro. Quản trị viên: Hoàng Phi Hùng.</div>
-            </div>
+    <footer class="glass-card border-t border-cyan-500/20 mt-auto py-8">
+        <div class="max-w-7xl mx-auto px-4 text-center text-xs text-slate-500">
+            © 2026 EduSpace Pro. Quản trị viên: Hoàng Phi Hùng.
         </div>
     </footer>
 
+    <!-- Modal Thông Báo -->
     <div id="custom-modal" class="fixed inset-0 z-50 hidden items-center justify-center bg-black/80 backdrop-blur-sm p-4">
         <div class="glass-card max-w-md w-full p-6 rounded-3xl border border-cyan-500/40 shadow-neon-lg text-center">
             <div id="modal-icon" class="w-16 h-16 rounded-full bg-cyan-500/20 text-cyan-400 mx-auto flex items-center justify-center text-2xl mb-4 shadow-neon"><i class="fa-solid fa-check"></i></div>
@@ -126,6 +179,7 @@
         </div>
     </div>
 
+    <!-- Modal Đăng Nhập -->
     <div id="auth-modal" class="fixed inset-0 z-50 hidden items-center justify-center bg-black/85 backdrop-blur-sm p-4">
         <div class="glass-card max-w-md w-full p-8 rounded-3xl border border-cyan-500/40 shadow-neon-lg relative">
             <button onclick="closeAuthModal()" class="absolute top-5 right-5 text-slate-400 hover:text-white"><i class="fa-solid fa-xmark text-xl"></i></button>
@@ -161,47 +215,48 @@
                 id: 'math', name: 'Toán Học', color: 'from-cyan-500 to-blue-600', icon: 'fa-square-root-variable', badgeBg: 'bg-cyan-500/10 text-cyan-400 border-cyan-500/30', description: 'Khám phá đại số, hàm số, hình học không gian.',
                 units: [{
                     id: 'm_u1', title: 'Unit 1: Đại Số & Khảo Sát Hàm Số',
-                    lessons: [{
-                        id: 'm_l1', title: 'Lesson 1: Sự Đồng Biến và Nghịch Biến',
-                        theory: 'Cho hàm số $y = f(x)$ xác định trên khoảng $K$.',
-                        exercises: [{ question: 'Cho hàm số $y = x^3 - 3x$. Đồng biến trên khoảng nào?', options: ['$(-\\infty; -1)$ và $(1; +\\infty)$', '$(-1; 1)$', '$(-\\infty; 0)$', '$(0; +\\infty)$'], correct: 0, explanation: 'Đạo hàm $y\' = 3x^2 - 3$.' }],
-                        essays: [{ question: 'Chứng minh rằng hàm số $y = -x^3 + 3x - 2$ nghịch biến trên khoảng $(-\\infty; -1)$ và $(1; +\\infty)$.', sampleAnswer: 'Ta có $y\' = -3x^2 + 3$. Cho $y\' = 0 \\Leftrightarrow x = \\pm 1$. Lập bảng biến thiên suy ra hàm số nghịch biến trên các khoảng $(-\\infty; -1)$ và $(1; +\\infty)$.' }]
-                    }]
+                    lessons: [
+                        { id: 'm_l1', title: 'Lesson 1: Sự Đồng Biến và Nghịch Biến', theory: 'Cho hàm số $y = f(x)$ xác định trên khoảng $K$.', exercises: [{ question: 'Cho hàm số $y = x^3 - 3x$. Đồng biến trên khoảng nào?', options: ['$(-\\infty; -1)$ và $(1; +\\infty)$', '$(-1; 1)$', '$(-\\infty; 0)$', '$(0; +\\infty)$'], correct: 0, explanation: 'Đạo hàm $y\' = 3x^2 - 3$.' }], essays: [{ question: 'Chứng minh hàm số $y = -x^3 + 3x$ nghịch biến trên $(1; +\\infty)$.', sampleAnswer: 'Lập bảng biến thiên đạo hàm suy ra đpcm.' }] },
+                        { id: 'm_l2', title: 'Lesson 2: Cực Trị Của Hàm Số', theory: 'Điểm cực trị thỏa mãn $f\'(x_0) = 0$.', exercises: [{ question: 'Hàm số $y = x^4 - 2x^2$ có mấy cực trị?', options: ['3', '1', '2', '0'], correct: 0, explanation: 'Có 3 nghiệm đạo hàm.' }] }
+                    ]
                 }]
             },
             physics: {
                 id: 'physics', name: 'Vật Lý', color: 'from-blue-600 to-teal-500', icon: 'fa-atom', badgeBg: 'bg-blue-500/10 text-blue-400 border-blue-500/30', description: 'Chinh phục dao động cơ, điện xoay chiều.',
                 units: [{
                     id: 'p_u1', title: 'Unit 1: Dao Động Cơ Học',
-                    lessons: [{
-                        id: 'p_l1', title: 'Lesson 1: Phương Trình Dao Động Điều Hòa',
-                        theory: 'Ly độ $x = A\\cos(\\omega t + \\varphi)$.',
-                        exercises: [{ question: 'Biên độ $A$ là gì?', options: ['Li độ cực đại', 'Tần số', 'Chu kỳ', 'Pha'], correct: 0, explanation: 'Biên độ $A$ là li độ cực đại.' }],
-                        essays: [{ question: 'Viết phương trình dao động điều hòa của một vật có biên độ 5cm, tần số góc 10 rad/s và pha ban đầu bằng 0.', sampleAnswer: 'Phương trình có dạng $x = 5\\cos(10t)$ (cm).' }]
-                    }]
+                    lessons: [{ id: 'p_l1', title: 'Lesson 1: Phương Trình Dao Động', theory: 'Ly độ $x = A\\cos(\\omega t + \\varphi)$.', exercises: [{ question: 'Biên độ $A$ là gì?', options: ['Li độ cực đại', 'Tần số', 'Chu kỳ', 'Pha'], correct: 0, explanation: 'Biên độ $A$ là li độ cực đại.' }] }]
                 }]
             },
             english: {
                 id: 'english', name: 'Tiếng Anh', color: 'from-teal-500 to-cyan-600', icon: 'fa-language', badgeBg: 'bg-teal-500/10 text-teal-400 border-teal-500/30', description: 'Thành thạo ngữ pháp nâng cao, từ vựng.',
                 units: [{
                     id: 'e_u1', title: 'Unit 1: Advanced English Grammar',
-                    lessons: [{
-                        id: 'e_l1', title: 'Lesson 1: Present Perfect & Past Simple',
-                        theory: 'Present Perfect formula: S + have/has + V3.',
-                        exercises: [{ question: 'I _____ to Tokyo twice.', options: ['have been', 'was', 'go', 'had'], correct: 0, explanation: 'Dùng hiện tại hoàn thành.' }],
-                        essays: [{ question: 'Write a short paragraph about your last summer trip using the Past Simple tense.', sampleAnswer: 'Last summer, I went to Da Nang with my family. We visited Ba Na Hills and swam in My Khe beach.' }]
-                    }]
+                    lessons: [{ id: 'e_l1', title: 'Lesson 1: Present Perfect', theory: 'Present Perfect: S + have/has + V3.', exercises: [{ question: 'I _____ to Tokyo twice.', options: ['have been', 'was', 'go', 'had'], correct: 0, explanation: 'Thì hiện tại hoàn thành.' }] }]
                 }]
             }
         };
 
         let currentAuthUser = 'hoangphihung2k11@gmail.com';
         let isRegisterMode = false;
-        let tempExerciseList = [];
-        let tempEssayList = [];
         let globalData = defaultAppData;
         let globalUsers = { 'hoangphihung2k11_gmail_com': { password: '123', name: 'Hoàng Phi Hùng (Admin)' } };
         let globalProgress = {};
+        
+        // Chess Engine & Multiplayer State
+        let chessGame = new Chess();
+        let activeGameId = null;
+        let myColor = 'w'; // 'w' cho Trắng, 'b' cho Đen
+        let selectedSquare = null;
+        let validMoves = [];
+        let currentBoardTheme = 'theme-neon';
+
+        const chessPiecesMap = {
+            'k': '♚', 'q': '♛', 'r': '♜', 'b': '♝', 'n': '♞', 'p': '♟',
+            'K': '♔', 'Q': '♕', 'R': '♖', 'B': '♗', 'N': '♘', 'P': '♙'
+        };
+
+        function cleanKey(str) { return str.replace(/[\.\#\$\[\]]/g, "_"); }
 
         function initFirebaseListeners() {
             db.ref('eduspace_data').on('value', (snapshot) => {
@@ -209,22 +264,34 @@
                 if (val) globalData = val; else db.ref('eduspace_data').set(defaultAppData);
                 render();
             });
+
             db.ref('eduspace_users').on('value', (snapshot) => {
                 const val = snapshot.val();
-                if (val) globalUsers = val; else db.ref('eduspace_users').set(globalUsers);
+                if (val) {
+                    globalUsers = val;
+                    if (router.currentView === 'chess') renderUserDropdown();
+                } else {
+                    db.ref('eduspace_users').set(globalUsers);
+                }
             });
+
             db.ref('eduspace_progress').on('value', (snapshot) => {
                 const val = snapshot.val();
                 if (val) globalProgress = val;
             });
+
             const savedUser = localStorage.getItem('eduspace_current_user');
             if (savedUser) currentAuthUser = savedUser;
+
+            const cleanUser = cleanKey(currentAuthUser);
+            db.ref(`eduspace_invites/${cleanUser}`).on('value', (snapshot) => {
+                renderMailbox(snapshot.val());
+            });
         }
 
         function saveAppData(data) { db.ref('eduspace_data').set(data); }
-        function getProgressData() { const cleanUser = currentAuthUser.replace(/[\.\#\$\[\]]/g, "_"); return globalProgress[cleanUser] || {}; }
-        function saveProgressData(prog) { const cleanUser = currentAuthUser.replace(/[\.\#\$\[\]]/g, "_"); db.ref('eduspace_progress/' + cleanUser).set(prog); }
-        function isAdmin() { return currentAuthUser === 'hoangphihung2k11@gmail.com' || currentAuthUser === 'hoangphihung'; }
+        function getProgressData() { const cleanUser = cleanKey(currentAuthUser); return globalProgress[cleanUser] || {}; }
+        function saveProgressData(prog) { const cleanUser = cleanKey(currentAuthUser); db.ref('eduspace_progress/' + cleanUser).set(prog); }
 
         function renderAllMath() {
             if (typeof renderMathInElement === 'function') {
@@ -237,13 +304,13 @@
             if (!container) return;
             if (currentAuthUser && currentAuthUser !== 'Khách') {
                 container.innerHTML = `
-                    <div class="flex items-center gap-2.5 px-3.5 py-2 rounded-2xl bg-slate-800/90 border border-cyan-500/30">
-                        <div class="w-8 h-8 rounded-xl bg-gradient-to-tr from-cyan-500 to-blue-600 text-white flex items-center justify-center font-bold text-xs shadow-neon">${currentAuthUser.charAt(0).toUpperCase()}</div>
-                        <div class="hidden sm:block text-left"><div class="text-xs font-bold text-white truncate max-w-[120px]">${currentAuthUser}</div><div class="text-[10px] text-cyan-400">${isAdmin() ? 'Quản Trị Viên' : 'Đã đăng nhập'}</div></div>
-                        <button onclick="handleLogout()" title="Đăng xuất" class="ml-2 text-slate-400 hover:text-rose-400 transition p-1"><i class="fa-solid fa-right-from-bracket"></i></button>
+                    <div class="flex items-center gap-2 px-3 py-1.5 rounded-2xl bg-slate-800/90 border border-cyan-500/30">
+                        <div class="w-7 h-7 rounded-lg bg-gradient-to-tr from-cyan-500 to-blue-600 text-white flex items-center justify-center font-bold text-xs shadow-neon">${currentAuthUser.charAt(0).toUpperCase()}</div>
+                        <div class="hidden sm:block text-left"><div class="text-xs font-bold text-white truncate max-w-[100px]">${currentAuthUser}</div></div>
+                        <button onclick="handleLogout()" title="Đăng xuất" class="ml-1 text-slate-400 hover:text-rose-400 p-1"><i class="fa-solid fa-right-from-bracket"></i></button>
                     </div>`;
             } else {
-                container.innerHTML = `<button onclick="openAuthModal()" class="px-4 py-2.5 rounded-xl bg-gradient-to-r from-cyan-500 to-blue-600 text-white font-bold text-xs sm:text-sm hover:opacity-95 transition shadow-neon flex items-center gap-2"><i class="fa-solid fa-user-circle"></i> Đăng Nhập / Tạo Tài Khoản</button>`;
+                container.innerHTML = `<button onclick="openAuthModal()" class="px-3 py-2 rounded-xl bg-gradient-to-r from-cyan-500 to-blue-600 text-white font-bold text-xs shadow-neon"><i class="fa-solid fa-user"></i> Đăng Nhập</button>`;
             }
         }
 
@@ -253,23 +320,20 @@
             isRegisterMode = !isRegisterMode;
             document.getElementById('auth-modal-title').innerText = isRegisterMode ? "Tạo Tài Khoản Mới" : "Đăng Nhập Tài Khoản";
             document.getElementById('auth-submit-btn').innerText = isRegisterMode ? "Đăng Ký Tài Khoản" : "Đăng Nhập Ngay";
-            document.getElementById('auth-switch-text').innerText = isRegisterMode ? "Đã có tài khoản?" : "Chưa có tài khoản?";
-            document.getElementById('auth-switch-btn').innerText = isRegisterMode ? "Đăng nhập ngay" : "Tạo mới";
         }
 
         function handleAuthSubmit(e) {
             e.preventDefault();
             const username = document.getElementById('auth-username').value.trim();
             const password = document.getElementById('auth-password').value.trim();
-            const cleanUserKey = username.replace(/[\.\#\$\[\]]/g, "_");
+            const cleanUserKey = cleanKey(username);
 
             if (isRegisterMode) {
-                if (globalUsers[cleanUserKey]) { showModal("Lỗi", "Tài khoản này đã tồn tại trên đám mây!", false); return; }
-                globalUsers[cleanUserKey] = { password, name: username };
+                if (globalUsers[cleanUserKey]) { showModal("Lỗi", "Tài khoản đã tồn tại!", false); return; }
                 db.ref('eduspace_users/' + cleanUserKey).set({ password, name: username });
-                showModal("Thành Công", "Đăng ký thành công tài khoản đám mây!", true);
+                showModal("Thành Công", "Đăng ký thành công!", true);
             } else {
-                if (!globalUsers[cleanUserKey] || globalUsers[cleanUserKey].password !== password) { showModal("Lỗi", "Sai tên đăng nhập hoặc mật khẩu!", false); return; }
+                if (!globalUsers[cleanUserKey] || globalUsers[cleanUserKey].password !== password) { showModal("Lỗi", "Sai tài khoản hoặc mật khẩu!", false); return; }
                 showModal("Thành Công", `Chào mừng ${username}!`, true);
             }
             localStorage.setItem('eduspace_current_user', username);
@@ -280,6 +344,69 @@
         function handleLogout() {
             localStorage.setItem('eduspace_current_user', 'Khách'); currentAuthUser = 'Khách';
             renderAuthNavbar(); showModal("Đã Đăng Xuất", "Đã thoát tài khoản.", true); render();
+        }
+
+        function toggleMailbox() { document.getElementById('mailbox-dropdown').classList.toggle('hidden'); }
+
+        function renderMailbox(invitesObj = null) {
+            const listContainer = document.getElementById('mailbox-list');
+            const badge = document.getElementById('mail-badge');
+            if (!invitesObj) {
+                listContainer.innerHTML = `<p class="text-slate-400 italic text-center py-2">Không có lời mời nào.</p>`;
+                badge.classList.add('hidden');
+                return;
+            }
+
+            const entries = Object.entries(invitesObj);
+            badge.innerText = entries.length;
+            if (entries.length > 0) badge.classList.remove('hidden'); else badge.classList.add('hidden');
+
+            listContainer.innerHTML = entries.map(([key, item]) => `
+                <div class="p-2.5 rounded-xl bg-slate-900 border border-slate-800 space-y-2">
+                    <p class="text-slate-200"><strong>${item.from}</strong> mời bạn thách đấu Cờ Vua!</p>
+                    <div class="flex gap-2">
+                        <button onclick="acceptInvite('${key}', '${item.gameId}', '${item.from}')" class="flex-1 py-1 rounded-lg bg-emerald-500/20 text-emerald-400 font-bold hover:bg-emerald-500 hover:text-white transition">Đồng ý</button>
+                        <button onclick="declineInvite('${key}')" class="flex-1 py-1 rounded-lg bg-rose-500/20 text-rose-400 font-bold hover:bg-rose-500 hover:text-white transition">Từ chối</button>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        function sendGameInvite(targetUser) {
+            if (currentAuthUser === 'Khách') { showModal("Lỗi", "Vui lòng đăng nhập để mời đấu!", false); return; }
+            if (!targetUser || targetUser === currentAuthUser) { showModal("Lỗi", "Vui lòng chọn bạn bè hợp lệ!", false); return; }
+            
+            const gameId = 'game_' + Date.now();
+            const cleanTarget = cleanKey(targetUser);
+
+            chessGame.reset();
+            db.ref(`eduspace_chess_games/${gameId}`).set({
+                white: currentAuthUser,
+                black: targetUser,
+                fen: chessGame.fen(),
+                status: 'active'
+            });
+
+            db.ref(`eduspace_invites/${cleanTarget}/${gameId}`).set({
+                from: currentAuthUser,
+                gameId: gameId,
+                timestamp: Date.now()
+            });
+
+            showModal("Thành Công", `Đã gửi lời mời thách đấu Cờ Vua đến ${targetUser}!`, true);
+            router.navigate('chess', { gameId: gameId, opponent: targetUser, color: 'w' });
+        }
+
+        function acceptInvite(inviteKey, gameId, opponent) {
+            const cleanUser = cleanKey(currentAuthUser);
+            db.ref(`eduspace_invites/${cleanUser}/${inviteKey}`).remove();
+            toggleMailbox();
+            router.navigate('chess', { gameId: gameId, opponent: opponent, color: 'b' });
+        }
+
+        function declineInvite(inviteKey) {
+            const cleanUser = cleanKey(currentAuthUser);
+            db.ref(`eduspace_invites/${cleanUser}/${inviteKey}`).remove();
         }
 
         let router = {
@@ -296,22 +423,13 @@
             if(active) { active.classList.remove('text-slate-300'); active.classList.add('text-cyan-400'); }
         }
 
-        function toggleMobileMenu() {
-            const menu = document.getElementById('mobile-menu');
-            const icon = document.getElementById('menu-icon');
-            menu.classList.toggle('hidden');
-            icon.className = menu.classList.contains('hidden') ? "fa-solid fa-bars text-xl" : "fa-solid fa-xmark text-xl";
-        }
+        function toggleMobileMenu() { document.getElementById('mobile-menu').classList.toggle('hidden'); }
 
-        function showModal(title, message, isSuccess = true, actionButtonHTML = null) {
-            const modal = document.getElementById('custom-modal');
+        function showModal(title, message, isSuccess = true) {
             document.getElementById('modal-title').innerText = title;
             document.getElementById('modal-message').innerText = message;
-            const icon = document.getElementById('modal-icon');
-            icon.className = isSuccess ? "w-16 h-16 rounded-full bg-cyan-500/20 text-cyan-400 mx-auto flex items-center justify-center text-2xl mb-4 shadow-neon" : "w-16 h-16 rounded-full bg-rose-500/20 text-rose-400 mx-auto flex items-center justify-center text-2xl mb-4";
-            icon.innerHTML = isSuccess ? '<i class="fa-solid fa-check"></i>' : '<i class="fa-solid fa-triangle-exclamation"></i>';
-            document.getElementById('modal-action-btn-container').innerHTML = actionButtonHTML || `<button onclick="closeModal()" class="w-full py-3 rounded-xl bg-gradient-to-r from-cyan-500 to-blue-600 text-white font-bold shadow-neon">Đã Hiểu</button>`;
-            modal.classList.remove('hidden'); modal.classList.add('flex');
+            document.getElementById('custom-modal').classList.remove('hidden');
+            document.getElementById('custom-modal').classList.add('flex');
         }
         function closeModal() { document.getElementById('custom-modal').classList.remove('flex'); document.getElementById('custom-modal').classList.add('hidden'); }
 
@@ -325,7 +443,10 @@
             else if (router.currentView === 'lesson') container.innerHTML = renderLessonDetail(data, router.params.subjectId, router.params.unitId, router.params.lessonId);
             else if (router.currentView === 'upload') container.innerHTML = renderUploadPortal(data);
             else if (router.currentView === 'contact') container.innerHTML = renderContact();
+            else if (router.currentView === 'chess') container.innerHTML = renderChessSection();
             else container.innerHTML = renderHome(data);
+            
+            if (router.currentView === 'chess') initCustomChessBoard();
             setTimeout(renderAllMath, 50);
         }
 
@@ -341,9 +462,13 @@
                             <span class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-cyan-500/10 text-cyan-400 border border-cyan-500/30 text-xs font-semibold shadow-neon">Tài khoản Cloud: <strong class="text-white">${currentAuthUser}</strong></span>
                             <h2 class="text-3xl sm:text-5xl font-extrabold text-white leading-tight">Chinh Phục Kiến Thức <span class="bg-gradient-to-r from-cyan-400 via-blue-400 to-teal-300 bg-clip-text text-transparent">Toán, Lý & Anh</span></h2>
                             <p class="text-slate-300 text-base sm:text-lg">Hệ thống bài giảng chuẩn hóa, trắc nghiệm tương tác và bài tập tự luận chi tiết.</p>
-                            <button onclick="router.navigate('subjects')" class="px-7 py-4 rounded-2xl bg-gradient-to-r from-cyan-500 to-blue-600 text-white font-bold shadow-neon-lg flex items-center gap-2"><i class="fa-solid fa-rocket"></i> Khám Phá Ngay</button>
+                            <div class="flex flex-wrap gap-4">
+                                <button onclick="router.navigate('subjects')" class="px-7 py-4 rounded-2xl bg-gradient-to-r from-cyan-500 to-blue-600 text-white font-bold shadow-neon-lg flex items-center gap-2"><i class="fa-solid fa-rocket"></i> Khám Phá Bài Học</button>
+                                <button onclick="router.navigate('chess')" class="px-7 py-4 rounded-2xl bg-gradient-to-r from-amber-500 to-orange-600 text-white font-bold shadow-neon-lg flex items-center gap-2"><i class="fa-solid fa-gamepad"></i> Giải Trí Cờ Vua</button>
+                            </div>
                         </div>
                     </div>
+
                     <div class="glass-card rounded-3xl p-6 sm:p-8 border border-cyan-500/20 flex flex-col md:flex-row items-center justify-between gap-6">
                         <div class="flex items-center space-x-4">
                             <div class="w-16 h-16 rounded-2xl bg-cyan-500/20 text-cyan-400 flex items-center justify-center text-2xl shadow-neon shrink-0"><i class="fa-solid fa-chart-line"></i></div>
@@ -354,6 +479,7 @@
                             <div class="w-full h-3 rounded-full bg-slate-800 overflow-hidden p-0.5 border border-slate-700"><div class="h-full rounded-full bg-gradient-to-r from-cyan-500 to-teal-400" style="width: ${percent}%"></div></div>
                         </div>
                     </div>
+
                     <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
                         ${Object.values(data).map(sub => `
                             <div onclick="router.navigate('subject', {subjectId: '${sub.id}'})" class="glass-card p-6 sm:p-8 rounded-3xl glow-border cursor-pointer group">
@@ -400,7 +526,6 @@
                                 <div class="glass-card rounded-3xl border border-slate-800 overflow-hidden">
                                     <div class="bg-slate-800/60 px-6 py-4 border-b border-slate-800 flex items-center justify-between">
                                         <h4 class="font-bold text-lg text-cyan-300">${unit.title}</h4>
-                                        ${isAdmin() ? `<button onclick="deleteUnit('${sub.id}', '${unit.id}')" class="px-3 py-1.5 rounded-xl bg-rose-500/20 text-rose-400 border border-rose-500/30 hover:bg-rose-500 hover:text-white text-xs font-bold transition"><i class="fa-solid fa-trash mr-1"></i> Xóa Unit</button>` : ''}
                                     </div>
                                     <div class="divide-y divide-slate-800/60">
                                         ${(!unit.lessons || unit.lessons.length === 0) ? `<div class="p-4 text-xs text-slate-400 italic">Chưa có bài học nào.</div>` : ''}
@@ -412,7 +537,6 @@
                                                         <div class="w-10 h-10 rounded-xl ${isDone ? 'bg-emerald-500/20 text-emerald-400 border' : 'bg-slate-800 text-slate-300'} flex items-center justify-center font-bold text-sm">${isDone ? '<i class="fa-solid fa-check"></i>' : (lIdx + 1)}</div>
                                                         <h5 class="font-semibold text-white group-hover:text-cyan-300">${lesson.title}</h5>
                                                     </div>
-                                                    ${isAdmin() ? `<button onclick="deleteLesson('${sub.id}', '${unit.id}', '${lesson.id}')" class="px-3 py-1.5 rounded-xl bg-rose-500/20 text-rose-400 border border-rose-500/30 hover:bg-rose-500 hover:text-white text-xs font-bold transition ml-4"><i class="fa-solid fa-trash mr-1"></i> Xóa Bài</button>` : ''}
                                                 </div>`;
                                         }).join('')}
                                     </div>
@@ -421,29 +545,6 @@
                         </div>
                     </div>
                 </div>`;
-        }
-
-        function deleteUnit(subjectId, unitId) {
-            if (!confirm("Xóa toàn bộ Unit này khỏi Cloud?")) return;
-            let data = globalData;
-            let sub = data[subjectId];
-            if (sub && sub.units) {
-                sub.units = sub.units.filter(u => u.id !== unitId);
-                saveAppData(data);
-                showModal("Đã Xóa", "Unit đã được xóa vĩnh viễn!", true);
-            }
-        }
-
-        function deleteLesson(subjectId, unitId, lessonId) {
-            if (!confirm("Xóa bài học này khỏi Cloud?")) return;
-            let data = globalData;
-            let sub = data[subjectId];
-            let unit = sub.units.find(u => u.id === unitId);
-            if (unit && unit.lessons) {
-                unit.lessons = unit.lessons.filter(l => l.id !== lessonId);
-                saveAppData(data);
-                showModal("Đã Xóa", "Bài học đã được xóa vĩnh viễn!", true);
-            }
         }
 
         function renderLessonDetail(data, subjectId, unitId, lessonId) {
@@ -469,16 +570,13 @@
                     <div id="lesson-tab-theory" class="glass-card p-6 sm:p-10 rounded-3xl border border-slate-800 space-y-6 text-slate-200"><div class="prose prose-invert max-w-none space-y-4">${lesson.theory}</div></div>
                     
                     <div id="lesson-tab-quiz" class="glass-card p-6 sm:p-10 rounded-3xl border border-slate-800 space-y-8 hidden">
-                        <div class="space-y-8" id="quiz-container-box">
+                        <div class="space-y-8">
                             ${exercises.map((ex, exIdx) => `
-                                <div class="p-6 rounded-2xl bg-slate-900/60 border border-slate-800 space-y-4 relative quiz-card-item" data-qindex="${exIdx}" data-correct="${ex.correct}">
-                                    <div class="flex justify-between items-start">
-                                        <h4 class="font-bold text-white text-base">Câu ${exIdx+1}: ${ex.question}</h4>
-                                        ${isAdmin() ? `<button onclick="deleteQuestion('${sub.id}', '${unit.id}', '${lesson.id}',${exIdx})" class="px-2.5 py-1 rounded-lg bg-rose-500/20 text-rose-400 border border-rose-500/30 hover:bg-rose-500 hover:text-white text-xs font-bold transition"><i class="fa-solid fa-trash mr-1"></i> Xóa</button>` : ''}
-                                    </div>
+                                <div class="p-6 rounded-2xl bg-slate-900/60 border border-slate-800 space-y-4">
+                                    <h4 class="font-bold text-white text-base">Câu ${exIdx+1}:${ex.question}</h4>
                                     <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
                                         ${(ex.options || []).map((opt, optIdx) => `
-                                            <label class="option-label-${exIdx}-${optIdx} flex items-center space-x-3 p-3.5 rounded-xl bg-slate-800/60 hover:bg-slate-800 border border-slate-700/60 cursor-pointer text-sm text-slate-200 transition">
+                                            <label class="flex items-center space-x-3 p-3.5 rounded-xl bg-slate-800/60 hover:bg-slate-800 border border-slate-700/60 cursor-pointer text-sm text-slate-200">
                                                 <input type="radio" name="question_${exIdx}" value="${optIdx}" class="text-cyan-500 h-4 w-4 bg-slate-900">
                                                 <span>${opt}</span>
                                             </label>`).join('')}
@@ -487,7 +585,7 @@
                                     <div id="explanation_${exIdx}" class="hidden pl-4 pt-3 text-xs text-slate-300 italic bg-cyan-500/5 p-4 rounded-xl border border-cyan-500/20"><strong class="text-cyan-300">Giải thích:</strong> ${ex.explanation}</div>
                                 </div>`).join('')}
                             <div class="flex flex-wrap gap-4 justify-end pt-4" id="quiz-action-buttons">
-                                <button onclick="submitLessonQuiz('${sub.id}', '${lesson.id}',${exercises.length})" id="submit-quiz-btn" class="px-8 py-4 rounded-2xl bg-gradient-to-r from-cyan-500 to-blue-600 text-white font-bold shadow-neon-lg">Nộp Bài</button>
+                                <button onclick="submitLessonQuiz('${sub.id}', '${lesson.id}', ${exercises.length})" id="submit-quiz-btn" class="px-8 py-4 rounded-2xl bg-gradient-to-r from-cyan-500 to-blue-600 text-white font-bold shadow-neon-lg">Nộp Bài</button>
                             </div>
                         </div>
                     </div>
@@ -497,36 +595,17 @@
                             ${essays.length === 0 ? `<p class="text-slate-400 text-sm italic">Chưa có bài tập tự luận nào cho bài học này.</p>` : ''}
                             ${essays.map((essay, eIdx) => `
                                 <div class="p-6 rounded-2xl bg-slate-900/60 border border-slate-800 space-y-4">
-                                    <h4 class="font-bold text-white text-base">Bài tự luận ${eIdx+1}: ${essay.question}</h4>
+                                    <h4 class="font-bold text-white text-base">Bài tự luận ${eIdx+1}:${essay.question}</h4>
                                     <textarea rows="4" placeholder="Nhập bài giải tự luận của bạn tại đây..." class="w-full bg-slate-900 border border-slate-700 rounded-xl p-4 text-sm text-slate-200 focus:border-cyan-400 outline-none"></textarea>
-                                    <div class="flex justify-between items-center">
-                                        <button onclick="toggleEssaySample(${eIdx})" class="px-4 py-2 rounded-xl bg-slate-800 text-cyan-400 text-xs font-bold border border-cyan-500/30 hover:bg-slate-700 transition"><i class="fa-solid fa-lightbulb mr-1"></i> Xem Gợi Ý / Lời Giải Mẫu</button>
-                                    </div>
+                                    <button onclick="toggleEssaySample(${eIdx})" class="px-4 py-2 rounded-xl bg-slate-800 text-cyan-400 text-xs font-bold border border-cyan-500/30 hover:bg-slate-700 transition"><i class="fa-solid fa-lightbulb mr-1"></i> Xem Gợi Ý / Lời Giải Mẫu</button>
                                     <div id="essay-sample-${eIdx}" class="hidden p-4 rounded-xl bg-cyan-500/5 border border-cyan-500/20 text-xs text-slate-300 space-y-2">
-                                        <strong class="text-cyan-300">Lời giải mẫu từ Giáo Viên:</strong>
-                                        <p>${essay.sampleAnswer}</p>
+                                        <strong class="text-cyan-300">Lời giải mẫu:</strong><p>${essay.sampleAnswer}</p>
                                     </div>
                                 </div>
                             `).join('')}
                         </div>
                     </div>
                 </div>`;
-        }
-
-        function deleteQuestion(subjectId, unitId, lessonId, qIndex) {
-            if (!confirm("Xóa câu hỏi này?")) return;
-            let data = globalData;
-            let sub = data[subjectId];
-            let unit = sub.units.find(u => u.id === unitId);
-            let lesson = unit.lessons.find(l => l.id === lessonId);
-            if (lesson && lesson.exercises && lesson.exercises.length > 1) {
-                lesson.exercises.splice(qIndex, 1);
-                saveAppData(data);
-                showModal("Đã Xóa", "Câu hỏi đã được xóa!", true);
-                setTimeout(() => { closeModal(); router.navigate('lesson', {subjectId, unitId, lessonId}); }, 1000);
-            } else {
-                showModal("Không thể xóa", "Bài học cần tối thiểu 1 câu hỏi!", false);
-            }
         }
 
         function switchLessonTab(tab) {
@@ -556,8 +635,7 @@
         }
 
         function toggleEssaySample(idx) {
-            const sampleBox = document.getElementById(`essay-sample-${idx}`);
-            sampleBox.classList.toggle('hidden');
+            document.getElementById(`essay-sample-${idx}`).classList.toggle('hidden');
             setTimeout(renderAllMath, 50);
         }
 
@@ -578,18 +656,17 @@
                 const correctIdx = lessonObj.exercises[i].correct;
 
                 if (selected) {
-                    const userVal = parseInt(selected.value);
-                    if (userVal === correctIdx) {
+                    if (parseInt(selected.value) === correctIdx) {
                         score++;
                         feedbackDiv.className = "p-4 rounded-xl text-xs font-semibold bg-emerald-500/20 text-emerald-300 border border-emerald-500/30";
-                        feedbackDiv.innerHTML = `<i class="fa-solid fa-circle-check mr-1"></i> Chính xác! Bạn đã chọn đúng đáp án này.`;
+                        feedbackDiv.innerHTML = `<i class="fa-solid fa-circle-check mr-1"></i> Chính xác! Bạn chọn đúng đáp án này.`;
                     } else {
                         feedbackDiv.className = "p-4 rounded-xl text-xs font-semibold bg-rose-500/20 text-rose-300 border border-rose-500/30";
-                        feedbackDiv.innerHTML = `<i class="fa-solid fa-circle-xmark mr-1"></i> Chưa chính xác! Đáp án đúng là: <strong>${lessonObj.exercises[i].options[correctIdx]}</strong>.`;
+                        feedbackDiv.innerHTML = `<i class="fa-solid fa-circle-xmark mr-1"></i> Sai rồi! Đáp án đúng là: <strong>${lessonObj.exercises[i].options[correctIdx]}</strong>.`;
                     }
                 } else {
                     feedbackDiv.className = "p-4 rounded-xl text-xs font-semibold bg-amber-500/20 text-amber-300 border border-amber-500/30";
-                    feedbackDiv.innerHTML = `<i class="fa-solid fa-triangle-exclamation mr-1"></i> Bạn chưa chọn đáp án nào cho câu này!`;
+                    feedbackDiv.innerHTML = `<i class="fa-solid fa-triangle-exclamation mr-1"></i> Chưa chọn đáp án!`;
                 }
             }
 
@@ -597,14 +674,12 @@
             progress[lessonId] = { score, total: totalQuestions, timestamp: Date.now() };
             saveProgressData(progress);
 
-            // Đổi nút Nộp Bài thành Làm lại nếu chưa tuyệt đối hoặc để học sinh rèn luyện lại
-            const actionContainer = document.getElementById('quiz-action-buttons');
-            actionContainer.innerHTML = `
+            document.getElementById('quiz-action-buttons').innerHTML = `
                 <button onclick="resetQuizForm(${totalQuestions})" class="px-8 py-4 rounded-2xl bg-gradient-to-r from-amber-500 to-orange-600 text-white font-bold shadow-neon-lg flex items-center gap-2"><i class="fa-solid fa-rotate-right"></i> Làm Lại Bài Này</button>
-                <button onclick="router.navigate('subject', {subjectId: '${subjectId}'})" class="px-8 py-4 rounded-2xl bg-gradient-to-r from-cyan-500 to-blue-600 text-white font-bold shadow-neon-lg">Hoàn Tất & Quay Về</button>
+                <button onclick="router.navigate('subject', {subjectId: '${subjectId}'})" class="px-8 py-4 rounded-2xl bg-gradient-to-r from-cyan-500 to-blue-600 text-white font-bold shadow-neon-lg">Hoàn Tất</button>
             `;
 
-            showModal("Kết Quả Bài Làm", `Bạn đạt ${score} /${totalQuestions} câu đúng! Tiến trình đã lưu trên đám mây.`, score === totalQuestions);
+            showModal("Kết Quả", `Bạn đúng ${score} / ${totalQuestions} câu!`, score === totalQuestions);
             setTimeout(renderAllMath, 50);
         }
 
@@ -615,9 +690,218 @@
                 document.getElementById(`feedback_${i}`).classList.add('hidden');
                 document.getElementById(`explanation_${i}`).classList.add('hidden');
             }
-            const actionContainer = document.getElementById('quiz-action-buttons');
-            actionContainer.innerHTML = `<button onclick="submitLessonQuiz('${router.params.subjectId}', '${router.params.lessonId}',${totalQuestions})" id="submit-quiz-btn" class="px-8 py-4 rounded-2xl bg-gradient-to-r from-cyan-500 to-blue-600 text-white font-bold shadow-neon-lg">Nộp Bài</button>`;
+            document.getElementById('quiz-action-buttons').innerHTML = `<button onclick="submitLessonQuiz('${router.params.subjectId}', '${router.params.lessonId}', ${totalQuestions})" id="submit-quiz-btn" class="px-8 py-4 rounded-2xl bg-gradient-to-r from-cyan-500 to-blue-600 text-white font-bold shadow-neon-lg">Nộp Bài</button>`;
             window.scrollTo({ top: 300, behavior: 'smooth' });
+        }
+
+        // MỤC GIẢI TRÍ CỜ VUA CHUẨN MULTIPLAYER ONLINE (KHÓA LƯỢT ĐI DỰA TRÊN MÀU QUÂN)
+        function renderChessSection() {
+            return `
+                <div class="space-y-8 animate-fadeIn">
+                    <div class="glass-card p-6 rounded-3xl border border-amber-500/30 flex flex-col md:flex-row items-center justify-between gap-4">
+                        <div>
+                            <h2 class="text-2xl font-extrabold text-white flex items-center gap-2"><i class="fa-solid fa-chess-knight text-amber-400"></i> Mục Giải Trí: Cờ Vua Đấu Bạn Bè (Multiplayer)</h2>
+                            <p class="text-xs text-slate-400">Khóa nước đi theo màu quân. Đồng bộ Realtime trên Firebase.</p>
+                        </div>
+                        <div class="flex items-center gap-3">
+                            <select id="invite-user-select" class="bg-slate-900 border border-slate-700 rounded-xl px-3 py-2 text-xs text-slate-200">
+                                <option value="">-- Chọn Bạn Bè Để Mời --</option>
+                            </select>
+                            <button onclick="sendGameInvite(document.getElementById('invite-user-select').value)" class="px-4 py-2 rounded-xl bg-gradient-to-r from-amber-500 to-orange-600 text-white font-bold text-xs shadow-neon"><i class="fa-solid fa-paper-plane mr-1"></i> Gửi Lời Mời</button>
+                        </div>
+                    </div>
+
+                    <div class="grid grid-cols-1 lg:grid-cols-3 gap-8 items-start">
+                        <div class="lg:col-span-2 glass-card p-6 sm:p-8 rounded-3xl border border-slate-800 flex flex-col items-center">
+                            <div class="w-full flex justify-between items-center mb-6 text-sm font-bold">
+                                <span class="text-cyan-400 flex items-center gap-2"><i class="fa-solid fa-user"></i> <span id="player-white">Trắng: ---</span></span>
+                                <span id="game-status" class="px-4 py-1.5 rounded-full bg-cyan-500/10 text-cyan-300 border border-cyan-500/30 text-xs font-bold shadow-neon">Lượt chơi: Trắng</span>
+                                <span class="text-rose-400 flex items-center gap-2"><i class="fa-solid fa-user"></i> <span id="player-black">Đen: ---</span></span>
+                            </div>
+
+                            <!-- Bàn cờ HTML Grid -->
+                            <div id="custom-chess-board" class="chess-grid ${currentBoardTheme}"></div>
+                            
+                            <div class="mt-4 text-xs font-semibold text-slate-400" id="your-role-badge">Đang chơi ở chế độ: <strong class="text-cyan-400">Luyện tập (Offline)</strong></div>
+                            <button onclick="resetChessGame()" class="mt-3 px-6 py-2 rounded-xl bg-slate-800 text-slate-300 hover:text-white border border-slate-700 text-xs font-bold transition"><i class="fa-solid fa-rotate-right mr-1"></i> Đặt Bàn Cờ Mới</button>
+                        </div>
+
+                        <div class="glass-card p-6 rounded-3xl border border-slate-800 space-y-6">
+                            <h3 class="font-bold text-base text-white border-b border-slate-800 pb-3 flex items-center gap-2"><i class="fa-solid fa-sliders text-amber-400"></i> Cài Đặt Màu Bàn Cờ</h3>
+                            <div>
+                                <div class="grid grid-cols-2 gap-2.5 text-xs">
+                                    <button onclick="changeBoardTheme('theme-neon')" class="p-3 rounded-xl bg-slate-900 border border-cyan-500/50 text-cyan-300 font-bold hover:bg-slate-800 transition">Neon EduSpace</button>
+                                    <button onclick="changeBoardTheme('theme-wood')" class="p-3 rounded-xl bg-amber-950/40 border border-amber-600/40 text-amber-300 font-bold hover:bg-slate-800 transition">Gỗ Cổ Điển</button>
+                                    <button onclick="changeBoardTheme('theme-emerald')" class="p-3 rounded-xl bg-emerald-950/40 border border-emerald-500/40 text-emerald-300 font-bold hover:bg-slate-800 transition">Lục Bảo</button>
+                                    <button onclick="changeBoardTheme('theme-purple')" class="p-3 rounded-xl bg-purple-950/40 border border-purple-500/40 text-purple-300 font-bold hover:bg-slate-800 transition">Tím Midnight</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>`;
+        }
+
+        function renderUserDropdown() {
+            const selectEl = document.getElementById('invite-user-select');
+            if (!selectEl) return;
+            const users = Object.keys(globalUsers).map(k => globalUsers[k].name || k);
+            let html = `<option value="">-- Chọn Bạn Bè Để Mời --</option>`;
+            users.forEach(u => { if (u !== currentAuthUser) html += `<option value="${u}">${u}</option>`; });
+            selectEl.innerHTML = html;
+        }
+
+        function changeBoardTheme(themeClass) {
+            currentBoardTheme = themeClass;
+            const boardEl = document.getElementById('custom-chess-board');
+            if (boardEl) boardEl.className = `chess-grid ${themeClass}`;
+        }
+
+        function initCustomChessBoard() {
+            renderUserDropdown();
+            chessGame.reset();
+            selectedSquare = null;
+            validMoves = [];
+
+            if (router.params.gameId) {
+                activeGameId = router.params.gameId;
+                myColor = router.params.color || 'w';
+
+                const badge = document.getElementById('your-role-badge');
+                if (badge) {
+                    const colorStr = myColor === 'w' ? 'Quân Trắng' : 'Quân Đen';
+                    badge.innerHTML = `Bạn đang cầm quân: <strong class="text-amber-400">${colorStr}</strong> | Đối thủ: <strong class="text-cyan-400">${router.params.opponent || 'Bạn bè'}</strong>`;
+                }
+
+                db.ref(`eduspace_chess_games/${activeGameId}`).on('value', (snapshot) => {
+                    const data = snapshot.val();
+                    if (!data) return;
+                    document.getElementById('player-white').innerText = `Trắng: ${data.white}`;
+                    document.getElementById('player-black').innerText = `Đen: ${data.black}`;
+                    
+                    if (data.white === currentAuthUser) myColor = 'w';
+                    else if (data.black === currentAuthUser) myColor = 'b';
+
+                    if (data.fen) {
+                        chessGame.load(data.fen);
+                        drawChessGrid();
+                    }
+                    updateGameStatusUI();
+                });
+            } else {
+                activeGameId = null;
+                myColor = 'all'; // Offline luyện tập
+                drawChessGrid();
+                updateGameStatusUI();
+            }
+        }
+
+        function resetChessGame() {
+            chessGame.reset();
+            selectedSquare = null;
+            validMoves = [];
+            drawChessGrid();
+            updateGameStatusUI();
+            if (activeGameId) {
+                db.ref(`eduspace_chess_games/${activeGameId}`).update({ fen: chessGame.fen() });
+            }
+        }
+
+        function updateGameStatusUI() {
+            const statusEl = document.getElementById('game-status');
+            if (!statusEl) return;
+
+            if (chessGame.in_checkmate()) {
+                const winner = chessGame.turn() === 'w' ? 'Đen' : 'Trắng';
+                statusEl.innerText = `CHIẾU HẾT! Quân ${winner} THẮNG!`;
+                statusEl.className = "px-4 py-1.5 rounded-full bg-rose-500/20 text-rose-300 border border-rose-500/40 text-xs font-bold animate-pulse";
+                showModal("KẾT QUẢ VÁN ĐẤU", `Chiếu hết! Quân ${winner} đã giành chiến thắng!`, true);
+            } else if (chessGame.in_draw()) {
+                statusEl.innerText = "VÁN ĐẤU HÒA!";
+                statusEl.className = "px-4 py-1.5 rounded-full bg-amber-500/20 text-amber-300 border border-amber-500/40 text-xs font-bold";
+            } else {
+                const turnStr = chessGame.turn() === 'w' ? 'Trắng' : 'Đen';
+                const isMyTurn = (myColor === 'all') || (chessGame.turn() === myColor);
+                const turnNotice = isMyTurn ? ' (ĐẾN LƯỢT BẠN!)' : ' (Chờ đối thủ...)';
+                const inCheck = chessGame.in_check() ? ' - BỊ CHIẾU!' : '';
+
+                statusEl.innerText = `Lượt: ${turnStr}${turnNotice}${inCheck}`;
+                statusEl.className = isMyTurn ? "px-4 py-1.5 rounded-full bg-emerald-500/20 text-emerald-300 border border-emerald-500/40 text-xs font-bold animate-pulse" : "px-4 py-1.5 rounded-full bg-cyan-500/10 text-cyan-300 border border-cyan-500/30 text-xs font-bold shadow-neon";
+            }
+        }
+
+        function drawChessGrid() {
+            const boardContainer = document.getElementById('custom-chess-board');
+            if (!boardContainer) return;
+
+            const boardArr = chessGame.board();
+            let html = '';
+
+            // Xoay bàn cờ nếu là quân Đen
+            const isBlackView = myColor === 'b';
+            const rowStart = isBlackView ? 7 : 0;
+            const rowEnd = isBlackView ? -1 : 8;
+            const rowStep = isBlackView ? -1 : 1;
+
+            const colStart = isBlackView ? 7 : 0;
+            const colEnd = isBlackView ? -1 : 8;
+            const colStep = isBlackView ? -1 : 1;
+
+            for (let r = rowStart; r !== rowEnd; r += rowStep) {
+                for (let c = colStart; c !== colEnd; c += colStep) {
+                    const isWhiteSq = (r + c) % 2 === 0;
+                    const sqClass = isWhiteSq ? 'sq-white' : 'sq-black';
+                    const pieceObj = boardArr[r][c];
+                    
+                    let pieceChar = '';
+                    if (pieceObj) {
+                        const key = pieceObj.color === 'w' ? pieceObj.type.toUpperCase() : pieceObj.type.toLowerCase();
+                        pieceChar = chessPiecesMap[key] || '';
+                    }
+
+                    const algSquare = String.fromCharCode(97 + c) + (8 - r);
+                    const isSel = selectedSquare === algSquare ? 'selected' : '';
+                    const isValid = validMoves.includes(algSquare) ? 'valid-move' : '';
+
+                    html += `<div onclick="handleSquareClick('${algSquare}')" class="chess-square ${sqClass} ${isSel} ${isValid}">${pieceChar}</div>`;
+                }
+            }
+            boardContainer.innerHTML = html;
+        }
+
+        function handleSquareClick(sq) {
+            if (chessGame.game_over()) return;
+
+            // KIỂM TRA LƯỢT ĐI MULTIPLAYER:
+            if (myColor !== 'all' && chessGame.turn() !== myColor) {
+                showModal("Chờ Lượt", "Chưa tới lượt của bạn!", false);
+                return;
+            }
+
+            if (!selectedSquare) {
+                const piece = chessGame.get(sq);
+                if (piece && piece.color === chessGame.turn()) {
+                    selectedSquare = sq;
+                    const moves = chessGame.moves({ square: sq, verbose: true });
+                    validMoves = moves.map(m => m.to);
+                    drawChessGrid();
+                }
+            } else {
+                const move = chessGame.move({
+                    from: selectedSquare,
+                    to: sq,
+                    promotion: 'q'
+                });
+
+                selectedSquare = null;
+                validMoves = [];
+
+                if (move !== null && activeGameId) {
+                    db.ref(`eduspace_chess_games/${activeGameId}`).update({ fen: chessGame.fen() });
+                }
+
+                drawChessGrid();
+                updateGameStatusUI();
+            }
         }
 
         function renderUploadPortal(data) {
@@ -645,92 +929,11 @@
                             <label class="block text-sm font-semibold text-slate-200 mb-2">Nội Dung Lý Thuyết ($...$)</label>
                             <textarea id="upload-theory" rows="3" required placeholder="<h3>1. Lý thuyết...</h3>" class="w-full bg-slate-900 border border-slate-700 rounded-2xl p-4 text-slate-200 font-mono text-sm"></textarea>
                         </div>
-
-                        <!-- Trắc nghiệm -->
-                        <div class="border-t border-slate-800 pt-6 space-y-4">
-                            <div class="flex items-center justify-between">
-                                <h3 class="text-lg font-bold text-white"><i class="fa-solid fa-list-check text-cyan-400"></i> Trắc Nghiệm</h3>
-                                <span id="question-counter-badge" class="px-3 py-1 rounded-full bg-cyan-500/10 text-cyan-400 text-xs font-bold border border-cyan-500/30">Đã thêm: 0 câu</span>
-                            </div>
-                            <div class="space-y-4 p-5 rounded-2xl bg-slate-900/60 border border-slate-800">
-                                <div><label class="block text-xs font-semibold text-slate-300 mb-1">Câu hỏi</label><input type="text" id="quiz-q-input" placeholder="Nội dung câu hỏi..." class="w-full bg-slate-900 border border-slate-700 rounded-xl px-3.5 py-2.5 text-sm text-slate-200"></div>
-                                <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                                    <input type="text" id="quiz-opt-0" placeholder="Đáp án A" class="bg-slate-900 border border-slate-700 rounded-xl px-3.5 py-2.5 text-sm text-slate-200">
-                                    <input type="text" id="quiz-opt-1" placeholder="Đáp án B" class="bg-slate-900 border border-slate-700 rounded-xl px-3.5 py-2.5 text-sm text-slate-200">
-                                    <input type="text" id="quiz-opt-2" placeholder="Đáp án C" class="bg-slate-900 border border-slate-700 rounded-xl px-3.5 py-2.5 text-sm text-slate-200">
-                                    <input type="text" id="quiz-opt-3" placeholder="Đáp án D" class="bg-slate-900 border border-slate-700 rounded-xl px-3.5 py-2.5 text-sm text-slate-200">
-                                </div>
-                                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                                    <div>
-                                        <label class="block text-xs font-semibold text-slate-300 mb-1">Đáp án đúng</label>
-                                        <select id="quiz-correct" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-3.5 py-2.5 text-sm text-slate-200">
-                                            <option value="0">Đáp án A</option><option value="1">Đáp án B</option><option value="2">Đáp án C</option><option value="3">Đáp án D</option>
-                                        </select>
-                                    </div>
-                                    <div><label class="block text-xs font-semibold text-slate-300 mb-1">Giải thích chi tiết</label><input type="text" id="quiz-exp" placeholder="Giải thích..." class="w-full bg-slate-900 border border-slate-700 rounded-xl px-3.5 py-2.5 text-sm text-slate-200"></div>
-                                </div>
-                                <button type="button" onclick="addNextQuestion()" class="w-full py-3 rounded-xl bg-slate-800 border border-cyan-500/40 text-cyan-300 hover:bg-slate-700 font-bold text-sm transition"><i class="fa-solid fa-plus mr-1"></i> Thêm câu trắc nghiệm này</button>
-                            </div>
-                            <div id="temp-questions-preview" class="space-y-2 text-xs text-slate-400 italic">Chưa có câu trắc nghiệm tạm nào.</div>
-                        </div>
-
-                        <!-- Tự luận -->
-                        <div class="border-t border-slate-800 pt-6 space-y-4">
-                            <div class="flex items-center justify-between">
-                                <h3 class="text-lg font-bold text-white"><i class="fa-solid fa-pen-nib text-teal-400"></i> Bài Tập Tự Luận</h3>
-                                <span id="essay-counter-badge" class="px-3 py-1 rounded-full bg-teal-500/10 text-teal-400 text-xs font-bold border border-teal-500/30">Đã thêm: 0 câu</span>
-                            </div>
-                            <div class="space-y-4 p-5 rounded-2xl bg-slate-900/60 border border-slate-800">
-                                <div><label class="block text-xs font-semibold text-slate-300 mb-1">Đề bài tự luận</label><input type="text" id="essay-q-input" placeholder="Ví dụ: Giải phương trình..." class="w-full bg-slate-900 border border-slate-700 rounded-xl px-3.5 py-2.5 text-sm text-slate-200"></div>
-                                <div><label class="block text-xs font-semibold text-slate-300 mb-1">Lời giải mẫu / Gợi ý</label><textarea id="essay-ans-input" rows="2" placeholder="Hướng dẫn giải chi tiết..." class="w-full bg-slate-900 border border-slate-700 rounded-xl p-3 text-sm text-slate-200"></textarea></div>
-                                <button type="button" onclick="addNextEssay()" class="w-full py-3 rounded-xl bg-slate-800 border border-teal-500/40 text-teal-300 hover:bg-slate-700 font-bold text-sm transition"><i class="fa-solid fa-plus mr-1"></i> Thêm bài tự luận này</button>
-                            </div>
-                            <div id="temp-essays-preview" class="space-y-2 text-xs text-slate-400 italic">Chưa có bài tự luận tạm nào.</div>
-                        </div>
-
                         <div class="pt-4 flex justify-end">
-                            <button type="submit" class="px-8 py-4 rounded-2xl bg-gradient-to-r from-cyan-500 to-blue-600 text-white font-bold shadow-neon-lg">Hoàn Tất & Đăng Bài Lên Đám Mây</button>
+                            <button type="submit" class="px-8 py-4 rounded-2xl bg-gradient-to-r from-cyan-500 to-blue-600 text-white font-bold shadow-neon-lg">Đăng Bài Lên Đám Mây</button>
                         </div>
                     </form>
                 </div>`;
-        }
-
-        function addNextQuestion() {
-            const q = document.getElementById('quiz-q-input').value.trim();
-            const o0 = document.getElementById('quiz-opt-0').value.trim();
-            const o1 = document.getElementById('quiz-opt-1').value.trim();
-            if (!q || !o0 || !o1) { showModal("Thiếu thông tin", "Nhập ít nhất câu hỏi và 2 đáp án A, B!", false); return; }
-            tempExerciseList.push({
-                question: q,
-                options: [o0, o1, document.getElementById('quiz-opt-2').value.trim() || 'Không có', document.getElementById('quiz-opt-3').value.trim() || 'Không có'],
-                correct: parseInt(document.getElementById('quiz-correct').value),
-                explanation: document.getElementById('quiz-exp').value.trim() || 'Không có giải thích.'
-            });
-            document.getElementById('quiz-q-input').value = '';
-            document.getElementById('quiz-opt-0').value = '';
-            document.getElementById('quiz-opt-1').value = '';
-            document.getElementById('quiz-opt-2').value = '';
-            document.getElementById('quiz-opt-3').value = '';
-            document.getElementById('quiz-exp').value = '';
-            document.getElementById('question-counter-badge').innerText = `Đã thêm: ${tempExerciseList.length} câu`;
-            let preview = ``;
-            tempExerciseList.forEach((item, idx) => { preview += `<div class="p-2 rounded bg-slate-900 border border-slate-800 text-slate-300"><b>Q${idx+1}:</b>${item.question}</div>`; });
-            document.getElementById('temp-questions-preview').innerHTML = preview;
-            showModal("Thành công", `Đã thêm câu trắc nghiệm thứ ${tempExerciseList.length}!`, true);
-        }
-
-        function addNextEssay() {
-            const q = document.getElementById('essay-q-input').value.trim();
-            const ans = document.getElementById('essay-ans-input').value.trim();
-            if (!q || !ans) { showModal("Thiếu thông tin", "Vui lòng nhập đề bài và lời giải mẫu!", false); return; }
-            tempEssayList.push({ question: q, sampleAnswer: ans });
-            document.getElementById('essay-q-input').value = '';
-            document.getElementById('essay-ans-input').value = '';
-            document.getElementById('essay-counter-badge').innerText = `Đã thêm: ${tempEssayList.length} câu`;
-            let preview = ``;
-            tempEssayList.forEach((item, idx) => { preview += `<div class="p-2 rounded bg-slate-900 border border-slate-800 text-slate-300"><b>Tự luận ${idx+1}:</b> ${item.question}</div>`; });
-            document.getElementById('temp-essays-preview').innerHTML = preview;
-            showModal("Thành công", `Đã thêm bài tự luận thứ ${tempEssayList.length}!`, true);
         }
 
         function handleFinalUpload(e) {
@@ -739,10 +942,6 @@
             const unitTitle = document.getElementById('upload-unit-title').value.trim();
             const lessonTitle = document.getElementById('upload-lesson-title').value.trim();
             const theory = document.getElementById('upload-theory').value;
-
-            if (tempExerciseList.length === 0) {
-                tempExerciseList.push({ question: 'Câu hỏi mặc định?', options: ['A', 'B', 'C', 'D'], correct: 0, explanation: 'Mẫu.' });
-            }
 
             let data = globalData;
             let sub = data[subjectId];
@@ -758,25 +957,17 @@
                 id: subjectId + '_l_' + Date.now(),
                 title: lessonTitle,
                 theory: theory,
-                exercises: tempExerciseList,
-                essays: tempEssayList
+                exercises: [{ question: 'Câu hỏi mặc định?', options: ['A', 'B', 'C', 'D'], correct: 0, explanation: 'Mẫu.' }],
+                essays: []
             });
 
             saveAppData(data);
-            tempExerciseList = [];
-            tempEssayList = [];
-            showModal("Hoàn Tất", "Đã đăng bài học thành công lên Firebase Cloud!", true);
+            showModal("Hoàn Tất", "Đã đăng bài học lên Firebase Cloud!", true);
             setTimeout(() => { closeModal(); router.navigate('subject', {subjectId: subjectId}); }, 1500);
         }
 
         function renderContact() {
-            return `
-                <div class="max-w-2xl mx-auto space-y-8 animate-fadeIn text-center">
-                    <div class="glass-card p-8 sm:p-10 rounded-3xl border border-cyan-500/30 shadow-neon space-y-4">
-                        <h2 class="text-3xl font-extrabold text-white">Hỗ Trợ Học Tập 24/7</h2>
-                        <p class="text-slate-300 text-sm">Liên hệ quản trị viên Hoàng Phi Hùng qua SĐT <strong>0981128536</strong> hoặc email <strong>hoangphihung2k11@gmail.com</strong>.</p>
-                    </div>
-                </div>`;
+            return `<div class="max-w-2xl mx-auto text-center glass-card p-10 rounded-3xl border border-cyan-500/30 space-y-4"><h2 class="text-3xl font-bold text-white">Hỗ Trợ 24/7</h2><p class="text-slate-300">SĐT: 0981128536 | Email: hoangphihung2k11@gmail.com</p></div>`;
         }
 
         window.onload = function() {
