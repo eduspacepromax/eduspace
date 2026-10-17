@@ -55,54 +55,94 @@
             box-shadow: 0 0 25px rgba(0, 242, 254, 0.2);
         }
 
-        /* Chess Board Large Grid Styling */
+        /* Chess Board Theme Variables */
+        .theme-neon {
+            --sq-light: #0d1b2a;
+            --sq-dark: #1b263b;
+            --sq-border: #00f2fe;
+            --sq-highlight: rgba(0, 242, 254, 0.35);
+            --p-white: #00f2fe;
+            --p-black: #ff0055;
+            --glow-white: drop-shadow(0 0 6px rgba(0, 242, 254, 0.8));
+            --glow-black: drop-shadow(0 0 6px rgba(255, 0, 85, 0.8));
+        }
+        .theme-wood {
+            --sq-light: #e0c398;
+            --sq-dark: #8b5a2b;
+            --sq-border: #b8860b;
+            --sq-highlight: rgba(255, 215, 0, 0.4);
+            --p-white: #fff8dc;
+            --p-black: #3e2723;
+            --glow-white: drop-shadow(0 0 3px rgba(255, 255, 255, 0.5));
+            --glow-black: drop-shadow(0 0 3px rgba(0, 0, 0, 0.8));
+        }
+        .theme-emerald {
+            --sq-light: #d1e7dd;
+            --sq-dark: #0f5132;
+            --sq-border: #198754;
+            --sq-highlight: rgba(25, 135, 84, 0.4);
+            --p-white: #e8f5e9;
+            --p-black: #051b11;
+            --glow-white: drop-shadow(0 0 5px rgba(232, 245, 233, 0.6));
+            --glow-black: drop-shadow(0 0 5px rgba(5, 27, 17, 0.9));
+        }
+        .theme-midnight {
+            --sq-light: #2b2d42;
+            --sq-dark: #14151f;
+            --sq-border: #7928ca;
+            --sq-highlight: rgba(121, 40, 202, 0.4);
+            --p-white: #a5b4fc;
+            --p-black: #e11d48;
+            --glow-white: drop-shadow(0 0 6px rgba(165, 180, 252, 0.7));
+            --glow-black: drop-shadow(0 0 6px rgba(225, 29, 72, 0.7));
+        }
+
+        /* Chess Board Grid & Pieces Styling */
         .chess-grid {
             display: grid;
             grid-template-columns: repeat(8, 1fr);
             grid-template-rows: repeat(8, 1fr);
             width: 100%;
-            max-width: 560px;
+            max-width: 520px;
             aspect-ratio: 1 / 1;
-            border-radius: 1.25rem;
+            border: 3px solid var(--sq-border);
+            border-radius: 12px;
+            box-shadow: 0 0 25px rgba(0, 242, 254, 0.15);
             overflow: hidden;
-            border: 3px solid rgba(0, 242, 254, 0.4);
-            box-shadow: 0 0 30px rgba(0, 242, 254, 0.25);
+            user-select: none;
         }
-        .chess-square {
+        .square {
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 3rem;
-            font-weight: 800;
-            cursor: pointer;
-            user-select: none;
-            transition: all 0.15s ease;
             position: relative;
+            cursor: pointer;
+            transition: background-color 0.15s ease;
         }
-        .chess-square:hover { opacity: 0.9; transform: scale(0.97); }
-        .chess-square.selected { outline: 4px solid #00f2fe; z-index: 20; box-shadow: inset 0 0 15px rgba(0, 242, 254, 0.6); }
-        .chess-square.valid-move::after {
+        .square.light { background-color: var(--sq-light); }
+        .square.dark { background-color: var(--sq-dark); }
+        .square.selected {
+            background-color: var(--sq-highlight) !important;
+            box-shadow: inset 0 0 10px var(--sq-border);
+        }
+        .square.possible-move::after {
             content: '';
-            width: 16px;
-            height: 16px;
-            background-color: rgba(0, 245, 212, 0.75);
+            width: 28%;
+            height: 28%;
+            background-color: rgba(0, 242, 254, 0.6);
             border-radius: 50%;
             position: absolute;
-            box-shadow: 0 0 10px #00f5d4;
+            box-shadow: 0 0 8px #00f2fe;
         }
-
-        /* Themes */
-        .theme-neon .sq-white { background-color: #1e293b; color: #00f2fe; text-shadow: 0 0 8px rgba(0, 242, 254, 0.6); }
-        .theme-neon .sq-black { background-color: #0f172a; color: #f43f5e; text-shadow: 0 0 8px rgba(244, 63, 94, 0.6); }
-
-        .theme-wood .sq-white { background-color: #f0d9b5; color: #fff; text-shadow: 1px 1px 2px #000; }
-        .theme-wood .sq-black { background-color: #b58863; color: #000; }
-
-        .theme-emerald .sq-white { background-color: #e2e8f0; color: #0284c7; }
-        .theme-emerald .sq-black { background-color: #059669; color: #ffffff; }
-
-        .theme-purple .sq-white { background-color: #334155; color: #a855f7; text-shadow: 0 0 8px rgba(168, 85, 247, 0.6); }
-        .theme-purple .sq-black { background-color: #1e1b4b; color: #f43f5e; }
+        .square.possible-capture {
+            background-color: rgba(255, 0, 85, 0.35) !important;
+        }
+        .piece {
+            font-size: clamp(2rem, 6vw, 3rem);
+            line-height: 1;
+        }
+        .piece.white-piece { color: var(--p-white); filter: var(--glow-white); }
+        .piece.black-piece { color: var(--p-black); filter: var(--glow-black); }
 
         ::-webkit-scrollbar { width: 8px; height: 8px; }
         ::-webkit-scrollbar-track { background: #0b0f19; }
@@ -110,7 +150,7 @@
         ::-webkit-scrollbar-thumb:hover { background: #00f2fe; }
     </style>
 </head>
-<body class="bg-darkBg text-slate-100 min-h-screen flex flex-col selection:bg-cyan-500 selection:text-white">
+<body class="bg-darkBg text-slate-100 min-h-screen flex flex-col selection:bg-cyan-500 selection:text-white theme-neon">
 
     <!-- Header Navigation -->
     <header class="sticky top-0 z-50 glass-card border-b border-cyan-500/20">
@@ -125,12 +165,12 @@
                 </div>
             </div>
 
-            <nav class="hidden md:flex items-center space-x-5 text-sm font-semibold">
-                <button onclick="router.navigate('home')" id="nav-home" class="nav-link text-cyan-400 transition hover:text-cyan-300 flex items-center gap-2 py-2"><i class="fa-solid fa-house"></i> Trang Chủ</button>
-                <button onclick="router.navigate('subjects')" id="nav-subjects" class="nav-link text-slate-300 hover:text-cyan-300 transition flex items-center gap-2 py-2"><i class="fa-solid fa-book-open"></i> Môn Học</button>
-                <button onclick="router.navigate('chess')" id="nav-chess" class="nav-link text-amber-400 hover:text-amber-300 transition flex items-center gap-2 py-2 bg-amber-500/10 px-3 py-1.5 rounded-xl border border-amber-500/30"><i class="fa-solid fa-gamepad"></i> Giải Trí (Cờ Vua)</button>
-                <button onclick="router.navigate('upload')" id="nav-upload" class="nav-link text-slate-300 hover:text-cyan-300 transition flex items-center gap-2 py-2 bg-cyan-500/10 px-3 py-1.5 rounded-xl border border-cyan-500/30"><i class="fa-solid fa-cloud-arrow-up text-cyan-400"></i> Quản Lý Bài</button>
-                <button onclick="router.navigate('contact')" id="nav-contact" class="nav-link text-slate-300 hover:text-cyan-300 transition flex items-center gap-2 py-2"><i class="fa-solid fa-headset"></i> Hỗ Trợ</button>
+            <nav class="hidden md:flex items-center space-x-3 text-sm font-semibold">
+                <button onclick="router.navigate('home')" id="nav-home" class="nav-link text-cyan-400 transition hover:text-cyan-300 flex items-center gap-2 py-2 px-3 rounded-xl"><i class="fa-solid fa-house"></i> Trang Chủ</button>
+                <button onclick="router.navigate('subjects')" id="nav-subjects" class="nav-link text-slate-300 hover:text-cyan-300 transition flex items-center gap-2 py-2 px-3 rounded-xl"><i class="fa-solid fa-book-open"></i> Môn Học</button>
+                <button onclick="router.navigate('chess')" id="nav-chess" class="nav-link text-amber-400 hover:text-amber-300 transition flex items-center gap-2 py-2 px-3 rounded-xl bg-amber-500/10 border border-amber-500/30"><i class="fa-solid fa-gamepad"></i> Giải Trí (Cờ Vua)</button>
+                <button onclick="router.navigate('upload')" id="nav-upload" class="nav-link text-slate-300 hover:text-cyan-300 transition flex items-center gap-2 py-2 px-3 rounded-xl bg-cyan-500/10 border border-cyan-500/30"><i class="fa-solid fa-cloud-arrow-up text-cyan-400"></i> Quản Lý Bài</button>
+                <button onclick="router.navigate('contact')" id="nav-contact" class="nav-link text-slate-300 hover:text-cyan-300 transition flex items-center gap-2 py-2 px-3 rounded-xl"><i class="fa-solid fa-headset"></i> Hỗ Trợ</button>
             </nav>
 
             <div class="flex items-center space-x-3">
@@ -149,7 +189,7 @@
                 </div>
 
                 <div id="auth-user-section" class="flex items-center gap-3"></div>
-                <button onclick="toggleMobileMenu()" class="md:hidden text-slate-300 p-2.5 rounded-xl bg-slate-800 border border-slate-700"><i class="fa-solid fa-bars text-xl" id="menu-icon"></i></button>
+                <button onclick="toggleMobileMenu()" class="md:hidden text-slate-300 p-2.5 rounded-xl bg-slate-800 border border-slate-700"><i class="fa-solid fa-bars text-xl"></i></button>
             </div>
         </div>
 
@@ -169,13 +209,12 @@
         </div>
     </footer>
 
-    <!-- Modal Thông Báo -->
-    <div id="custom-modal" class="fixed inset-0 z-50 hidden items-center justify-center bg-black/80 backdrop-blur-sm p-4">
-        <div class="glass-card max-w-md w-full p-6 rounded-3xl border border-cyan-500/40 shadow-neon-lg text-center">
-            <div id="modal-icon" class="w-16 h-16 rounded-full bg-cyan-500/20 text-cyan-400 mx-auto flex items-center justify-center text-2xl mb-4 shadow-neon"><i class="fa-solid fa-check"></i></div>
-            <h3 id="modal-title" class="text-xl font-bold text-white mb-2">Thông Báo</h3>
-            <p id="modal-message" class="text-slate-300 text-sm mb-6 leading-relaxed">Nội dung...</p>
-            <div id="modal-action-btn-container"><button onclick="closeModal()" class="w-full py-3 rounded-xl bg-gradient-to-r from-cyan-500 to-blue-600 text-white font-bold shadow-neon">Đã Hiểu</button></div>
+    <!-- Modal Thông Báo Chung -->
+    <div id="modal-backdrop" class="fixed inset-0 bg-slate-950/80 backdrop-blur-sm z-50 flex items-center justify-center hidden opacity-0 transition-opacity duration-200">
+        <div class="glass-card border border-slate-700 bg-slate-900 p-6 rounded-2xl max-w-md w-full mx-4 shadow-2xl transform scale-95 transition-transform duration-200" id="modal-box">
+            <h3 id="modal-title" class="text-lg font-bold text-white mb-2">Thông báo</h3>
+            <p id="modal-message" class="text-sm text-slate-300 mb-6">Nội dung thông báo...</p>
+            <div id="modal-actions" class="flex justify-end gap-3"></div>
         </div>
     </div>
 
@@ -242,19 +281,21 @@
         let globalData = defaultAppData;
         let globalUsers = { 'hoangphihung2k11_gmail_com': { password: '123', name: 'Hoàng Phi Hùng (Admin)' } };
         let globalProgress = {};
-        
-        // Chess Engine & Multiplayer State
+
+        // Cờ Vua Biến & Multiplayer
+        const PIECE_SYMBOLS = {
+            'p': '♟', 'r': '♜', 'n': '♞', 'b': '♝', 'q': '♛', 'k': '♚',
+            'P': '♟', 'R': '♜', 'N': '♞', 'B': '♝', 'Q': '♛', 'K': '♚'
+        };
         let chessGame = new Chess();
         let activeGameId = null;
-        let myColor = 'w'; // 'w' cho Trắng, 'b' cho Đen
+        let myColor = 'all'; // 'w', 'b', hoặc 'all'
         let selectedSquare = null;
         let validMoves = [];
-        let currentBoardTheme = 'theme-neon';
-
-        const chessPiecesMap = {
-            'k': '♚', 'q': '♛', 'r': '♜', 'b': '♝', 'n': '♞', 'p': '♟',
-            'K': '♔', 'Q': '♕', 'R': '♖', 'B': '♗', 'N': '♘', 'P': '♙'
-        };
+        let whiteTime = 600;
+        let blackTime = 600;
+        let timerInterval = null;
+        let isGameOver = false;
 
         function cleanKey(str) { return str.replace(/[\.\#\$\[\]]/g, "_"); }
 
@@ -329,12 +370,12 @@
             const cleanUserKey = cleanKey(username);
 
             if (isRegisterMode) {
-                if (globalUsers[cleanUserKey]) { showModal("Lỗi", "Tài khoản đã tồn tại!", false); return; }
+                if (globalUsers[cleanUserKey]) { showCustomModal("Lỗi", "Tài khoản đã tồn tại!"); return; }
                 db.ref('eduspace_users/' + cleanUserKey).set({ password, name: username });
-                showModal("Thành Công", "Đăng ký thành công!", true);
+                showCustomModal("Thành Công", "Đăng ký thành công!");
             } else {
-                if (!globalUsers[cleanUserKey] || globalUsers[cleanUserKey].password !== password) { showModal("Lỗi", "Sai tài khoản hoặc mật khẩu!", false); return; }
-                showModal("Thành Công", `Chào mừng ${username}!`, true);
+                if (!globalUsers[cleanUserKey] || globalUsers[cleanUserKey].password !== password) { showCustomModal("Lỗi", "Sai tài khoản hoặc mật khẩu!"); return; }
+                showCustomModal("Thành Công", `Chào mừng ${username}!`);
             }
             localStorage.setItem('eduspace_current_user', username);
             currentAuthUser = username;
@@ -343,7 +384,7 @@
 
         function handleLogout() {
             localStorage.setItem('eduspace_current_user', 'Khách'); currentAuthUser = 'Khách';
-            renderAuthNavbar(); showModal("Đã Đăng Xuất", "Đã thoát tài khoản.", true); render();
+            renderAuthNavbar(); showCustomModal("Đã Đăng Xuất", "Đã thoát tài khoản."); render();
         }
 
         function toggleMailbox() { document.getElementById('mailbox-dropdown').classList.toggle('hidden'); }
@@ -351,6 +392,7 @@
         function renderMailbox(invitesObj = null) {
             const listContainer = document.getElementById('mailbox-list');
             const badge = document.getElementById('mail-badge');
+            if (!listContainer || !badge) return;
             if (!invitesObj) {
                 listContainer.innerHTML = `<p class="text-slate-400 italic text-center py-2">Không có lời mời nào.</p>`;
                 badge.classList.add('hidden');
@@ -373,8 +415,8 @@
         }
 
         function sendGameInvite(targetUser) {
-            if (currentAuthUser === 'Khách') { showModal("Lỗi", "Vui lòng đăng nhập để mời đấu!", false); return; }
-            if (!targetUser || targetUser === currentAuthUser) { showModal("Lỗi", "Vui lòng chọn bạn bè hợp lệ!", false); return; }
+            if (currentAuthUser === 'Khách') { showCustomModal("Lỗi", "Vui lòng đăng nhập để mời đấu!"); return; }
+            if (!targetUser || targetUser === currentAuthUser) { showCustomModal("Lỗi", "Vui lòng chọn bạn bè hợp lệ!"); return; }
             
             const gameId = 'game_' + Date.now();
             const cleanTarget = cleanKey(targetUser);
@@ -384,6 +426,8 @@
                 white: currentAuthUser,
                 black: targetUser,
                 fen: chessGame.fen(),
+                whiteTime: 600,
+                blackTime: 600,
                 status: 'active'
             });
 
@@ -393,7 +437,7 @@
                 timestamp: Date.now()
             });
 
-            showModal("Thành Công", `Đã gửi lời mời thách đấu Cờ Vua đến ${targetUser}!`, true);
+            showCustomModal("Thành Công", `Đã gửi lời mời thách đấu Cờ Vua đến ${targetUser}!`);
             router.navigate('chess', { gameId: gameId, opponent: targetUser, color: 'w' });
         }
 
@@ -425,13 +469,30 @@
 
         function toggleMobileMenu() { document.getElementById('mobile-menu').classList.toggle('hidden'); }
 
-        function showModal(title, message, isSuccess = true) {
-            document.getElementById('modal-title').innerText = title;
-            document.getElementById('modal-message').innerText = message;
-            document.getElementById('custom-modal').classList.remove('hidden');
-            document.getElementById('custom-modal').classList.add('flex');
+        function showCustomModal(title, message, buttons = [{ text: "Đóng", class: "bg-cyan-500 text-slate-950 hover:bg-cyan-400 font-bold", onClick: closeModal }]) {
+            document.getElementById('modal-title').innerHTML = title;
+            document.getElementById('modal-message').innerHTML = message;
+            const actionsContainer = document.getElementById('modal-actions');
+            actionsContainer.innerHTML = '';
+            buttons.forEach(btn => {
+                const b = document.createElement('button');
+                b.className = `px-4 py-2 rounded-xl text-xs transition ${btn.class}`;
+                b.innerHTML = btn.text;
+                b.onclick = btn.onClick;
+                actionsContainer.appendChild(b);
+            });
+            const backdrop = document.getElementById('modal-backdrop');
+            const box = document.getElementById('modal-box');
+            backdrop.classList.remove('hidden');
+            setTimeout(() => { backdrop.classList.remove('opacity-0'); box.classList.remove('scale-95'); box.classList.add('scale-100'); }, 10);
         }
-        function closeModal() { document.getElementById('custom-modal').classList.remove('flex'); document.getElementById('custom-modal').classList.add('hidden'); }
+
+        function closeModal() {
+            const backdrop = document.getElementById('modal-backdrop');
+            const box = document.getElementById('modal-box');
+            backdrop.classList.add('opacity-0'); box.classList.remove('scale-100'); box.classList.add('scale-95');
+            setTimeout(() => { backdrop.classList.add('hidden'); }, 200);
+        }
 
         function render() {
             const container = document.getElementById('app-content');
@@ -445,8 +506,10 @@
             else if (router.currentView === 'contact') container.innerHTML = renderContact();
             else if (router.currentView === 'chess') container.innerHTML = renderChessSection();
             else container.innerHTML = renderHome(data);
-            
-            if (router.currentView === 'chess') initCustomChessBoard();
+
+            if (router.currentView === 'chess') {
+                initChessMultiplayerAndState();
+            }
             setTimeout(renderAllMath, 50);
         }
 
@@ -571,9 +634,13 @@
                     
                     <div id="lesson-tab-quiz" class="glass-card p-6 sm:p-10 rounded-3xl border border-slate-800 space-y-8 hidden">
                         <div class="space-y-8">
+                            ${exercises.length === 0 ? `<p class="text-slate-400 text-sm italic">Chưa có câu hỏi trắc nghiệm/đúng sai nào.</p>` : ''}
                             ${exercises.map((ex, exIdx) => `
                                 <div class="p-6 rounded-2xl bg-slate-900/60 border border-slate-800 space-y-4">
-                                    <h4 class="font-bold text-white text-base">Câu ${exIdx+1}:${ex.question}</h4>
+                                    <div class="flex items-center justify-between">
+                                        <h4 class="font-bold text-white text-base">Câu ${exIdx+1}:${ex.question}</h4>
+                                        <span class="text-[10px] px-2.5 py-1 rounded-md bg-cyan-500/10 text-cyan-400 border border-cyan-500/30 uppercase font-bold">${ex.type === 'true_false' ? 'Đúng / Sai' : 'Trắc nghiệm'}</span>
+                                    </div>
                                     <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
                                         ${(ex.options || []).map((opt, optIdx) => `
                                             <label class="flex items-center space-x-3 p-3.5 rounded-xl bg-slate-800/60 hover:bg-slate-800 border border-slate-700/60 cursor-pointer text-sm text-slate-200">
@@ -584,9 +651,10 @@
                                     <div id="feedback_${exIdx}" class="hidden p-4 rounded-xl text-xs font-semibold"></div>
                                     <div id="explanation_${exIdx}" class="hidden pl-4 pt-3 text-xs text-slate-300 italic bg-cyan-500/5 p-4 rounded-xl border border-cyan-500/20"><strong class="text-cyan-300">Giải thích:</strong> ${ex.explanation}</div>
                                 </div>`).join('')}
-                            <div class="flex flex-wrap gap-4 justify-end pt-4" id="quiz-action-buttons">
-                                <button onclick="submitLessonQuiz('${sub.id}', '${lesson.id}', ${exercises.length})" id="submit-quiz-btn" class="px-8 py-4 rounded-2xl bg-gradient-to-r from-cyan-500 to-blue-600 text-white font-bold shadow-neon-lg">Nộp Bài</button>
-                            </div>
+                            ${exercises.length > 0 ? `
+                                <div class="flex flex-wrap gap-4 justify-end pt-4" id="quiz-action-buttons">
+                                    <button onclick="submitLessonQuiz('${sub.id}', '${lesson.id}',${exercises.length})" id="submit-quiz-btn" class="px-8 py-4 rounded-2xl bg-gradient-to-r from-cyan-500 to-blue-600 text-white font-bold shadow-neon-lg">Nộp Bài</button>
+                                </div>` : ''}
                         </div>
                     </div>
 
@@ -659,10 +727,10 @@
                     if (parseInt(selected.value) === correctIdx) {
                         score++;
                         feedbackDiv.className = "p-4 rounded-xl text-xs font-semibold bg-emerald-500/20 text-emerald-300 border border-emerald-500/30";
-                        feedbackDiv.innerHTML = `<i class="fa-solid fa-circle-check mr-1"></i> Chính xác! Bạn chọn đúng đáp án này.`;
+                        feedbackDiv.innerHTML = `<i class="fa-solid fa-circle-check mr-1"></i> Chính xác!`;
                     } else {
                         feedbackDiv.className = "p-4 rounded-xl text-xs font-semibold bg-rose-500/20 text-rose-300 border border-rose-500/30";
-                        feedbackDiv.innerHTML = `<i class="fa-solid fa-circle-xmark mr-1"></i> Sai rồi! Đáp án đúng là: <strong>${lessonObj.exercises[i].options[correctIdx]}</strong>.`;
+                        feedbackDiv.innerHTML = `<i class="fa-solid fa-circle-xmark mr-1"></i> Sai rồi! Đáp án đúng: <strong>${lessonObj.exercises[i].options[correctIdx]}</strong>.`;
                     }
                 } else {
                     feedbackDiv.className = "p-4 rounded-xl text-xs font-semibold bg-amber-500/20 text-amber-300 border border-amber-500/30";
@@ -675,11 +743,10 @@
             saveProgressData(progress);
 
             document.getElementById('quiz-action-buttons').innerHTML = `
-                <button onclick="resetQuizForm(${totalQuestions})" class="px-8 py-4 rounded-2xl bg-gradient-to-r from-amber-500 to-orange-600 text-white font-bold shadow-neon-lg flex items-center gap-2"><i class="fa-solid fa-rotate-right"></i> Làm Lại Bài Này</button>
+                <button onclick="resetQuizForm(${totalQuestions})" class="px-8 py-4 rounded-2xl bg-gradient-to-r from-amber-500 to-orange-600 text-white font-bold shadow-neon-lg flex items-center gap-2"><i class="fa-solid fa-rotate-right"></i> Làm Lại</button>
                 <button onclick="router.navigate('subject', {subjectId: '${subjectId}'})" class="px-8 py-4 rounded-2xl bg-gradient-to-r from-cyan-500 to-blue-600 text-white font-bold shadow-neon-lg">Hoàn Tất</button>
             `;
-
-            showModal("Kết Quả", `Bạn đúng ${score} / ${totalQuestions} câu!`, score === totalQuestions);
+            showCustomModal("Kết Quả", `Bạn đúng ${score} / ${totalQuestions} câu!`);
             setTimeout(renderAllMath, 50);
         }
 
@@ -694,46 +761,113 @@
             window.scrollTo({ top: 300, behavior: 'smooth' });
         }
 
-        // MỤC GIẢI TRÍ CỜ VUA CHUẨN MULTIPLAYER ONLINE (KHÓA LƯỢT ĐI DỰA TRÊN MÀU QUÂN)
+        // ========================== HỆ THỐNG CỜ VUA CHUẨN ==========================
         function renderChessSection() {
             return `
                 <div class="space-y-8 animate-fadeIn">
-                    <div class="glass-card p-6 rounded-3xl border border-amber-500/30 flex flex-col md:flex-row items-center justify-between gap-4">
+                    <!-- Thanh Mời Bạn Bè Đấu Cờ -->
+                    <div class="glass-card p-5 rounded-3xl border border-amber-500/30 flex flex-col md:flex-row items-center justify-between gap-4">
                         <div>
-                            <h2 class="text-2xl font-extrabold text-white flex items-center gap-2"><i class="fa-solid fa-chess-knight text-amber-400"></i> Mục Giải Trí: Cờ Vua Đấu Bạn Bè (Multiplayer)</h2>
-                            <p class="text-xs text-slate-400">Khóa nước đi theo màu quân. Đồng bộ Realtime trên Firebase.</p>
+                            <h2 class="text-xl font-extrabold text-white flex items-center gap-2"><i class="fa-solid fa-chess-knight text-amber-400"></i> Mục Giải Trí: Cờ Vua Đấu Bạn Bè (Multiplayer)</h2>
+                            <p class="text-xs text-slate-400">Khóa nước đi theo màu quân. Đồng bộ Realtime trên Firebase Cloud.</p>
                         </div>
                         <div class="flex items-center gap-3">
                             <select id="invite-user-select" class="bg-slate-900 border border-slate-700 rounded-xl px-3 py-2 text-xs text-slate-200">
                                 <option value="">-- Chọn Bạn Bè Để Mời --</option>
                             </select>
-                            <button onclick="sendGameInvite(document.getElementById('invite-user-select').value)" class="px-4 py-2 rounded-xl bg-gradient-to-r from-amber-500 to-orange-600 text-white font-bold text-xs shadow-neon"><i class="fa-solid fa-paper-plane mr-1"></i> Gửi Lời Mời</button>
+                            <button onclick="sendGameInvite(document.getElementById('invite-user-select').value)" class="px-4 py-2 rounded-xl bg-gradient-to-r from-amber-500 to-orange-600 text-white font-bold text-xs shadow-neon flex items-center gap-1.5"><i class="fa-solid fa-paper-plane"></i> Gửi Lời Mời</button>
                         </div>
                     </div>
 
-                    <div class="grid grid-cols-1 lg:grid-cols-3 gap-8 items-start">
-                        <div class="lg:col-span-2 glass-card p-6 sm:p-8 rounded-3xl border border-slate-800 flex flex-col items-center">
-                            <div class="w-full flex justify-between items-center mb-6 text-sm font-bold">
-                                <span class="text-cyan-400 flex items-center gap-2"><i class="fa-solid fa-user"></i> <span id="player-white">Trắng: ---</span></span>
-                                <span id="game-status" class="px-4 py-1.5 rounded-full bg-cyan-500/10 text-cyan-300 border border-cyan-500/30 text-xs font-bold shadow-neon">Lượt chơi: Trắng</span>
-                                <span class="text-rose-400 flex items-center gap-2"><i class="fa-solid fa-user"></i> <span id="player-black">Đen: ---</span></span>
+                    <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
+                        <!-- LEFT & CENTER: CHESS BOARD & GAME DASHBOARD (Col 8) -->
+                        <div class="lg:col-span-8 space-y-4">
+                            <!-- Player Bar: Black (Opponent) -->
+                            <div class="glass-card p-3.5 rounded-2xl flex items-center justify-between border border-slate-800">
+                                <div class="flex items-center gap-3">
+                                    <div class="w-10 h-10 rounded-xl bg-rose-500/20 text-rose-500 flex items-center justify-center text-lg border border-rose-500/30">
+                                        <i class="fa-solid fa-user-ninja"></i>
+                                    </div>
+                                    <div>
+                                        <h4 class="font-bold text-sm text-slate-200" id="black-player-name">Đen: Quân Đen (Player 2)</h4>
+                                        <p class="text-[11px] text-slate-400" id="black-status">Đang chờ nước đi...</p>
+                                    </div>
+                                </div>
+                                <div id="timer-black-box" class="px-4 py-2 rounded-xl bg-slate-900/90 border border-slate-800 text-right">
+                                    <span class="text-xs text-slate-400 block font-mono">THỜI GIAN</span>
+                                    <span id="timer-black" class="text-xl font-bold font-mono text-slate-200">10:00</span>
+                                </div>
                             </div>
 
-                            <!-- Bàn cờ HTML Grid -->
-                            <div id="custom-chess-board" class="chess-grid ${currentBoardTheme}"></div>
-                            
-                            <div class="mt-4 text-xs font-semibold text-slate-400" id="your-role-badge">Đang chơi ở chế độ: <strong class="text-cyan-400">Luyện tập (Offline)</strong></div>
-                            <button onclick="resetChessGame()" class="mt-3 px-6 py-2 rounded-xl bg-slate-800 text-slate-300 hover:text-white border border-slate-700 text-xs font-bold transition"><i class="fa-solid fa-rotate-right mr-1"></i> Đặt Bàn Cờ Mới</button>
+                            <!-- Turn Bar Indicator -->
+                            <div class="flex items-center justify-between bg-slate-900/80 px-4 py-2 rounded-xl border border-slate-800/80 text-xs">
+                                <span class="text-slate-400">Trạng thái: <span id="game-status-text" class="text-cyan-400 font-semibold">Đang chơi</span></span>
+                                <div class="flex items-center gap-2">
+                                    <span class="text-slate-400">Lượt đánh:</span>
+                                    <span id="current-turn-badge" class="px-3 py-1 rounded-full font-bold bg-cyan-500/20 text-cyan-400 border border-cyan-500/30">TRẮNG (ĐẾN LƯỢT BẠN!)</span>
+                                </div>
+                            </div>
+
+                            <!-- Interactive Chess Board Area -->
+                            <div class="flex justify-center my-2">
+                                <div id="chess-board" class="chess-grid"></div>
+                            </div>
+
+                            <p class="text-center text-xs text-slate-400" id="mode-indicator-text">Đang chơi ở chế độ: <span class="text-slate-200 font-medium">Luyện tập (Offline 2 Người / Solo)</span></p>
+
+                            <!-- Player Bar: White (User) -->
+                            <div class="glass-card p-3.5 rounded-2xl flex items-center justify-between border border-slate-800">
+                                <div class="flex items-center gap-3">
+                                    <div class="w-10 h-10 rounded-xl bg-cyan-500/20 text-cyan-400 flex items-center justify-center text-lg border border-cyan-500/30">
+                                        <i class="fa-solid fa-user-astronaut"></i>
+                                    </div>
+                                    <div>
+                                        <h4 class="font-bold text-sm text-slate-200" id="white-player-name">Trắng: Quân Trắng (Player 1)</h4>
+                                        <p class="text-[11px] text-slate-400" id="white-status">Đến lượt bạn đi</p>
+                                    </div>
+                                </div>
+                                <div id="timer-white-box" class="px-4 py-2 rounded-xl bg-slate-900/90 border border-cyan-500/40 text-right shadow-lg shadow-cyan-500/10">
+                                    <span class="text-xs text-slate-400 block font-mono">THỜI GIAN</span>
+                                    <span id="timer-white" class="text-xl font-bold font-mono text-cyan-400">10:00</span>
+                                </div>
+                            </div>
+
+                            <!-- Game Actions Controls -->
+                            <div class="grid grid-cols-3 gap-3 pt-2">
+                                <button onclick="handleResign()" class="py-3 px-4 rounded-xl bg-rose-500/10 hover:bg-rose-500/20 text-rose-400 font-bold border border-rose-500/30 transition flex items-center justify-center gap-2">
+                                    <i class="fa-solid fa-flag"></i> <span>Đầu Hàng</span>
+                                </button>
+                                <button onclick="handleOfferDraw()" class="py-3 px-4 rounded-xl bg-amber-500/10 hover:bg-amber-500/20 text-amber-400 font-bold border border-amber-500/30 transition flex items-center justify-center gap-2">
+                                    <i class="fa-solid fa-handshake"></i> <span>Cầu Hòa</span>
+                                </button>
+                                <button onclick="resetChessGame()" class="py-3 px-4 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-200 font-bold border border-slate-700 transition flex items-center justify-center gap-2">
+                                    <i class="fa-solid fa-rotate-right"></i> <span>Đặt Bàn Cờ Mới</span>
+                                </button>
+                            </div>
                         </div>
 
-                        <div class="glass-card p-6 rounded-3xl border border-slate-800 space-y-6">
-                            <h3 class="font-bold text-base text-white border-b border-slate-800 pb-3 flex items-center gap-2"><i class="fa-solid fa-sliders text-amber-400"></i> Cài Đặt Màu Bàn Cờ</h3>
-                            <div>
-                                <div class="grid grid-cols-2 gap-2.5 text-xs">
-                                    <button onclick="changeBoardTheme('theme-neon')" class="p-3 rounded-xl bg-slate-900 border border-cyan-500/50 text-cyan-300 font-bold hover:bg-slate-800 transition">Neon EduSpace</button>
-                                    <button onclick="changeBoardTheme('theme-wood')" class="p-3 rounded-xl bg-amber-950/40 border border-amber-600/40 text-amber-300 font-bold hover:bg-slate-800 transition">Gỗ Cổ Điển</button>
-                                    <button onclick="changeBoardTheme('theme-emerald')" class="p-3 rounded-xl bg-emerald-950/40 border border-emerald-500/40 text-emerald-300 font-bold hover:bg-slate-800 transition">Lục Bảo</button>
-                                    <button onclick="changeBoardTheme('theme-purple')" class="p-3 rounded-xl bg-purple-950/40 border border-purple-500/40 text-purple-300 font-bold hover:bg-slate-800 transition">Tím Midnight</button>
+                        <!-- RIGHT SIDEBAR: BOARD SETTINGS & HISTORY (Col 4) -->
+                        <div class="lg:col-span-4 space-y-5">
+                            <div class="glass-card p-5 rounded-2xl border border-slate-800">
+                                <div class="flex items-center gap-2 mb-4 text-cyan-400 font-bold">
+                                    <i class="fa-solid fa-sliders"></i>
+                                    <h3>Cài Đặt Màu Bàn Cờ</h3>
+                                </div>
+                                <div class="grid grid-cols-2 gap-3">
+                                    <button onclick="changeBoardTheme('theme-neon')" class="p-3 rounded-xl border border-cyan-500/50 bg-cyan-950/30 text-cyan-300 font-medium text-xs hover:bg-cyan-900/40 transition text-center shadow-sm">Neon EduSpace</button>
+                                    <button onclick="changeBoardTheme('theme-wood')" class="p-3 rounded-xl border border-amber-900/50 bg-amber-950/30 text-amber-200 font-medium text-xs hover:bg-amber-900/40 transition text-center shadow-sm">Gỗ Cổ Điển</button>
+                                    <button onclick="changeBoardTheme('theme-emerald')" class="p-3 rounded-xl border border-emerald-800/50 bg-emerald-950/30 text-emerald-200 font-medium text-xs hover:bg-emerald-900/40 transition text-center shadow-sm">Lục Bảo</button>
+                                    <button onclick="changeBoardTheme('theme-midnight')" class="p-3 rounded-xl border border-purple-800/50 bg-purple-950/30 text-purple-200 font-medium text-xs hover:bg-purple-900/40 transition text-center shadow-sm">Tím Midnight</button>
+                                </div>
+                            </div>
+
+                            <div class="glass-card p-5 rounded-2xl border border-slate-800 flex flex-col h-[320px]">
+                                <div class="flex items-center justify-between mb-3 text-slate-300 font-bold border-b border-slate-800 pb-2">
+                                    <span class="text-xs flex items-center gap-2"><i class="fa-solid fa-list-ol text-cyan-400"></i> Lịch Sử Nước Đi</span>
+                                    <span id="move-count" class="text-[10px] bg-slate-800 px-2 py-0.5 rounded text-slate-400 font-mono">0 nước</span>
+                                </div>
+                                <div id="move-history" class="flex-grow overflow-y-auto space-y-1 pr-1 font-mono text-xs">
+                                    <p class="text-slate-500 italic text-center py-4">Chưa có nước đi nào</p>
                                 </div>
                             </div>
                         </div>
@@ -750,13 +884,7 @@
             selectEl.innerHTML = html;
         }
 
-        function changeBoardTheme(themeClass) {
-            currentBoardTheme = themeClass;
-            const boardEl = document.getElementById('custom-chess-board');
-            if (boardEl) boardEl.className = `chess-grid ${themeClass}`;
-        }
-
-        function initCustomChessBoard() {
+        function initChessMultiplayerAndState() {
             renderUserDropdown();
             chessGame.reset();
             selectedSquare = null;
@@ -766,77 +894,49 @@
                 activeGameId = router.params.gameId;
                 myColor = router.params.color || 'w';
 
-                const badge = document.getElementById('your-role-badge');
-                if (badge) {
+                const indicator = document.getElementById('mode-indicator-text');
+                if (indicator) {
                     const colorStr = myColor === 'w' ? 'Quân Trắng' : 'Quân Đen';
-                    badge.innerHTML = `Bạn đang cầm quân: <strong class="text-amber-400">${colorStr}</strong> | Đối thủ: <strong class="text-cyan-400">${router.params.opponent || 'Bạn bè'}</strong>`;
+                    indicator.innerHTML = `Đang chơi Multiplayer Online | Cầm quân: <strong class="text-amber-400">${colorStr}</strong> | Đối thủ: <strong class="text-cyan-400">${router.params.opponent || 'Bạn Bè'}</strong>`;
                 }
 
                 db.ref(`eduspace_chess_games/${activeGameId}`).on('value', (snapshot) => {
                     const data = snapshot.val();
                     if (!data) return;
-                    document.getElementById('player-white').innerText = `Trắng: ${data.white}`;
-                    document.getElementById('player-black').innerText = `Đen: ${data.black}`;
-                    
+
+                    const whiteNameEl = document.getElementById('white-player-name');
+                    const blackNameEl = document.getElementById('black-player-name');
+                    if (whiteNameEl) whiteNameEl.innerText = `Trắng: ${data.white}`;
+                    if (blackNameEl) blackNameEl.innerText = `Đen: ${data.black}`;
+
                     if (data.white === currentAuthUser) myColor = 'w';
                     else if (data.black === currentAuthUser) myColor = 'b';
 
                     if (data.fen) {
                         chessGame.load(data.fen);
-                        drawChessGrid();
+                        renderChessBoard();
                     }
-                    updateGameStatusUI();
+                    if (data.whiteTime !== undefined) whiteTime = data.whiteTime;
+                    if (data.blackTime !== undefined) blackTime = data.blackTime;
+
+                    updateChessUIState();
                 });
             } else {
                 activeGameId = null;
-                myColor = 'all'; // Offline luyện tập
-                drawChessGrid();
-                updateGameStatusUI();
+                myColor = 'all';
+                loadSavedChessState();
+                renderChessBoard();
+                startChessTimer();
+                updateChessUIState();
             }
         }
 
-        function resetChessGame() {
-            chessGame.reset();
-            selectedSquare = null;
-            validMoves = [];
-            drawChessGrid();
-            updateGameStatusUI();
-            if (activeGameId) {
-                db.ref(`eduspace_chess_games/${activeGameId}`).update({ fen: chessGame.fen() });
-            }
-        }
+        function renderChessBoard() {
+            const boardElement = document.getElementById('chess-board');
+            if (!boardElement) return;
+            boardElement.innerHTML = '';
+            const board = chessGame.board();
 
-        function updateGameStatusUI() {
-            const statusEl = document.getElementById('game-status');
-            if (!statusEl) return;
-
-            if (chessGame.in_checkmate()) {
-                const winner = chessGame.turn() === 'w' ? 'Đen' : 'Trắng';
-                statusEl.innerText = `CHIẾU HẾT! Quân ${winner} THẮNG!`;
-                statusEl.className = "px-4 py-1.5 rounded-full bg-rose-500/20 text-rose-300 border border-rose-500/40 text-xs font-bold animate-pulse";
-                showModal("KẾT QUẢ VÁN ĐẤU", `Chiếu hết! Quân ${winner} đã giành chiến thắng!`, true);
-            } else if (chessGame.in_draw()) {
-                statusEl.innerText = "VÁN ĐẤU HÒA!";
-                statusEl.className = "px-4 py-1.5 rounded-full bg-amber-500/20 text-amber-300 border border-amber-500/40 text-xs font-bold";
-            } else {
-                const turnStr = chessGame.turn() === 'w' ? 'Trắng' : 'Đen';
-                const isMyTurn = (myColor === 'all') || (chessGame.turn() === myColor);
-                const turnNotice = isMyTurn ? ' (ĐẾN LƯỢT BẠN!)' : ' (Chờ đối thủ...)';
-                const inCheck = chessGame.in_check() ? ' - BỊ CHIẾU!' : '';
-
-                statusEl.innerText = `Lượt: ${turnStr}${turnNotice}${inCheck}`;
-                statusEl.className = isMyTurn ? "px-4 py-1.5 rounded-full bg-emerald-500/20 text-emerald-300 border border-emerald-500/40 text-xs font-bold animate-pulse" : "px-4 py-1.5 rounded-full bg-cyan-500/10 text-cyan-300 border border-cyan-500/30 text-xs font-bold shadow-neon";
-            }
-        }
-
-        function drawChessGrid() {
-            const boardContainer = document.getElementById('custom-chess-board');
-            if (!boardContainer) return;
-
-            const boardArr = chessGame.board();
-            let html = '';
-
-            // Xoay bàn cờ nếu là quân Đen
             const isBlackView = myColor === 'b';
             const rowStart = isBlackView ? 7 : 0;
             const rowEnd = isBlackView ? -1 : 8;
@@ -848,68 +948,286 @@
 
             for (let r = rowStart; r !== rowEnd; r += rowStep) {
                 for (let c = colStart; c !== colEnd; c += colStep) {
-                    const isWhiteSq = (r + c) % 2 === 0;
-                    const sqClass = isWhiteSq ? 'sq-white' : 'sq-black';
-                    const pieceObj = boardArr[r][c];
-                    
-                    let pieceChar = '';
-                    if (pieceObj) {
-                        const key = pieceObj.color === 'w' ? pieceObj.type.toUpperCase() : pieceObj.type.toLowerCase();
-                        pieceChar = chessPiecesMap[key] || '';
+                    const squareSquare = String.fromCharCode(97 + c) + (8 - r);
+                    const piece = board[r][c];
+
+                    const squareDiv = document.createElement('div');
+                    squareDiv.className = `square ${(r + c) % 2 === 0 ? 'light' : 'dark'}`;
+                    squareDiv.dataset.square = squareSquare;
+
+                    if (selectedSquare === squareSquare) {
+                        squareDiv.classList.add('selected');
                     }
-
-                    const algSquare = String.fromCharCode(97 + c) + (8 - r);
-                    const isSel = selectedSquare === algSquare ? 'selected' : '';
-                    const isValid = validMoves.includes(algSquare) ? 'valid-move' : '';
-
-                    html += `<div onclick="handleSquareClick('${algSquare}')" class="chess-square ${sqClass} ${isSel} ${isValid}">${pieceChar}</div>`;
+                    if (validMoves.includes(squareSquare)) {
+                        if (piece) squareDiv.classList.add('possible-capture');
+                        else squareDiv.classList.add('possible-move');
+                    }
+                    if (piece) {
+                        const pieceSpan = document.createElement('span');
+                        const isWhite = piece.color === 'w';
+                        pieceSpan.className = `piece ${isWhite ? 'white-piece' : 'black-piece'}`;
+                        pieceSpan.textContent = PIECE_SYMBOLS[piece.type.toUpperCase()];
+                        squareDiv.appendChild(pieceSpan);
+                    }
+                    squareDiv.addEventListener('click', () => handleChessSquareClick(squareSquare));
+                    boardElement.appendChild(squareDiv);
                 }
             }
-            boardContainer.innerHTML = html;
         }
 
-        function handleSquareClick(sq) {
-            if (chessGame.game_over()) return;
+        function handleChessSquareClick(square) {
+            if (isGameOver) return;
 
-            // KIỂM TRA LƯỢT ĐI MULTIPLAYER:
             if (myColor !== 'all' && chessGame.turn() !== myColor) {
-                showModal("Chờ Lượt", "Chưa tới lượt của bạn!", false);
+                showCustomModal("Chờ Lượt", "Chưa tới lượt đi của bạn!");
                 return;
             }
 
-            if (!selectedSquare) {
-                const piece = chessGame.get(sq);
-                if (piece && piece.color === chessGame.turn()) {
-                    selectedSquare = sq;
-                    const moves = chessGame.moves({ square: sq, verbose: true });
-                    validMoves = moves.map(m => m.to);
-                    drawChessGrid();
-                }
-            } else {
-                const move = chessGame.move({
-                    from: selectedSquare,
-                    to: sq,
-                    promotion: 'q'
-                });
+            const pieceOnSquare = chessGame.get(square);
+            const currentTurn = chessGame.turn();
 
+            if (selectedSquare) {
+                if (selectedSquare === square) {
+                    selectedSquare = null;
+                    validMoves = [];
+                    renderChessBoard();
+                    return;
+                }
+                const moves = chessGame.moves({ square: selectedSquare, verbose: true });
+                const isLegal = moves.some(m => m.to === square);
+
+                if (isLegal) {
+                    chessGame.move({ from: selectedSquare, to: square, promotion: 'q' });
+                    selectedSquare = null;
+                    validMoves = [];
+                    onAfterChessMove();
+                    return;
+                }
+            }
+
+            if (pieceOnSquare && pieceOnSquare.color === currentTurn) {
+                selectedSquare = square;
+                const legalMovesObjects = chessGame.moves({ square: square, verbose: true });
+                validMoves = legalMovesObjects.map(m => m.to);
+            } else {
                 selectedSquare = null;
                 validMoves = [];
+            }
+            renderChessBoard();
+        }
 
-                if (move !== null && activeGameId) {
-                    db.ref(`eduspace_chess_games/${activeGameId}`).update({ fen: chessGame.fen() });
-                }
+        function onAfterChessMove() {
+            renderChessBoard();
+            updateChessUIState();
+            saveChessState();
 
-                drawChessGrid();
-                updateGameStatusUI();
+            if (activeGameId) {
+                db.ref(`eduspace_chess_games/${activeGameId}`).update({
+                    fen: chessGame.fen(),
+                    whiteTime: whiteTime,
+                    blackTime: blackTime
+                });
+            }
+
+            if (chessGame.in_checkmate()) {
+                const winner = chessGame.turn() === 'w' ? 'Đen' : 'Trắng';
+                endChessGame(`CHIẾU HẾT! ${winner} giành chiến thắng chung cuộc!`);
+            } else if (chessGame.in_draw() || chessGame.in_stalemate() || chessGame.in_threefold_repetition()) {
+                endChessGame("HÒA CỜ! Ván đấu kết thúc với kết quả hòa.");
             }
         }
+
+        function startChessTimer() {
+            if (timerInterval) clearInterval(timerInterval);
+            timerInterval = setInterval(() => {
+                if (isGameOver) return;
+                if (chessGame.turn() === 'w') {
+                    whiteTime--;
+                    if (whiteTime <= 0) {
+                        whiteTime = 0;
+                        updateTimerDisplay();
+                        endChessGame("HẾT GIỜ! Bên Trắng hết thời gian. Bên Đen chiến thắng!");
+                        return;
+                    }
+                } else {
+                    blackTime--;
+                    if (blackTime <= 0) {
+                        blackTime = 0;
+                        updateTimerDisplay();
+                        endChessGame("HẾT GIỜ! Bên Đen hết thời gian. Bên Trắng chiến thắng!");
+                        return;
+                    }
+                }
+                updateTimerDisplay();
+                saveChessState();
+            }, 1000);
+        }
+
+        function formatTime(seconds) {
+            const m = Math.floor(seconds / 60).toString().padStart(2, '0');
+            const s = (seconds % 60).toString().padStart(2, '0');
+            return `${m}:${s}`;
+        }
+
+        function updateTimerDisplay() {
+            const whiteTimerEl = document.getElementById('timer-white');
+            const blackTimerEl = document.getElementById('timer-black');
+            const whiteTimerBox = document.getElementById('timer-white-box');
+            const blackTimerBox = document.getElementById('timer-black-box');
+            if(!whiteTimerEl || !blackTimerEl) return;
+
+            whiteTimerEl.textContent = formatTime(whiteTime);
+            blackTimerEl.textContent = formatTime(blackTime);
+
+            if (chessGame.turn() === 'w') {
+                whiteTimerBox.className = "px-4 py-2 rounded-xl bg-slate-900/90 border border-cyan-500/80 text-right shadow-lg shadow-cyan-500/20";
+                blackTimerBox.className = "px-4 py-2 rounded-xl bg-slate-900/90 border border-slate-800 text-right opacity-60";
+                whiteTimerEl.className = "text-xl font-bold font-mono text-cyan-400";
+                blackTimerEl.className = "text-xl font-bold font-mono text-slate-300";
+            } else {
+                blackTimerBox.className = "px-4 py-2 rounded-xl bg-slate-900/90 border border-pink-500/80 text-right shadow-lg shadow-pink-500/20";
+                whiteTimerBox.className = "px-4 py-2 rounded-xl bg-slate-900/90 border border-slate-800 text-right opacity-60";
+                blackTimerEl.className = "text-xl font-bold font-mono text-pink-400";
+                whiteTimerEl.className = "text-xl font-bold font-mono text-slate-300";
+            }
+        }
+
+        function updateChessUIState() {
+            updateTimerDisplay();
+            const isWhiteTurn = chessGame.turn() === 'w';
+            const badge = document.getElementById('current-turn-badge');
+            const statusText = document.getElementById('game-status-text');
+            if(!badge || !statusText) return;
+
+            if (isGameOver) {
+                badge.textContent = "KẾT THÚC";
+                badge.className = "px-3 py-1 rounded-full font-bold bg-slate-800 text-slate-400 border border-slate-700";
+                statusText.textContent = "Trận đấu đã dừng";
+            } else if (isWhiteTurn) {
+                badge.textContent = "TRẮNG (ĐẾN LƯỢT BẠN!)";
+                badge.className = "px-3 py-1 rounded-full font-bold bg-cyan-500/20 text-cyan-400 border border-cyan-500/30";
+                statusText.textContent = chessGame.in_check() ? "ĐANG BỊ CHIẾU!" : "Đang chơi";
+            } else {
+                badge.textContent = "ĐEN (ĐẾN LƯỢT BẠN!)";
+                badge.className = "px-3 py-1 rounded-full font-bold bg-pink-500/20 text-pink-400 border border-pink-500/30";
+                statusText.textContent = chessGame.in_check() ? "ĐANG BỊ CHIẾU!" : "Đang chơi";
+            }
+
+            const historyContainer = document.getElementById('move-history');
+            const moveCountEl = document.getElementById('move-count');
+            const history = chessGame.history();
+            if(!historyContainer || !moveCountEl) return;
+
+            moveCountEl.textContent = `${history.length} nước`;
+            if (history.length === 0) {
+                historyContainer.innerHTML = `<p class="text-slate-500 italic text-center py-4">Chưa có nước đi nào</p>`;
+            } else {
+                let html = '<div class="grid grid-cols-2 gap-x-2 gap-y-1">';
+                for (let i = 0; i < history.length; i += 2) {
+                    const moveNum = Math.floor(i / 2) + 1;
+                    const whiteMove = history[i] || '';
+                    const blackMove = history[i + 1] || '';
+                    html += `
+                        <div class="text-slate-400 font-sans">${moveNum}. <span class="text-cyan-300 font-mono">${whiteMove}</span></div>
+                        <div class="text-pink-300 font-mono">${blackMove}</div>
+                    `;
+                }
+                html += '</div>';
+                historyContainer.innerHTML = html;
+                historyContainer.scrollTop = historyContainer.scrollHeight;
+            }
+        }
+
+        function handleResign() {
+            if (isGameOver) return;
+            const currentTurnName = chessGame.turn() === 'w' ? 'Trắng' : 'Đen';
+            const winnerName = chessGame.turn() === 'w' ? 'Đen' : 'Trắng';
+
+            showCustomModal("Xác nhận đầu hàng", `Bên <b>${currentTurnName}</b> có chắc chắn muốn đầu hàng không?`, [
+                { text: "Hủy", class: "bg-slate-800 text-slate-300 hover:bg-slate-700", onClick: closeModal },
+                { text: "Đầu Hàng", class: "bg-rose-500 text-white hover:bg-rose-600 font-bold", onClick: () => { closeModal(); endChessGame(`Bên ${currentTurnName} đã đầu hàng! Bên ${winnerName} thắng!`); } }
+            ]);
+        }
+
+        function handleOfferDraw() {
+            if (isGameOver) return;
+            const currentTurnName = chessGame.turn() === 'w' ? 'Trắng' : 'Đen';
+            const opponentName = chessGame.turn() === 'w' ? 'Đen' : 'Trắng';
+
+            showCustomModal("Đề nghị Cầu Hòa", `Bên <b>${currentTurnName}</b> xin hòa. Bên <b>${opponentName}</b> có đồng ý không?`, [
+                { text: "Từ Chối", class: "bg-slate-800 text-slate-300 hover:bg-slate-700", onClick: closeModal },
+                { text: "Đồng Ý Hòa", class: "bg-amber-500 text-slate-950 hover:bg-amber-400 font-bold", onClick: () => { closeModal(); endChessGame("Ván đấu hòa theo thỏa thuận hai bên!"); } }
+            ]);
+        }
+
+        function resetChessGame() {
+            showCustomModal("Tạo bàn cờ mới", "Bạn có chắc muốn đặt lại bàn cờ và tính lại thời gian?", [
+                { text: "Hủy", class: "bg-slate-800 text-slate-300 hover:bg-slate-700", onClick: closeModal },
+                { text: "Bàn Cờ Mới", class: "bg-cyan-500 text-slate-950 hover:bg-cyan-400 font-bold", onClick: () => { closeModal(); executeResetChessGame(); } }
+            ]);
+        }
+
+        function executeResetChessGame() {
+            chessGame = new Chess();
+            whiteTime = 600;
+            blackTime = 600;
+            selectedSquare = null;
+            validMoves = [];
+            isGameOver = false;
+            localStorage.removeItem('eduspace_chess_state');
+            renderChessBoard();
+            startChessTimer();
+            updateChessUIState();
+            if (activeGameId) {
+                db.ref(`eduspace_chess_games/${activeGameId}`).update({ fen: chessGame.fen(), whiteTime: 600, blackTime: 600 });
+            }
+        }
+
+        function endChessGame(message) {
+            isGameOver = true;
+            if (timerInterval) clearInterval(timerInterval);
+            updateChessUIState();
+            saveChessState();
+            showCustomModal("Kết Thúc Ván Đấu", message, [
+                { text: "Đóng", class: "bg-slate-800 text-slate-300 hover:bg-slate-700", onClick: closeModal },
+                { text: "Ván Mới", class: "bg-cyan-500 text-slate-950 hover:bg-cyan-400 font-bold", onClick: () => { closeModal(); executeResetChessGame(); } }
+            ]);
+        }
+
+        function saveChessState() {
+            const state = { fen: chessGame.fen(), whiteTime: whiteTime, blackTime: blackTime, isGameOver: isGameOver };
+            localStorage.setItem('eduspace_chess_state', JSON.stringify(state));
+        }
+
+        function loadSavedChessState() {
+            const saved = localStorage.getItem('eduspace_chess_state');
+            if (saved) {
+                try {
+                    const data = JSON.parse(saved);
+                    if (data.fen) chessGame.load(data.fen);
+                    if (data.whiteTime !== undefined) whiteTime = data.whiteTime;
+                    if (data.blackTime !== undefined) blackTime = data.blackTime;
+                    if (data.isGameOver !== undefined) isGameOver = data.isGameOver;
+                } catch(e) { console.error(e); }
+            }
+        }
+
+        function changeBoardTheme(themeName) {
+            document.body.className = `bg-darkBg text-slate-100 min-h-screen flex flex-col selection:bg-cyan-500 selection:text-white ${themeName}`;
+            renderChessBoard();
+        }
+
+        // ========================== QUẢN LÝ & ĐĂNG BÀI TẬP NÂNG CAO ==========================
+        let currentEditingQuestions = [];
 
         function renderUploadPortal(data) {
             return `
                 <div class="space-y-8 max-w-3xl mx-auto animate-fadeIn">
                     <div class="glass-card p-8 rounded-3xl border border-cyan-500/30 shadow-neon">
                         <h2 class="text-2xl font-extrabold text-white">Quản Lý & Đăng Bài Tập Cloud</h2>
+                        <p class="text-xs text-slate-400 mt-1">Hỗ trợ tạo Trắc nghiệm, Đúng/Sai và Tự luận (Tối đa 20 câu hỏi/bài học).</p>
                     </div>
+
                     <form onsubmit="handleFinalUpload(event)" class="glass-card p-8 sm:p-10 rounded-3xl border border-slate-800 space-y-6">
                         <div>
                             <label class="block text-sm font-semibold text-slate-200 mb-2">Chọn Môn Học</label>
@@ -929,11 +1247,172 @@
                             <label class="block text-sm font-semibold text-slate-200 mb-2">Nội Dung Lý Thuyết ($...$)</label>
                             <textarea id="upload-theory" rows="3" required placeholder="<h3>1. Lý thuyết...</h3>" class="w-full bg-slate-900 border border-slate-700 rounded-2xl p-4 text-slate-200 font-mono text-sm"></textarea>
                         </div>
+
+                        <div class="border-t border-slate-800 pt-6 space-y-4">
+                            <div class="flex items-center justify-between">
+                                <h3 class="font-bold text-white text-base"><i class="fa-solid fa-list-check text-cyan-400 mr-2"></i> Danh Sách Câu Hỏi & Bài Tập (<span id="question-count-badge">0</span>/20)</h3>
+                                <button type="button" onclick="openAddQuestionModal()" class="px-4 py-2 rounded-xl bg-cyan-500/20 text-cyan-300 border border-cyan-500/40 text-xs font-bold hover:bg-cyan-500 hover:text-slate-950 transition"><i class="fa-solid fa-plus mr-1"></i> Thêm Câu Hỏi</button>
+                            </div>
+                            <div id="dynamic-questions-list" class="space-y-3">
+                                <p class="text-xs text-slate-500 italic">Chưa có câu hỏi nào được thêm. Nhấn nút "Thêm Câu Hỏi" để bắt đầu.</p>
+                            </div>
+                        </div>
+
                         <div class="pt-4 flex justify-end">
                             <button type="submit" class="px-8 py-4 rounded-2xl bg-gradient-to-r from-cyan-500 to-blue-600 text-white font-bold shadow-neon-lg">Đăng Bài Lên Đám Mây</button>
                         </div>
                     </form>
+                </div>
+
+                <!-- MODAL THÊM CÂU HỎI -->
+                <div id="question-modal" class="fixed inset-0 z-50 hidden items-center justify-center bg-black/80 backdrop-blur-sm p-4">
+                    <div class="glass-card max-w-lg w-full p-6 rounded-3xl border border-cyan-500/40 shadow-neon-lg space-y-4">
+                        <h3 class="text-lg font-bold text-white"><i class="fa-solid fa-circle-plus text-cyan-400 mr-1"></i> Thêm Câu Hỏi Mới</h3>
+                        <div>
+                            <label class="block text-xs font-semibold text-slate-300 mb-1">Loại Câu Hỏi</label>
+                            <select id="modal-q-type" onchange="toggleQuestionTypeFields()" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-3 py-2.5 text-xs text-slate-200">
+                                <option value="multiple_choice">Trắc Nghiệm (Nhiều lựa chọn)</option>
+                                <option value="true_false">Đúng / Sai</option>
+                                <option value="essay">Tự Luận</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label class="block text-xs font-semibold text-slate-300 mb-1">Nội Dung Câu Hỏi</label>
+                            <textarea id="modal-q-text" rows="2" placeholder="Nhập câu hỏi..." class="w-full bg-slate-900 border border-slate-700 rounded-xl p-3 text-xs text-slate-200"></textarea>
+                        </div>
+
+                        <div id="modal-options-container" class="space-y-2">
+                            <label class="block text-xs font-semibold text-slate-300">Các Đáp Án & Đáp Án Đúng</label>
+                            <div class="grid grid-cols-2 gap-2">
+                                <input type="text" id="modal-opt-0" placeholder="Đáp án A" class="bg-slate-900 border border-slate-700 rounded-xl p-2.5 text-xs text-slate-200">
+                                <input type="text" id="modal-opt-1" placeholder="Đáp án B" class="bg-slate-900 border border-slate-700 rounded-xl p-2.5 text-xs text-slate-200">
+                                <input type="text" id="modal-opt-2" placeholder="Đáp án C" class="bg-slate-900 border border-slate-700 rounded-xl p-2.5 text-xs text-slate-200">
+                                <input type="text" id="modal-opt-3" placeholder="Đáp án D" class="bg-slate-900 border border-slate-700 rounded-xl p-2.5 text-xs text-slate-200">
+                            </div>
+                            <div class="pt-1">
+                                <label class="block text-xs font-semibold text-slate-300 mb-1">Đáp án đúng (Chọn số thứ tự 0-3 tương ứng A-D):</label>
+                                <select id="modal-q-correct" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-3 py-2 text-xs text-slate-200">
+                                    <option value="0">Đáp án A</option>
+                                    <option value="1">Đáp án B</option>
+                                    <option value="2">Đáp án C</option>
+                                    <option value="3">Đáp án D</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div id="modal-essay-container" class="space-y-2 hidden">
+                            <label class="block text-xs font-semibold text-slate-300">Lời Giải Mẫu / Gợi Ý Tự Luận</label>
+                            <textarea id="modal-essay-sample" rows="2" placeholder="Nhập lời giải mẫu..." class="w-full bg-slate-900 border border-slate-700 rounded-xl p-3 text-xs text-slate-200"></textarea>
+                        </div>
+
+                        <div>
+                            <label class="block text-xs font-semibold text-slate-300 mb-1">Giải thích chi tiết</label>
+                            <input type="text" id="modal-q-exp" placeholder="Giải thích..." class="w-full bg-slate-900 border border-slate-700 rounded-xl p-2.5 text-xs text-slate-200">
+                        </div>
+
+                        <div class="flex justify-end gap-2 pt-2">
+                            <button type="button" onclick="closeAddQuestionModal()" class="px-4 py-2 rounded-xl bg-slate-800 text-slate-300 text-xs font-bold">Hủy</button>
+                            <button type="button" onclick="saveNewQuestionItem()" class="px-4 py-2 rounded-xl bg-cyan-500 text-slate-950 text-xs font-bold">Thêm Vào Bài</button>
+                        </div>
+                    </div>
                 </div>`;
+        }
+
+        function openAddQuestionModal() {
+            if (currentEditingQuestions.length >= 20) {
+                showCustomModal("Giới Hạn", "Mỗi bài học/unit chỉ được tối đa 20 câu hỏi!");
+                return;
+            }
+            document.getElementById('question-modal').classList.remove('hidden');
+            document.getElementById('question-modal').classList.add('flex');
+        }
+
+        function closeAddQuestionModal() {
+            document.getElementById('question-modal').classList.remove('flex');
+            document.getElementById('question-modal').classList.add('hidden');
+        }
+
+        function toggleQuestionTypeFields() {
+            const type = document.getElementById('modal-q-type').value;
+            const optContainer = document.getElementById('modal-options-container');
+            const essayContainer = document.getElementById('modal-essay-container');
+
+            if (type === 'essay') {
+                optContainer.classList.add('hidden');
+                essayContainer.classList.remove('hidden');
+            } else if (type === 'true_false') {
+                essayContainer.classList.add('hidden');
+                optContainer.classList.remove('hidden');
+                document.getElementById('modal-opt-0').value = "Đúng";
+                document.getElementById('modal-opt-1').value = "Sai";
+                document.getElementById('modal-opt-2').value = "";
+                document.getElementById('modal-opt-3').value = "";
+                document.getElementById('modal-opt-2').parentElement.parentElement.style.display = 'none';
+            } else {
+                essayContainer.classList.add('hidden');
+                optContainer.classList.remove('hidden');
+                document.getElementById('modal-opt-2').parentElement.parentElement.style.display = 'grid';
+                document.getElementById('modal-opt-0').value = "";
+                document.getElementById('modal-opt-1').value = "";
+                document.getElementById('modal-opt-2').value = "";
+                document.getElementById('modal-opt-3').value = "";
+            }
+        }
+
+        function saveNewQuestionItem() {
+            const type = document.getElementById('modal-q-type').value;
+            const questionText = document.getElementById('modal-q-text').value.trim();
+            if (!questionText) { showCustomModal("Lỗi", "Vui lòng nhập nội dung câu hỏi!"); return; }
+
+            if (type === 'essay') {
+                const sampleAnswer = document.getElementById('modal-essay-sample').value.trim();
+                currentEditingQuestions.push({ type: 'essay', question: questionText, sampleAnswer: sampleAnswer || 'Đang cập nhật lời giải.' });
+            } else {
+                let options = [];
+                if (type === 'true_false') {
+                    options = ["Đúng", "Sai"];
+                } else {
+                    options = [
+                        document.getElementById('modal-opt-0').value.trim(),
+                        document.getElementById('modal-opt-1').value.trim(),
+                        document.getElementById('modal-opt-2').value.trim(),
+                        document.getElementById('modal-opt-3').value.trim()
+                    ].filter(o => o !== "");
+                }
+                const correct = parseInt(document.getElementById('modal-q-correct').value);
+                const explanation = document.getElementById('modal-q-exp').value.trim();
+                currentEditingQuestions.push({ type, question: questionText, options, correct, explanation: explanation || 'Không có giải thích.' });
+            }
+
+            closeAddQuestionModal();
+            updateQuestionsListUI();
+        }
+
+        function updateQuestionsListUI() {
+            const listContainer = document.getElementById('dynamic-questions-list');
+            const badge = document.getElementById('question-count-badge');
+            if (!listContainer || !badge) return;
+            badge.innerText = currentEditingQuestions.length;
+
+            if (currentEditingQuestions.length === 0) {
+                listContainer.innerHTML = `<p class="text-xs text-slate-500 italic">Chưa có câu hỏi nào được thêm. Nhấn nút "Thêm Câu Hỏi" để bắt đầu.</p>`;
+                return;
+            }
+
+            listContainer.innerHTML = currentEditingQuestions.map((q, idx) => `
+                <div class="p-3 rounded-xl bg-slate-900 border border-slate-800 flex items-center justify-between text-xs">
+                    <div>
+                        <span class="text-cyan-400 font-bold mr-2">C${idx+1} [${q.type === 'essay' ? 'Tự luận' : (q.type === 'true_false' ? 'Đúng/Sai' : 'Trắc nghiệm')}]:</span>
+                        <span class="text-slate-200">${q.question}</span>
+                    </div>
+                    <button type="button" onclick="removeQuestionItem(${idx})" class="text-rose-400 hover:text-rose-300 p-1"><i class="fa-solid fa-trash"></i></button>
+                </div>
+            `).join('');
+        }
+
+        function removeQuestionItem(idx) {
+            currentEditingQuestions.splice(idx, 1);
+            updateQuestionsListUI();
         }
 
         function handleFinalUpload(e) {
@@ -942,6 +1421,11 @@
             const unitTitle = document.getElementById('upload-unit-title').value.trim();
             const lessonTitle = document.getElementById('upload-lesson-title').value.trim();
             const theory = document.getElementById('upload-theory').value;
+
+            if (currentEditingQuestions.length > 20) {
+                showCustomModal("Lỗi", "Số lượng câu hỏi vượt quá giới hạn 20 câu/unit!");
+                return;
+            }
 
             let data = globalData;
             let sub = data[subjectId];
@@ -953,16 +1437,20 @@
             }
             if (!unit.lessons) unit.lessons = [];
 
+            const exercises = currentEditingQuestions.filter(q => q.type !== 'essay');
+            const essays = currentEditingQuestions.filter(q => q.type === 'essay');
+
             unit.lessons.push({
                 id: subjectId + '_l_' + Date.now(),
                 title: lessonTitle,
                 theory: theory,
-                exercises: [{ question: 'Câu hỏi mặc định?', options: ['A', 'B', 'C', 'D'], correct: 0, explanation: 'Mẫu.' }],
-                essays: []
+                exercises: exercises.length > 0 ? exercises : [{ question: 'Câu hỏi mẫu?', options: ['A', 'B', 'C', 'D'], correct: 0, explanation: 'Mẫu.' }],
+                essays: essays
             });
 
             saveAppData(data);
-            showModal("Hoàn Tất", "Đã đăng bài học lên Firebase Cloud!", true);
+            currentEditingQuestions = [];
+            showCustomModal("Hoàn Tất", "Đã đăng bài học kèm câu hỏi lên Firebase Cloud!");
             setTimeout(() => { closeModal(); router.navigate('subject', {subjectId: subjectId}); }, 1500);
         }
 
