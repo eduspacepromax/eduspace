@@ -55,7 +55,6 @@
             box-shadow: 0 0 25px rgba(0, 242, 254, 0.2);
         }
 
-        /* Chess Board Theme Variables */
         .theme-neon {
             --sq-light: #0d1b2a;
             --sq-dark: #1b263b;
@@ -66,38 +65,7 @@
             --glow-white: drop-shadow(0 0 6px rgba(0, 242, 254, 0.8));
             --glow-black: drop-shadow(0 0 6px rgba(255, 0, 85, 0.8));
         }
-        .theme-wood {
-            --sq-light: #e0c398;
-            --sq-dark: #8b5a2b;
-            --sq-border: #b8860b;
-            --sq-highlight: rgba(255, 215, 0, 0.4);
-            --p-white: #fff8dc;
-            --p-black: #3e2723;
-            --glow-white: drop-shadow(0 0 3px rgba(255, 255, 255, 0.5));
-            --glow-black: drop-shadow(0 0 3px rgba(0, 0, 0, 0.8));
-        }
-        .theme-emerald {
-            --sq-light: #d1e7dd;
-            --sq-dark: #0f5132;
-            --sq-border: #198754;
-            --sq-highlight: rgba(25, 135, 84, 0.4);
-            --p-white: #e8f5e9;
-            --p-black: #051b11;
-            --glow-white: drop-shadow(0 0 5px rgba(232, 245, 233, 0.6));
-            --glow-black: drop-shadow(0 0 5px rgba(5, 27, 17, 0.9));
-        }
-        .theme-midnight {
-            --sq-light: #2b2d42;
-            --sq-dark: #14151f;
-            --sq-border: #7928ca;
-            --sq-highlight: rgba(121, 40, 202, 0.4);
-            --p-white: #a5b4fc;
-            --p-black: #e11d48;
-            --glow-white: drop-shadow(0 0 6px rgba(165, 180, 252, 0.7));
-            --glow-black: drop-shadow(0 0 6px rgba(225, 29, 72, 0.7));
-        }
 
-        /* Chess Board Grid & Pieces Styling */
         .chess-grid {
             display: grid;
             grid-template-columns: repeat(8, 1fr);
@@ -138,7 +106,7 @@
             background-color: rgba(255, 0, 85, 0.35) !important;
         }
         .piece {
-            font-size: clamp(2rem, 6vw, 3rem);
+            font-size: clamp(1.8rem, 5vw, 2.8rem);
             line-height: 1;
         }
         .piece.white-piece { color: var(--p-white); filter: var(--glow-white); }
@@ -165,25 +133,25 @@
                 </div>
             </div>
 
-            <nav class="hidden md:flex items-center space-x-3 text-sm font-semibold">
+            <nav class="hidden md:flex items-center space-x-2 text-sm font-semibold">
                 <button onclick="router.navigate('home')" id="nav-home" class="nav-link text-cyan-400 transition hover:text-cyan-300 flex items-center gap-2 py-2 px-3 rounded-xl"><i class="fa-solid fa-house"></i> Trang Chủ</button>
                 <button onclick="router.navigate('subjects')" id="nav-subjects" class="nav-link text-slate-300 hover:text-cyan-300 transition flex items-center gap-2 py-2 px-3 rounded-xl"><i class="fa-solid fa-book-open"></i> Môn Học</button>
                 <button onclick="router.navigate('chess')" id="nav-chess" class="nav-link text-amber-400 hover:text-amber-300 transition flex items-center gap-2 py-2 px-3 rounded-xl bg-amber-500/10 border border-amber-500/30"><i class="fa-solid fa-gamepad"></i> Giải Trí (Cờ Vua)</button>
+                <button onclick="router.navigate('chat')" id="nav-chat" class="nav-link text-cyan-300 hover:text-cyan-200 transition flex items-center gap-2 py-2 px-3 rounded-xl bg-cyan-500/10 border border-cyan-500/30"><i class="fa-solid fa-comments text-cyan-400"></i> Messenger Cloud</button>
                 <button onclick="router.navigate('upload')" id="nav-upload" class="nav-link text-slate-300 hover:text-cyan-300 transition flex items-center gap-2 py-2 px-3 rounded-xl bg-cyan-500/10 border border-cyan-500/30"><i class="fa-solid fa-cloud-arrow-up text-cyan-400"></i> Quản Lý Bài</button>
                 <button onclick="router.navigate('contact')" id="nav-contact" class="nav-link text-slate-300 hover:text-cyan-300 transition flex items-center gap-2 py-2 px-3 rounded-xl"><i class="fa-solid fa-headset"></i> Hỗ Trợ</button>
             </nav>
 
             <div class="flex items-center space-x-3">
-                <!-- Hòm Thư Lời Mời Cờ Vua -->
                 <div class="relative">
                     <button onclick="toggleMailbox()" class="p-2.5 rounded-xl bg-slate-800 border border-slate-700 hover:border-cyan-500 text-slate-300 relative">
                         <i class="fa-solid fa-envelope text-lg"></i>
                         <span id="mail-badge" class="hidden absolute -top-1 -right-1 w-5 h-5 rounded-full bg-rose-500 text-white text-[10px] font-bold flex items-center justify-center animate-pulse">0</span>
                     </button>
                     <div id="mailbox-dropdown" class="hidden absolute right-0 mt-3 w-80 glass-card rounded-2xl border border-cyan-500/30 shadow-neon-lg p-4 z-50 space-y-3">
-                        <h4 class="font-bold text-sm text-white border-b border-slate-800 pb-2"><i class="fa-solid fa-inbox text-cyan-400 mr-1"></i> Hòm Thư Lời Mời Cờ Vua</h4>
+                        <h4 class="font-bold text-sm text-white border-b border-slate-800 pb-2"><i class="fa-solid fa-inbox text-cyan-400 mr-1"></i> Hòm Thư Thông Báo & Lời Mời</h4>
                         <div id="mailbox-list" class="space-y-2 max-h-60 overflow-y-auto text-xs">
-                            <p class="text-slate-400 italic text-center py-2">Không có lời mời nào.</p>
+                            <p class="text-slate-400 italic text-center py-2">Không có thông báo nào.</p>
                         </div>
                     </div>
                 </div>
@@ -192,18 +160,11 @@
                 <button onclick="toggleMobileMenu()" class="md:hidden text-slate-300 p-2.5 rounded-xl bg-slate-800 border border-slate-700"><i class="fa-solid fa-bars text-xl"></i></button>
             </div>
         </div>
-
-        <div id="mobile-menu" class="hidden md:hidden glass-card border-t border-cyan-500/20 px-4 py-4 space-y-2">
-            <button onclick="router.navigate('home'); toggleMobileMenu();" class="block w-full text-left py-2.5 px-3 rounded-xl hover:bg-slate-800 text-cyan-400 font-medium"><i class="fa-solid fa-house mr-2"></i> Trang Chủ</button>
-            <button onclick="router.navigate('subjects'); toggleMobileMenu();" class="block w-full text-left py-2.5 px-3 rounded-xl hover:bg-slate-800 text-slate-300 font-medium"><i class="fa-solid fa-book-open mr-2"></i> Môn Học</button>
-            <button onclick="router.navigate('chess'); toggleMobileMenu();" class="block w-full text-left py-2.5 px-3 rounded-xl hover:bg-slate-800 text-amber-400 font-medium"><i class="fa-solid fa-gamepad mr-2"></i> Giải Trí (Cờ Vua)</button>
-            <button onclick="router.navigate('upload'); toggleMobileMenu();" class="block w-full text-left py-2.5 px-3 rounded-xl hover:bg-slate-800 text-cyan-300 font-medium bg-cyan-500/10"><i class="fa-solid fa-cloud-arrow-up mr-2 text-cyan-400"></i> Quản Lý Bài</button>
-        </div>
     </header>
 
     <main id="app-content" class="flex-grow max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 w-full"></main>
 
-    <!-- Floating Music Player Widget (Chạy nền) -->
+    <!-- FLOATING MUSIC PLAYER WIDGET -->
     <div id="music-player-container" class="fixed bottom-4 right-4 z-40 glass-card p-4 rounded-3xl border border-cyan-500/40 shadow-neon-lg w-80 sm:w-96 space-y-3">
         <div class="flex items-center justify-between border-b border-slate-800 pb-2">
             <div class="flex items-center space-x-2">
@@ -219,12 +180,9 @@
             </div>
         </div>
 
-        <!-- Hidden YouTube IFrame Container -->
         <div id="youtube-player-hidden" class="hidden"></div>
 
-        <!-- Controls & Progress -->
         <div id="player-body" class="space-y-2.5">
-            <!-- Thanh Tua Video (Seekbar) -->
             <div class="space-y-1">
                 <div class="flex justify-between text-[10px] text-slate-400 font-mono">
                     <span id="current-time">00:00</span>
@@ -233,7 +191,6 @@
                 <input type="range" id="seek-bar" value="0" max="100" step="0.1" oninput="seekVideo(this.value)" class="w-full h-1 bg-slate-800 rounded-lg appearance-none cursor-pointer accent-cyan-400">
             </div>
 
-            <!-- Các Nút Điều Hướng -->
             <div class="flex items-center justify-between pt-1">
                 <div class="flex items-center gap-2">
                     <button onclick="toggleLoopCurrentTrack()" id="loop-btn" class="p-2 rounded-xl bg-slate-800 text-slate-400 hover:text-cyan-400 text-xs transition" title="Lặp lại bài này"><i class="fa-solid fa-rotate-right"></i></button>
@@ -244,7 +201,6 @@
                     <button onclick="togglePlayPause()" id="play-pause-btn" class="w-10 h-10 rounded-full bg-gradient-to-r from-cyan-500 to-blue-600 text-white flex items-center justify-center text-sm shadow-neon"><i class="fa-solid fa-play"></i></button>
                     <button onclick="playNextTrack()" class="text-slate-300 hover:text-white text-sm"><i class="fa-solid fa-forward-step"></i></button>
                 </div>
-                <!-- Volume -->
                 <div class="flex items-center gap-1.5">
                     <i class="fa-solid fa-volume-high text-xs text-slate-400"></i>
                     <input type="range" min="0" max="100" value="80" oninput="changeVolume(this.value)" class="w-16 h-1 bg-slate-800 rounded-lg appearance-none cursor-pointer accent-cyan-400">
@@ -253,27 +209,23 @@
         </div>
     </div>
 
-    <!-- Modal Quản Lý Playlist YouTube Cá Nhân (Có Sắp Xếp Lên/Xuống & Đổi Tên) -->
+    <!-- MODAL QUẢN LÝ PLAYLIST NHẠC -->
     <div id="playlist-modal" class="fixed inset-0 z-50 hidden items-center justify-center bg-black/80 backdrop-blur-sm p-4">
         <div class="glass-card max-w-lg w-full p-6 rounded-3xl border border-cyan-500/40 shadow-neon-lg space-y-4">
             <div class="flex items-center justify-between border-b border-slate-800 pb-3">
                 <h3 class="font-bold text-base text-white flex items-center gap-2"><i class="fa-solid fa-list-music text-cyan-400"></i> Playlist Riêng Tư Của Bạn</h3>
                 <button onclick="togglePlaylistModal()" class="text-slate-400 hover:text-white"><i class="fa-solid fa-xmark text-lg"></i></button>
             </div>
-
-            <!-- Thêm Link YouTube Mới kèm Tên Gợi Nhớ -->
             <div class="space-y-2">
                 <label class="block text-xs font-semibold text-slate-300">Thêm Link Video & Tên Bài Hát</label>
                 <div class="space-y-2">
                     <input type="text" id="youtube-link-input" placeholder="Dán link YouTube (ví dụ: https://youtu.be/...)" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-3 py-2 text-xs text-slate-200 outline-none focus:border-cyan-400">
                     <div class="flex gap-2">
-                        <input type="text" id="youtube-title-input" placeholder="Tên bài nhạc dễ nhớ (ví dụ: Lofi Chill Học Bài)" class="flex-grow bg-slate-900 border border-slate-700 rounded-xl px-3 py-2 text-xs text-slate-200 outline-none focus:border-cyan-400">
+                        <input type="text" id="youtube-title-input" placeholder="Tên bài nhạc dễ nhớ" class="flex-grow bg-slate-900 border border-slate-700 rounded-xl px-3 py-2 text-xs text-slate-200 outline-none focus:border-cyan-400">
                         <button onclick="addYouTubeTrack()" class="px-4 py-2 rounded-xl bg-gradient-to-r from-cyan-500 to-blue-600 text-white font-bold text-xs shadow-neon shrink-0"><i class="fa-solid fa-plus mr-1"></i> Thêm Bài</button>
                     </div>
                 </div>
             </div>
-
-            <!-- Danh Sách Bài Hát Trong Playlist -->
             <div class="space-y-2">
                 <label class="block text-xs font-semibold text-slate-300">Danh Sách Của Tôi (<span id="playlist-count">0</span> bài)</label>
                 <div id="playlist-items-container" class="space-y-2 max-h-60 overflow-y-auto pr-1 text-xs">
@@ -283,11 +235,88 @@
         </div>
     </div>
 
-    <footer class="glass-card border-t border-cyan-500/20 mt-auto py-8">
-        <div class="max-w-7xl mx-auto px-4 text-center text-xs text-slate-500">
-            © 2026 EduSpace Pro. Quản trị viên: Hoàng Phi Hùng.
+    <!-- MODAL XEM THÔNG TIN TÀI KHOẢN & HỦY KẾT BẠN -->
+    <div id="user-info-modal" class="fixed inset-0 z-50 hidden items-center justify-center bg-black/80 backdrop-blur-sm p-4">
+        <div class="glass-card max-w-sm w-full p-6 rounded-3xl border border-cyan-500/40 shadow-neon-lg text-center space-y-4">
+            <div id="modal-user-avatar-wrap" class="w-20 h-20 rounded-2xl bg-cyan-500/20 text-cyan-400 mx-auto flex items-center justify-center text-3xl overflow-hidden border border-cyan-500/40 shadow-neon">
+                <i class="fa-solid fa-user-astronaut"></i>
+            </div>
+            <div>
+                <h3 id="modal-user-name" class="text-xl font-extrabold text-white">Tên người dùng</h3>
+                <p class="text-xs text-slate-400 mt-1">ID: <strong id="modal-user-id" class="text-cyan-400 font-mono">id_xyz</strong></p>
+            </div>
+            <div id="modal-friend-action-area" class="pt-2"></div>
+            <button onclick="closeUserInfoModal()" class="w-full py-2.5 rounded-xl bg-slate-800 text-slate-200 text-xs font-bold hover:bg-slate-700">Đóng</button>
         </div>
-    </footer>
+    </div>
+
+    <!-- MODAL KẾT BẠN QUA ID -->
+    <div id="add-friend-modal" class="fixed inset-0 z-50 hidden items-center justify-center bg-black/80 backdrop-blur-sm p-4">
+        <div class="glass-card max-w-md w-full p-6 rounded-3xl border border-cyan-500/40 shadow-neon-lg space-y-4">
+            <div class="flex items-center justify-between border-b border-slate-800 pb-3">
+                <h3 class="font-bold text-base text-white"><i class="fa-solid fa-user-plus text-cyan-400 mr-1"></i> Kết Bạn Bè Mới Qua ID</h3>
+                <button onclick="toggleAddFriendModal()" class="text-slate-400 hover:text-white"><i class="fa-solid fa-xmark text-lg"></i></button>
+            </div>
+            <div class="space-y-3">
+                <label class="block text-xs font-semibold text-slate-300">Nhập Mã ID Của Bạn Bè</label>
+                <input type="text" id="friend-id-input" placeholder="Ví dụ: id_xyz123" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-3 py-2.5 text-xs text-slate-200 outline-none focus:border-cyan-400">
+                <button onclick="sendFriendRequest()" class="w-full py-3 rounded-xl bg-gradient-to-r from-cyan-500 to-blue-600 text-white font-bold text-xs shadow-neon">Gửi Lời Mời Kết Bạn</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- MODAL TẠO NHÓM CHAT -->
+    <div id="create-group-modal" class="fixed inset-0 z-50 hidden items-center justify-center bg-black/80 backdrop-blur-sm p-4">
+        <div class="glass-card max-w-md w-full p-6 rounded-3xl border border-cyan-500/40 shadow-neon-lg space-y-4">
+            <div class="flex items-center justify-between border-b border-slate-800 pb-3">
+                <h3 class="font-bold text-base text-white flex items-center gap-2"><i class="fa-solid fa-users-gear text-cyan-400"></i> Tạo Nhóm Chat Mới</h3>
+                <button onclick="toggleCreateGroupModal()" class="text-slate-400 hover:text-white"><i class="fa-solid fa-xmark text-lg"></i></button>
+            </div>
+            <form onsubmit="handleCreateGroup(event)" class="space-y-4">
+                <div>
+                    <label class="block text-xs font-semibold text-slate-300 mb-1">Tên Nhóm Chat</label>
+                    <input type="text" id="group-name-input" required placeholder="Ví dụ: Nhóm Học Toán..." class="w-full bg-slate-900 border border-slate-700 rounded-xl px-3 py-2.5 text-xs text-slate-200 outline-none focus:border-cyan-400">
+                </div>
+                <div>
+                    <label class="block text-xs font-semibold text-slate-300 mb-2">Thêm Bạn Bè Vào Nhóm Ngay</label>
+                    <div id="group-friends-checkbox-list" class="space-y-2 max-h-40 overflow-y-auto bg-slate-900/60 p-3 rounded-xl border border-slate-800 text-xs">
+                        <p class="text-slate-500 italic text-center">Chưa có bạn bè để thêm.</p>
+                    </div>
+                </div>
+                <button type="submit" class="w-full py-3 rounded-xl bg-gradient-to-r from-cyan-500 to-blue-600 text-white font-bold text-xs shadow-neon">Tạo Nhóm Riêng Tư</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- MODAL THÊM THÀNH VIÊN VÀO NHÓM -->
+    <div id="add-member-modal" class="fixed inset-0 z-50 hidden items-center justify-center bg-black/80 backdrop-blur-sm p-4">
+        <div class="glass-card max-w-md w-full p-6 rounded-3xl border border-cyan-500/40 shadow-neon-lg space-y-4">
+            <div class="flex items-center justify-between border-b border-slate-800 pb-3">
+                <h3 class="font-bold text-base text-white flex items-center gap-2"><i class="fa-solid fa-user-plus text-cyan-400"></i> Thêm Bạn Bè Vào Nhóm</h3>
+                <button onclick="toggleAddMemberModal()" class="text-slate-400 hover:text-white"><i class="fa-solid fa-xmark text-lg"></i></button>
+            </div>
+            <div class="space-y-3">
+                <label class="block text-xs font-semibold text-slate-300">Chọn Bạn Bè Chưa Có Trong Nhóm</label>
+                <div id="add-member-friends-list" class="space-y-2 max-h-48 overflow-y-auto bg-slate-900/60 p-3 rounded-xl border border-slate-800 text-xs"></div>
+                <button onclick="handleAddMemberToGroupSubmit()" class="w-full py-3 rounded-xl bg-gradient-to-r from-cyan-500 to-blue-600 text-white font-bold text-xs shadow-neon">Xác Nhận Thêm Thành Viên</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- MODAL QUẢN LÝ THÀNH VIÊN & CẤP QUYỀN ADMIN NHÓM -->
+    <div id="group-settings-modal" class="fixed inset-0 z-50 hidden items-center justify-center bg-black/80 backdrop-blur-sm p-4">
+        <div class="glass-card max-w-md w-full p-6 rounded-3xl border border-cyan-500/40 shadow-neon-lg space-y-4">
+            <div class="flex items-center justify-between border-b border-slate-800 pb-3">
+                <h3 class="font-bold text-base text-white flex items-center gap-2"><i class="fa-solid fa-shield-halved text-cyan-400"></i> Cài Đặt Nhóm & Cấp Quyền</h3>
+                <button onclick="toggleGroupSettingsModal()" class="text-slate-400 hover:text-white"><i class="fa-solid fa-xmark text-lg"></i></button>
+            </div>
+            <div class="space-y-3">
+                <label class="block text-xs font-semibold text-slate-300">Danh Sách Thành Viên & Quản Trị Viên</label>
+                <div id="group-members-setting-list" class="space-y-2 max-h-60 overflow-y-auto bg-slate-900/60 p-3 rounded-xl border border-slate-800 text-xs"></div>
+            </div>
+            <button onclick="toggleGroupSettingsModal()" class="w-full py-2.5 rounded-xl bg-slate-800 text-slate-200 text-xs font-bold hover:bg-slate-700">Đóng</button>
+        </div>
+    </div>
 
     <!-- Modal Thông Báo Chung -->
     <div id="modal-backdrop" class="fixed inset-0 bg-slate-950/80 backdrop-blur-sm z-50 flex items-center justify-center hidden opacity-0 transition-opacity duration-200">
@@ -298,24 +327,30 @@
         </div>
     </div>
 
-    <!-- Modal Đăng Nhập (Bắt buộc đăng nhập khi vào web) -->
+    <!-- Modal Đăng Nhập / Đăng Ký -->
     <div id="auth-modal" class="fixed inset-0 z-50 flex items-center justify-center bg-black/90 backdrop-blur-md p-4">
         <div class="glass-card max-w-md w-full p-8 rounded-3xl border border-cyan-500/40 shadow-neon-lg relative">
             <div class="text-center mb-6">
                 <div class="w-14 h-14 rounded-2xl bg-cyan-500/20 text-cyan-400 mx-auto flex items-center justify-center text-2xl mb-3 shadow-neon"><i class="fa-solid fa-user-lock"></i></div>
-                <h3 id="auth-modal-title" class="text-2xl font-bold text-white">Đăng Nhập Tài Khoản</h3>
-                <p class="text-xs text-slate-400 mt-1">Vui lòng đăng nhập để tiếp tục sử dụng hệ thống EduSpace.</p>
+                <h3 id="auth-modal-title" class="text-2xl font-bold text-white">Đăng Nhập Tài Khoản Cloud</h3>
+                <p class="text-xs text-slate-400 mt-1">Vui lòng đăng nhập hoặc tạo tài khoản mới để tiếp tục sử dụng.</p>
             </div>
             <form onsubmit="handleAuthSubmit(event)" class="space-y-4">
-                <div><label class="block text-xs font-semibold text-slate-300 mb-1.5">Tên đăng nhập hoặc Email</label><input type="text" id="auth-username" required class="w-full bg-slate-900 border border-slate-700 rounded-xl px-4 py-3 text-sm text-slate-200 outline-none focus:border-cyan-400"></div>
-                <div><label class="block text-xs font-semibold text-slate-300 mb-1.5">Mật khẩu</label><input type="password" id="auth-password" required class="w-full bg-slate-900 border border-slate-700 rounded-xl px-4 py-3 text-sm text-slate-200 outline-none focus:border-cyan-400"></div>
+                <div><label class="block text-xs font-semibold text-slate-300 mb-1.5">Tên đăng nhập hoặc Email</label><input type="text" id="auth-username" required placeholder="Nhập tên tài khoản..." class="w-full bg-slate-900 border border-slate-700 rounded-xl px-4 py-3 text-sm text-slate-200 outline-none focus:border-cyan-400"></div>
+                <div><label class="block text-xs font-semibold text-slate-300 mb-1.5">Mật khẩu</label><input type="password" id="auth-password" required placeholder="Nhập mật khẩu..." class="w-full bg-slate-900 border border-slate-700 rounded-xl px-4 py-3 text-sm text-slate-200 outline-none focus:border-cyan-400"></div>
                 <button type="submit" id="auth-submit-btn" class="w-full py-3.5 rounded-xl bg-gradient-to-r from-cyan-500 to-blue-600 text-white font-bold shadow-neon">Đăng Nhập Ngay</button>
             </form>
             <div class="mt-6 text-center text-xs text-slate-400"><span id="auth-switch-text">Chưa có tài khoản?</span><button type="button" onclick="toggleAuthMode()" id="auth-switch-btn" class="text-cyan-400 font-bold ml-1 hover:underline">Tạo mới</button></div>
         </div>
     </div>
 
-    <!-- YouTube IFrame API Script -->
+    <footer class="glass-card border-t border-cyan-500/20 mt-auto py-8">
+        <div class="max-w-7xl mx-auto px-4 text-center text-xs text-slate-500">
+            © 2026 EduSpace Pro. Quản trị viên: Hoàng Phi Hùng.
+        </div>
+    </footer>
+
+    <!-- YouTube IFrame API -->
     <script src="https://www.youtube.com/iframe_api"></script>
 
     <script>
@@ -338,8 +373,7 @@
                 units: [{
                     id: 'm_u1', title: 'Unit 1: Đại Số & Khảo Sát Hàm Số',
                     lessons: [
-                        { id: 'm_l1', title: 'Lesson 1: Sự Đồng Biến và Nghịch Biến', theory: 'Cho hàm số $y = f(x)$ xác định trên khoảng $K$.', exercises: [{ question: 'Cho hàm số $y = x^3 - 3x$. Đồng biến trên khoảng nào?', options: ['$(-\\infty; -1)$ và $(1; +\\infty)$', '$(-1; 1)$', '$(-\\infty; 0)$', '$(0; +\\infty)$'], correct: 0, explanation: 'Đạo hàm $y\' = 3x^2 - 3$.' }], essays: [{ question: 'Chứng minh hàm số $y = -x^3 + 3x$ nghịch biến trên $(1; +\\infty)$.', sampleAnswer: 'Lập bảng biến thiên đạo hàm suy ra đpcm.' }] },
-                        { id: 'm_l2', title: 'Lesson 2: Cực Trị Của Hàm Số', theory: 'Điểm cực trị thỏa mãn $f\'(x_0) = 0$.', exercises: [{ question: 'Hàm số $y = x^4 - 2x^2$ có mấy cực trị?', options: ['3', '1', '2', '0'], correct: 0, explanation: 'Có 3 nghiệm đạo hàm.' }] }
+                        { id: 'm_l1', title: 'Lesson 1: Sự Đồng Biến và Nghịch Biến', theory: 'Cho hàm số $y = f(x)$ xác định trên khoảng $K$.', exercises: [{ question: 'Cho hàm số $y = x^3 - 3x$. Đồng biến trên khoảng nào?', options: ['$(-\\infty; -1)$ và $(1; +\\infty)$', '$(-1; 1)$', '$(-\\infty; 0)$', '$(0; +\\infty)$'], correct: 0, explanation: 'Đạo hàm $y\' = 3x^2 - 3$.' }], essays: [{ question: 'Chứng minh hàm số $y = -x^3 + 3x$ nghịch biến trên $(1; +\\infty)$.', sampleAnswer: 'Lập bảng biến thiên đạo hàm suy ra đpcm.' }] }
                     ]
                 }]
             },
@@ -359,245 +393,109 @@
             }
         };
 
-        // Mặc định ban đầu chưa đăng nhập (Khách / Rỗng)
         let currentAuthUser = localStorage.getItem('eduspace_current_user') || 'Khách';
         let isRegisterMode = false;
         let globalData = defaultAppData;
-        let globalUsers = { 'hoangphihung2k11_gmail_com': { password: '123', name: 'Hoàng Phi Hùng (Admin)' } };
+        let globalUsers = {};
         let globalProgress = {};
+        let globalGroups = {};
+        let activeChatChannel = 'global';
+        let currentEditingQuestions = [];
 
-        // Cờ Vua Biến & Multiplayer
-        const PIECE_SYMBOLS = {
-            'p': '♟', 'r': '♜', 'n': '♞', 'b': '♝', 'q': '♛', 'k': '♚',
-            'P': '♟', 'R': '♜', 'N': '♞', 'B': '♝', 'Q': '♛', 'K': '♚'
-        };
-        let chessGame = new Chess();
-        let activeGameId = null;
-        let myColor = 'all';
-        let selectedSquare = null;
-        let validMoves = [];
-        let whiteTime = 600;
-        let blackTime = 600;
-        let timerInterval = null;
-        let isGameOver = false;
-
-        // ========================== TRÌNH PHÁT NHẠC YOUTUBE & PLAYLIST RIÊNG TƯ CLOUD ==========================
-        let ytPlayer = null;
-        let playlist = []; 
-        let currentTrackIndex = 0;
-        let isLooping = false;
-        let isShuffle = false;
-        let progressTimer = null;
+        // Trình phát nhạc
+        let ytPlayer = null, playlist = [], currentTrackIndex = 0, isLooping = false, isShuffle = false, progressTimer = null;
 
         window.onYouTubeIframeAPIReady = function() {
             if (document.getElementById('youtube-player-hidden')) {
                 ytPlayer = new YT.Player('youtube-player-hidden', {
-                    height: '0',
-                    width: '0',
-                    videoId: '',
-                    playerVars: {
-                        'autoplay': 0,
-                        'controls': 0,
-                        'disablekb': 1,
-                        'fs': 0,
-                        'rel': 0,
-                        'origin': window.location.origin
-                    },
-                    events: {
-                        'onReady': onPlayerReady,
-                        'onStateChange': onPlayerStateChange,
-                        'onError': onPlayerError
-                    }
+                    height: '0', width: '0', videoId: '',
+                    playerVars: { 'autoplay': 0, 'controls': 0, 'disablekb': 1, 'fs': 0, 'rel': 0, 'origin': window.location.origin },
+                    events: { 'onReady': onPlayerReady, 'onStateChange': onPlayerStateChange }
                 });
             }
         };
 
-        function onPlayerReady(event) {
-            loadUserPlaylistFromCloud();
+        function onPlayerReady() { loadUserPlaylistFromCloud(); }
+        function onPlayerStateChange(e) {
+            if (e.data === YT.PlayerState.ENDED) { isLooping ? ytPlayer.playVideo() : playNextTrack(); }
+            if (e.data === YT.PlayerState.PLAYING) { document.getElementById('play-pause-btn').innerHTML = '<i class="fa-solid fa-pause"></i>'; startProgressInterval(); }
+            else { document.getElementById('play-pause-btn').innerHTML = '<i class="fa-solid fa-play"></i>'; stopProgressInterval(); }
         }
 
-        function onPlayerStateChange(event) {
-            if (event.data === YT.PlayerState.ENDED) {
-                if (isLooping) {
-                    ytPlayer.playVideo();
-                } else {
-                    playNextTrack();
-                }
-            }
-            if (event.data === YT.PlayerState.PLAYING) {
-                const playBtn = document.getElementById('play-pause-btn');
-                if(playBtn) playBtn.innerHTML = '<i class="fa-solid fa-pause"></i>';
-                startProgressInterval();
-            } else {
-                const playBtn = document.getElementById('play-pause-btn');
-                if(playBtn) playBtn.innerHTML = '<i class="fa-solid fa-play"></i>';
-                stopProgressInterval();
-            }
-        }
-
-        function onPlayerError(event) {
-            console.error("Lỗi YouTube Player Error Code:", event.data);
-            showCustomModal("Lỗi Phát Nhạc", "Video YouTube này có thể đã bị chủ sở hữu chặn nhúng hoặc không tồn tại.");
-        }
-
-        // Tải Playlist riêng tư từ Server Cloud theo tài khoản đang đăng nhập
         function loadUserPlaylistFromCloud() {
-            if (!currentAuthUser || currentAuthUser === 'Khách') {
-                playlist = [];
-                updatePlaylistUI();
-                const titleEl = document.getElementById('current-track-title');
-                if(titleEl) titleEl.innerText = "Vui lòng đăng nhập";
-                return;
-            }
-
-            const cleanUser = cleanKey(currentAuthUser);
-            db.ref(`eduspace_playlists/${cleanUser}`).once('value').then((snapshot) => {
+            if (!currentAuthUser || currentAuthUser === 'Khách') return;
+            db.ref(`eduspace_playlists/${cleanKey(currentAuthUser)}`).once('value').then((snapshot) => {
                 const data = snapshot.val();
-                if (data) {
-                    playlist = Array.isArray(data) ? data : Object.values(data);
-                } else {
-                    playlist = [{ id: 'jfKfPfyJRdk', title: 'Lofi Hip Hop Radio (Mẫu)' }];
-                    db.ref(`eduspace_playlists/${cleanUser}`).set(playlist);
-                }
+                playlist = data ? (Array.isArray(data) ? data : Object.values(data)) : [{ id: 'jfKfPfyJRdk', title: 'Lofi Hip Hop Radio' }];
                 updatePlaylistUI();
-                if (playlist.length > 0 && ytPlayer && typeof ytPlayer.cueVideoById === 'function') {
+                if (playlist.length > 0 && ytPlayer && ytPlayer.cueVideoById) {
                     ytPlayer.cueVideoById(playlist[currentTrackIndex].id);
-                    const titleEl = document.getElementById('current-track-title');
-                    if(titleEl) titleEl.innerText = playlist[currentTrackIndex].title;
+                    document.getElementById('current-track-title').innerText = playlist[currentTrackIndex].title;
                 }
-            }).catch((error) => {
-                console.error("Lỗi khi tải playlist từ Firebase:", error);
             });
         }
 
         function saveUserPlaylistToCloud() {
-            if (!currentAuthUser || currentAuthUser === 'Khách') return;
-            const cleanUser = cleanKey(currentAuthUser);
-            db.ref(`eduspace_playlists/${cleanUser}`).set(playlist);
+            if (currentAuthUser && currentAuthUser !== 'Khách') db.ref(`eduspace_playlists/${cleanKey(currentAuthUser)}`).set(playlist);
         }
 
         function extractYouTubeID(url) {
             if (!url) return null;
-            let videoId = null;
-            if (url.includes('youtu.be/')) {
-                videoId = url.split('youtu.be/')[1]?.split('?')[0]?.split('&')[0];
-            } else if (url.includes('youtube.com')) {
-                try {
-                    const urlParams = new URLSearchParams(new URL(url).search);
-                    videoId = urlParams.get('v');
-                } catch(e) {}
-                if (!videoId && url.includes('/embed/')) {
-                    videoId = url.split('/embed/')[1]?.split('?')[0]?.split('&')[0];
-                }
-                if (!videoId && url.includes('/shorts/')) {
-                    videoId = url.split('/shorts/')[1]?.split('?')[0]?.split('&')[0];
-                }
-            } else if (url.length === 11) {
-                videoId = url;
-            }
-            return videoId ? videoId.trim() : null;
+            let v = null;
+            if (url.includes('youtu.be/')) v = url.split('youtu.be/')[1]?.split('?')[0];
+            else if (url.includes('youtube.com')) { try { v = new URLSearchParams(new URL(url).search).get('v'); } catch(e){} }
+            else if (url.length === 11) v = url;
+            return v ? v.trim() : null;
         }
 
         function addYouTubeTrack() {
-            if (!currentAuthUser || currentAuthUser === 'Khách') {
-                showCustomModal("Cần Đăng Nhập", "Vui lòng đăng nhập để thêm và lưu playlist cá nhân trên cloud.");
-                return;
-            }
-            const inputLink = document.getElementById('youtube-link-input');
-            const inputTitle = document.getElementById('youtube-title-input');
-            const url = inputLink.value.trim();
-            const customTitle = inputTitle.value.trim();
-            const videoId = extractYouTubeID(url);
-
-            if (!videoId) {
-                showCustomModal("Lỗi", "Link YouTube không hợp lệ! Vui lòng kiểm tra lại.");
-                return;
-            }
-
-            const trackTitle = customTitle !== "" ? customTitle : `Bài hát (${videoId})`;
-            playlist.push({ id: videoId, title: trackTitle });
-            
+            const url = document.getElementById('youtube-link-input').value.trim();
+            const title = document.getElementById('youtube-title-input').value.trim();
+            const id = extractYouTubeID(url);
+            if (!id) { showCustomModal("Lỗi", "Link YouTube không hợp lệ!"); return; }
+            playlist.push({ id, title: title || `Bài hát (${id})` });
             saveUserPlaylistToCloud();
-
-            inputLink.value = '';
-            inputTitle.value = '';
+            document.getElementById('youtube-link-input').value = '';
+            document.getElementById('youtube-title-input').value = '';
             updatePlaylistUI();
-            showCustomModal("Thành Công", "Đã thêm và lưu bài hát vào playlist riêng tư của bạn trên Cloud!");
-
-            if (playlist.length === 1 && ytPlayer && typeof ytPlayer.loadVideoById === 'function') {
-                loadAndPlayTrack(0);
-            }
+            showCustomModal("Thành Công", "Đã thêm vào playlist!");
+            if (playlist.length === 1 && ytPlayer) loadAndPlayTrack(0);
         }
 
-        function removeTrack(index, event) {
-            event.stopPropagation();
-            playlist.splice(index, 1);
-            saveUserPlaylistToCloud();
-
-            if (currentTrackIndex >= playlist.length) {
-                currentTrackIndex = Math.max(0, playlist.length - 1);
-            }
+        function removeTrack(idx, e) {
+            e.stopPropagation(); playlist.splice(idx, 1); saveUserPlaylistToCloud();
+            if (currentTrackIndex >= playlist.length) currentTrackIndex = Math.max(0, playlist.length - 1);
             updatePlaylistUI();
-            if (playlist.length === 0) {
-                if (ytPlayer && typeof ytPlayer.stopVideo === 'function') ytPlayer.stopVideo();
-                document.getElementById('current-track-title').innerText = "Chưa có bài hát";
-            } else if (currentTrackIndex === index) {
-                loadAndPlayTrack(currentTrackIndex);
-            }
+            if (playlist.length === 0 && ytPlayer) { ytPlayer.stopVideo(); document.getElementById('current-track-title').innerText = "Chưa có bài hát"; }
+            else loadAndPlayTrack(currentTrackIndex);
         }
 
-        // Đảo vị trí bài hát lên trên hoặc xuống dưới
-        function moveTrack(index, direction, event) {
-            event.stopPropagation();
-            const newIndex = index + direction;
-            if (newIndex < 0 || newIndex >= playlist.length) return;
-
-            // Đổi chỗ 2 phần tử trong mảng playlist
-            const temp = playlist[index];
-            playlist[index] = playlist[newIndex];
-            playlist[newIndex] = temp;
-
-            // Nếu bài đang phát bị đổi vị trí, cập nhật lại chỉ số đang phát
-            if (currentTrackIndex === index) {
-                currentTrackIndex = newIndex;
-            } else if (currentTrackIndex === newIndex) {
-                currentTrackIndex = index;
-            }
-
-            saveUserPlaylistToCloud();
-            updatePlaylistUI();
+        function moveTrack(idx, dir, e) {
+            e.stopPropagation();
+            const nIdx = idx + dir;
+            if (nIdx < 0 || nIdx >= playlist.length) return;
+            const t = playlist[idx]; playlist[idx] = playlist[nIdx]; playlist[nIdx] = t;
+            if (currentTrackIndex === idx) currentTrackIndex = nIdx;
+            else if (currentTrackIndex === nIdx) currentTrackIndex = idx;
+            saveUserPlaylistToCloud(); updatePlaylistUI();
         }
 
-        function loadAndPlayTrack(index) {
-            if (playlist.length === 0 || !ytPlayer || typeof ytPlayer.loadVideoById !== 'function') return;
-            currentTrackIndex = index;
-            const track = playlist[index];
-            ytPlayer.loadVideoById(track.id);
-            document.getElementById('current-track-title').innerText = track.title;
+        function loadAndPlayTrack(idx) {
+            if (playlist.length === 0 || !ytPlayer) return;
+            currentTrackIndex = idx;
+            ytPlayer.loadVideoById(playlist[idx].id);
+            document.getElementById('current-track-title').innerText = playlist[idx].title;
             updatePlaylistUI();
         }
 
         function togglePlayPause() {
-            if (playlist.length === 0) {
-                showCustomModal("Thông Báo", "Playlist trống! Hãy thêm link YouTube vào.");
-                return;
-            }
-            if (!ytPlayer || typeof ytPlayer.getPlayerState !== 'function') return;
-            const state = ytPlayer.getPlayerState();
-            if (state === YT.PlayerState.PLAYING) {
-                ytPlayer.pauseVideo();
-            } else {
-                ytPlayer.playVideo();
-            }
+            if (playlist.length === 0) return;
+            ytPlayer.getPlayerState() === YT.PlayerState.PLAYING ? ytPlayer.pauseVideo() : ytPlayer.playVideo();
         }
 
         function playNextTrack() {
             if (playlist.length === 0) return;
-            if (isShuffle) {
-                currentTrackIndex = Math.floor(Math.random() * playlist.length);
-            } else {
-                currentTrackIndex = (currentTrackIndex + 1) % playlist.length;
-            }
+            currentTrackIndex = isShuffle ? Math.floor(Math.random() * playlist.length) : (currentTrackIndex + 1) % playlist.length;
             loadAndPlayTrack(currentTrackIndex);
         }
 
@@ -609,186 +507,140 @@
 
         function toggleLoopCurrentTrack() {
             isLooping = !isLooping;
-            const btn = document.getElementById('loop-btn');
-            if (isLooping) {
-                btn.className = "p-2 rounded-xl bg-cyan-500/20 text-cyan-400 border border-cyan-500/40 text-xs transition";
-                btn.title = "Đang bật lặp lại bài này";
-            } else {
-                btn.className = "p-2 rounded-xl bg-slate-800 text-slate-400 hover:text-cyan-400 text-xs transition";
-                btn.title = "Lặp lại bài này";
-            }
+            document.getElementById('loop-btn').className = isLooping ? "p-2 rounded-xl bg-cyan-500/20 text-cyan-400 border border-cyan-500/40 text-xs transition" : "p-2 rounded-xl bg-slate-800 text-slate-400 text-xs transition";
         }
 
         function toggleShuffle() {
             isShuffle = !isShuffle;
-            const btn = document.getElementById('shuffle-btn');
-            if (isShuffle) {
-                btn.className = "p-2 rounded-xl bg-cyan-500/20 text-cyan-400 border border-cyan-500/40 text-xs transition";
-            } else {
-                btn.className = "p-2 rounded-xl bg-slate-800 text-slate-400 hover:text-cyan-400 text-xs transition";
-            }
+            document.getElementById('shuffle-btn').className = isShuffle ? "p-2 rounded-xl bg-cyan-500/20 text-cyan-400 border border-cyan-500/40 text-xs transition" : "p-2 rounded-xl bg-slate-800 text-slate-400 text-xs transition";
         }
 
-        function seekVideo(value) {
-            if (!ytPlayer || typeof ytPlayer.getDuration !== 'function') return;
-            const duration = ytPlayer.getDuration();
-            const seekToTime = (value / 100) * duration;
-            ytPlayer.seekTo(seekToTime, true);
-        }
-
-        function changeVolume(value) {
-            if (ytPlayer && typeof ytPlayer.setVolume === 'function') {
-                ytPlayer.setVolume(value);
-            }
-        }
+        function seekVideo(val) { if (ytPlayer && ytPlayer.getDuration) ytPlayer.seekTo((val / 100) * ytPlayer.getDuration(), true); }
+        function changeVolume(val) { if (ytPlayer && ytPlayer.setVolume) ytPlayer.setVolume(val); }
 
         function startProgressInterval() {
             stopProgressInterval();
             progressTimer = setInterval(() => {
-                if (ytPlayer && typeof ytPlayer.getCurrentTime === 'function' && typeof ytPlayer.getDuration === 'function') {
-                    const currentTime = ytPlayer.getCurrentTime();
-                    const duration = ytPlayer.getDuration();
-                    if (duration > 0) {
-                        const percent = (currentTime / duration) * 100;
-                        const seekBar = document.getElementById('seek-bar');
-                        const curTimeEl = document.getElementById('current-time');
-                        const durEl = document.getElementById('total-duration');
-                        if(seekBar) seekBar.value = percent;
-                        if(curTimeEl) curTimeEl.innerText = formatTime(currentTime);
-                        if(durEl) durEl.innerText = formatTime(duration);
+                if (ytPlayer && ytPlayer.getCurrentTime && ytPlayer.getDuration) {
+                    const cur = ytPlayer.getCurrentTime(), dur = ytPlayer.getDuration();
+                    if (dur > 0) {
+                        document.getElementById('seek-bar').value = (cur / dur) * 100;
+                        document.getElementById('current-time').innerText = formatTimeSong(cur);
+                        document.getElementById('total-duration').innerText = formatTimeSong(dur);
                     }
                 }
             }, 1000);
         }
 
-        function stopProgressInterval() {
-            if (progressTimer) clearInterval(progressTimer);
-        }
-
-        function formatTime(seconds) {
-            const m = Math.floor(seconds / 60).toString().padStart(2, '0');
-            const s = Math.floor(seconds % 60).toString().padStart(2, '0');
-            return `${m}:${s}`;
-        }
-
-        function togglePlaylistModal() {
-            const modal = document.getElementById('playlist-modal');
-            modal.classList.toggle('hidden');
-            modal.classList.toggle('flex');
-        }
-
+        function stopProgressInterval() { if (progressTimer) clearInterval(progressTimer); }
+        function formatTimeSong(sec) { return `${Math.floor(sec/60).toString().padStart(2,'0')}:${Math.floor(sec%60).toString().padStart(2,'0')}`; }
+        function togglePlaylistModal() { document.getElementById('playlist-modal').classList.toggle('hidden'); document.getElementById('playlist-modal').classList.toggle('flex'); }
         function togglePlayerMinimize() {
-            const body = document.getElementById('player-body');
-            const icon = document.getElementById('minimize-icon');
-            body.classList.toggle('hidden');
-            icon.classList.toggle('fa-chevron-down');
-            icon.classList.toggle('fa-chevron-up');
+            document.getElementById('player-body').classList.toggle('hidden');
+            document.getElementById('minimize-icon').classList.toggle('fa-chevron-down');
+            document.getElementById('minimize-icon').classList.toggle('fa-chevron-up');
         }
 
-        // Cập nhật giao diện Playlist tích hợp nút Lên / Xuống thay đổi thứ tự
         function updatePlaylistUI() {
-            const container = document.getElementById('playlist-items-container');
-            const badge = document.getElementById('playlist-count');
+            const container = document.getElementById('playlist-items-container'), badge = document.getElementById('playlist-count');
             if (!container || !badge) return;
             badge.innerText = playlist.length;
-
-            if (playlist.length === 0) {
-                container.innerHTML = `<p class="text-slate-500 italic text-center py-4">Chưa có bài hát nào trong playlist cá nhân.</p>`;
-                return;
-            }
-
-            container.innerHTML = playlist.map((track, idx) => `
-                <div onclick="loadAndPlayTrack(${idx})" class="p-2.5 rounded-xl bg-slate-900 border ${idx === currentTrackIndex ? 'border-cyan-500 text-cyan-300 shadow-neon' : 'border-slate-800 text-slate-200 hover:border-slate-700'} flex items-center justify-between cursor-pointer transition">
-                    <div class="flex items-center gap-2 truncate">
-                        <span class="font-mono text-[10px] text-slate-500">${idx + 1}.</span>
-                        <span class="truncate font-medium">${track.title}</span>
-                    </div>
+            if (playlist.length === 0) { container.innerHTML = `<p class="text-slate-500 italic text-center py-4">Chưa có bài hát nào.</p>`; return; }
+            container.innerHTML = playlist.map((t, idx) => `
+                <div onclick="loadAndPlayTrack(${idx})" class="p-2.5 rounded-xl bg-slate-900 border ${idx === currentTrackIndex ? 'border-cyan-500 text-cyan-300 shadow-neon' : 'border-slate-800 text-slate-200'} flex items-center justify-between cursor-pointer transition">
+                    <div class="flex items-center gap-2 truncate"><span class="font-mono text-[10px] text-slate-500">${idx + 1}.</span><span class="truncate font-medium">${t.title}</span></div>
                     <div class="flex items-center gap-1.5 shrink-0" onclick="event.stopPropagation()">
-                        ${idx === currentTrackIndex ? '<i class="fa-solid fa-volume-high text-cyan-400 animate-pulse text-xs mr-1"></i>' : ''}
-                        <!-- Nút Di Chuyển Lên -->
-                        <button onclick="moveTrack(${idx}, -1, event)" ${idx === 0 ? 'disabled class="opacity-30 cursor-not-allowed p-1.5 rounded-lg bg-slate-800 text-slate-400"' : 'class="p-1.5 rounded-lg bg-slate-800 text-slate-300 hover:bg-cyan-500 hover:text-slate-950 transition"'} title="Chuyển lên trên"><i class="fa-solid fa-arrow-up text-[10px]"></i></button>
-                        <!-- Nút Di Chuyển Xuống -->
-                        <button onclick="moveTrack(${idx}, 1, event)" ${idx === playlist.length - 1 ? 'disabled class="opacity-30 cursor-not-allowed p-1.5 rounded-lg bg-slate-800 text-slate-400"' : 'class="p-1.5 rounded-lg bg-slate-800 text-slate-300 hover:bg-cyan-500 hover:text-slate-950 transition"'} title="Chuyển xuống dưới"><i class="fa-solid fa-arrow-down text-[10px]"></i></button>
-                        <!-- Nút Xóa Bài -->
-                        <button onclick="removeTrack(${idx}, event)" class="p-1.5 rounded-lg bg-slate-800 text-rose-400 hover:bg-rose-500 hover:text-white transition" title="Xóa bài"><i class="fa-solid fa-trash text-[10px]"></i></button>
+                        <button onclick="moveTrack(${idx}, -1, event)" ${idx === 0 ? 'disabled class="opacity-30 p-1.5 rounded bg-slate-800 text-slate-400"' : 'class="p-1.5 rounded bg-slate-800 text-slate-300 hover:bg-cyan-500 hover:text-slate-950"'}><i class="fa-solid fa-arrow-up text-[10px]"></i></button>
+                        <button onclick="moveTrack(${idx}, 1, event)" ${idx === playlist.length-1 ? 'disabled class="opacity-30 p-1.5 rounded bg-slate-800 text-slate-400"' : 'class="p-1.5 rounded bg-slate-800 text-slate-300 hover:bg-cyan-500 hover:text-slate-950"'}><i class="fa-solid fa-arrow-down text-[10px]"></i></button>
+                        <button onclick="removeTrack(${idx}, event)" class="p-1.5 rounded bg-slate-800 text-rose-400 hover:bg-rose-500 hover:text-white"><i class="fa-solid fa-trash text-[10px]"></i></button>
                     </div>
-                </div>
-            `).join('');
+                </div>`).join('');
         }
-        // ========================== KẾT THÚC MODULE NHẠC ==========================
 
-        function cleanKey(str) { return str.replace(/[\.\#\$\[\]]/g, "_"); }
+        const PIECE_SYMBOLS = { 'p': '♟', 'r': '♜', 'n': '♞', 'b': '♝', 'q': '♛', 'k': '♚', 'P': '♟', 'R': '♜', 'N': '♞', 'B': '♝', 'Q': '♛', 'K': '♚' };
+        let chessGame = new Chess();
+        let selectedSquare = null;
+        let validMoves = [];
+
+        function cleanKey(str) { return str ? str.replace(/[\.\#\$\[\]]/g, "_") : "guest"; }
+
+        // Kiểm tra quyền Super Admin tối cao cho Hoàng Phi Hùng
+        function isSuperAdmin() {
+            if (!currentAuthUser || currentAuthUser === 'Khách') return false;
+            const clean = cleanKey(currentAuthUser);
+            const user = globalUsers[clean] || {};
+            return currentAuthUser === 'hoangphihung2k11@gmail.com' || currentAuthUser === 'hoangphihung' || clean === 'hoangphihung2k11_gmail_com';
+        }
 
         function initFirebaseListeners() {
-            db.ref('eduspace_data').on('value', (snapshot) => {
-                const val = snapshot.val();
-                if (val) globalData = val; else db.ref('eduspace_data').set(defaultAppData);
-                render();
+            db.ref('eduspace_data').on('value', (s) => { globalData = s.val() || defaultAppData; render(); });
+            db.ref('eduspace_users').on('value', (s) => { 
+                globalUsers = s.val() || {}; 
+                verifyAndEnsureUserId();
+                renderAuthNavbar();
+                if (router.currentView === 'chat') renderChatChannelsSidebar();
             });
-
-            db.ref('eduspace_users').on('value', (snapshot) => {
-                const val = snapshot.val();
-                if (val) {
-                    globalUsers = val;
-                    if (router.currentView === 'chess') renderUserDropdown();
-                } else {
-                    db.ref('eduspace_users').set(globalUsers);
-                }
-            });
-
-            db.ref('eduspace_progress').on('value', (snapshot) => {
-                const val = snapshot.val();
-                if (val) globalProgress = val;
-            });
-
-            // Kiểm tra trạng thái đăng nhập ban đầu
+            db.ref('eduspace_progress').on('value', (s) => { globalProgress = s.val() || {}; if (router.currentView === 'home') render(); });
+            db.ref('eduspace_chat_groups').on('value', (s) => { globalGroups = s.val() || {}; if (router.currentView === 'chat') renderChatChannelsSidebar(); });
+            
+            if (currentAuthUser && currentAuthUser !== 'Khách') {
+                db.ref(`eduspace_notifications/${cleanKey(currentAuthUser)}`).on('value', (s) => {
+                    renderMailboxNotifications(s.val() || {});
+                });
+            }
             checkAuthGuard();
         }
 
-        // Bắt buộc đăng nhập: Nếu chưa đăng nhập hoặc là 'Khách', mở modal đăng nhập và ẩn nội dung trang web
+        function verifyAndEnsureUserId() {
+            if (!currentAuthUser || currentAuthUser === 'Khách') return;
+            const myKey = cleanKey(currentAuthUser);
+            if (globalUsers[myKey] && !globalUsers[myKey].id) {
+                const randomId = 'id_' + Math.random().toString(36).substring(2, 8);
+                db.ref(`eduspace_users/${myKey}/id`).set(randomId);
+            }
+        }
+
         function checkAuthGuard() {
             const authModal = document.getElementById('auth-modal');
-            if (!currentAuthUser || currentAuthUser === 'Khách') {
-                if (authModal) authModal.classList.remove('hidden');
-            } else {
-                if (authModal) authModal.classList.add('hidden');
-            }
+            if (!currentAuthUser || currentAuthUser === 'Khách') authModal?.classList.remove('hidden');
+            else authModal?.classList.add('hidden');
             renderAuthNavbar();
         }
 
-        function saveAppData(data) { db.ref('eduspace_data').set(data); }
-        function getProgressData() { const cleanUser = cleanKey(currentAuthUser); return globalProgress[cleanUser] || {}; }
-        function saveProgressData(prog) { const cleanUser = cleanKey(currentAuthUser); db.ref('eduspace_progress/' + cleanUser).set(prog); }
+        function getProgressData() { return globalProgress[cleanKey(currentAuthUser)] || {}; }
+        function saveProgressData(p) { db.ref('eduspace_progress/' + cleanKey(currentAuthUser)).set(p); }
 
-        function renderAllMath() {
-            if (typeof renderMathInElement === 'function') {
-                renderMathInElement(document.body, { delimiters: [{left: '$$', right: '$$', display: true}, {left: '$', right: '$', display: false}], throwOnError: false });
+        function getCurrentUserProfile() {
+            const clean = cleanKey(currentAuthUser);
+            const user = globalUsers[clean] || { name: currentAuthUser, id: '', avatar: '', friends: {} };
+            if (!user.id) {
+                user.id = 'id_' + Math.random().toString(36).substring(2, 8);
+                db.ref(`eduspace_users/${clean}/id`).set(user.id);
             }
+            return user;
         }
 
         function renderAuthNavbar() {
             const container = document.getElementById('auth-user-section');
             if (!container) return;
             if (currentAuthUser && currentAuthUser !== 'Khách') {
+                const profile = getCurrentUserProfile();
+                const avatarHtml = profile.avatar ? `<img src="${profile.avatar}" class="w-7 h-7 rounded-lg object-cover cursor-pointer" onclick="router.navigate('profile')">` : `<div class="w-7 h-7 rounded-lg bg-gradient-to-tr from-cyan-500 to-blue-600 text-white flex items-center justify-center font-bold text-xs shadow-neon cursor-pointer" onclick="router.navigate('profile')">${currentAuthUser.charAt(0).toUpperCase()}</div>`;
                 container.innerHTML = `
-                    <div class="flex items-center gap-2 px-3 py-1.5 rounded-2xl bg-slate-800/90 border border-cyan-500/30">
-                        <div class="w-7 h-7 rounded-lg bg-gradient-to-tr from-cyan-500 to-blue-600 text-white flex items-center justify-center font-bold text-xs shadow-neon">${currentAuthUser.charAt(0).toUpperCase()}</div>
-                        <div class="hidden sm:block text-left"><div class="text-xs font-bold text-white truncate max-w-[100px]">${currentAuthUser}</div></div>
-                        <button onclick="handleLogout()" title="Đăng xuất" class="ml-1 text-slate-400 hover:text-rose-400 p-1"><i class="fa-solid fa-right-from-bracket"></i></button>
+                    <div class="flex items-center gap-2 px-3 py-1.5 rounded-2xl bg-slate-800/90 border border-cyan-500/35 cursor-pointer" onclick="router.navigate('profile')">
+                        ${avatarHtml}
+                        <div class="hidden sm:block text-left"><div class="text-xs font-bold text-white truncate max-w-[100px]">${profile.name || currentAuthUser}</div></div>
+                        <button onclick="event.stopPropagation(); handleLogout()" title="Đăng xuất" class="ml-1 text-slate-400 hover:text-rose-400 p-1"><i class="fa-solid fa-right-from-bracket"></i></button>
                     </div>`;
             } else {
                 container.innerHTML = `<button onclick="openAuthModal()" class="px-3 py-2 rounded-xl bg-gradient-to-r from-cyan-500 to-blue-600 text-white font-bold text-xs shadow-neon"><i class="fa-solid fa-user"></i> Đăng Nhập</button>`;
             }
         }
 
-        function openAuthModal() { 
-            const authModal = document.getElementById('auth-modal');
-            if(authModal) authModal.classList.remove('hidden'); 
-        }
-
+        function openAuthModal() { document.getElementById('auth-modal').classList.remove('hidden'); }
         function toggleAuthMode() {
             isRegisterMode = !isRegisterMode;
-            document.getElementById('auth-modal-title').innerText = isRegisterMode ? "Tạo Tài Khoản Mới" : "Đăng Nhập Tài Khoản";
+            document.getElementById('auth-modal-title').innerText = isRegisterMode ? "Tạo Tài Khoản Mới" : "Đăng Nhập Tài Khoản Cloud";
             document.getElementById('auth-submit-btn').innerText = isRegisterMode ? "Đăng Ký Tài Khoản" : "Đăng Nhập Ngay";
             document.getElementById('auth-switch-text').innerText = isRegisterMode ? "Đã có tài khoản?" : "Chưa có tài khoản?";
             document.getElementById('auth-switch-btn').innerText = isRegisterMode ? "Đăng nhập" : "Tạo mới";
@@ -798,103 +650,158 @@
             e.preventDefault();
             const username = document.getElementById('auth-username').value.trim();
             const password = document.getElementById('auth-password').value.trim();
-            const cleanUserKey = cleanKey(username);
+            const cleanKeyUser = cleanKey(username);
 
             if (isRegisterMode) {
-                if (globalUsers[cleanUserKey]) { showCustomModal("Lỗi", "Tài khoản đã tồn tại!"); return; }
-                db.ref('eduspace_users/' + cleanUserKey).set({ password, name: username });
+                if (globalUsers[cleanKeyUser]) { showCustomModal("Lỗi", "Tài khoản đã tồn tại!"); return; }
+                const randomId = 'id_' + Math.random().toString(36).substring(2, 8);
+                db.ref('eduspace_users/' + cleanKeyUser).set({ password, name: username, id: randomId, avatar: '', friends: {} });
                 showCustomModal("Thành Công", "Đăng ký thành công!");
             } else {
-                if (!globalUsers[cleanUserKey] || globalUsers[cleanUserKey].password !== password) { showCustomModal("Lỗi", "Sai tài khoản hoặc mật khẩu!"); return; }
+                if (!globalUsers[cleanKeyUser] || globalUsers[cleanKeyUser].password !== password) { showCustomModal("Lỗi", "Sai tài khoản hoặc mật khẩu!"); return; }
+                if (!globalUsers[cleanKeyUser].id) {
+                    const randomId = 'id_' + Math.random().toString(36).substring(2, 8);
+                    db.ref(`eduspace_users/${cleanKeyUser}/id`).set(randomId);
+                }
                 showCustomModal("Thành Công", `Chào mừng ${username}!`);
             }
             localStorage.setItem('eduspace_current_user', username);
             currentAuthUser = username;
-            
-            // Ẩn bảng đăng nhập khi đăng nhập thành công
-            const authModal = document.getElementById('auth-modal');
-            if(authModal) authModal.classList.add('hidden');
-
+            document.getElementById('auth-modal').classList.add('hidden');
             loadUserPlaylistFromCloud();
-            renderAuthNavbar(); 
+            initFirebaseListeners();
             render();
         }
 
         function handleLogout() {
-            localStorage.removeItem('eduspace_current_user'); 
+            localStorage.removeItem('eduspace_current_user');
             currentAuthUser = 'Khách';
             playlist = [];
             updatePlaylistUI();
             checkAuthGuard();
-            renderAuthNavbar(); 
-            showCustomModal("Đã Đăng Xuất", "Đã thoát tài khoản."); 
+            renderAuthNavbar();
+            showCustomModal("Đăng Xuất", "Đã thoát tài khoản.");
+            render();
+        }
+
+        function showUserProfile(userKey) {
+            const user = globalUsers[userKey];
+            if (!user) return;
+            const modal = document.getElementById('user-info-modal');
+            document.getElementById('modal-user-name').innerText = user.name || userKey;
+            document.getElementById('modal-user-id').innerText = user.id || 'id_unknown';
+            const avatarWrap = document.getElementById('modal-user-avatar-wrap');
+            if (user.avatar) {
+                avatarWrap.innerHTML = `<img src="${user.avatar}" class="w-full h-full object-cover">`;
+            } else {
+                avatarWrap.innerHTML = `<i class="fa-solid fa-user-astronaut"></i>`;
+            }
+
+            const myKey = cleanKey(currentAuthUser);
+            const actionArea = document.getElementById('modal-friend-action-area');
+            if (userKey !== myKey && getCurrentUserProfile().friends && getCurrentUserProfile().friends[userKey]) {
+                actionArea.innerHTML = `<button onclick="removeFriend('${userKey}')" class="w-full py-2 rounded-xl bg-rose-500/20 text-rose-400 font-bold text-xs border border-rose-500/30 hover:bg-rose-500 hover:text-white"><i class="fa-solid fa-user-xmark mr-1"></i> Xóa Kết Bạn</button>`;
+            } else {
+                actionArea.innerHTML = '';
+            }
+
+            modal.classList.remove('hidden');
+            modal.classList.add('flex');
+        }
+
+        function closeUserInfoModal() {
+            document.getElementById('user-info-modal').classList.remove('flex');
+            document.getElementById('user-info-modal').classList.add('hidden');
+        }
+
+        function removeFriend(friendKey) {
+            const myKey = cleanKey(currentAuthUser);
+            db.ref(`eduspace_users/${myKey}/friends/${friendKey}`).remove();
+            db.ref(`eduspace_users/${friendKey}/friends/${myKey}`).remove();
+            closeUserInfoModal();
+            showCustomModal("Thành Công", "Đã xóa kết bạn.");
             render();
         }
 
         function toggleMailbox() { document.getElementById('mailbox-dropdown').classList.toggle('hidden'); }
 
-        function renderMailbox(invitesObj = null) {
-            const listContainer = document.getElementById('mailbox-list');
-            const badge = document.getElementById('mail-badge');
-            if (!listContainer || !badge) return;
-            if (!invitesObj) {
-                listContainer.innerHTML = `<p class="text-slate-400 italic text-center py-2">Không có lời mời nào.</p>`;
-                badge.classList.add('hidden');
+        function sendFriendRequest() {
+            const targetId = document.getElementById('friend-id-input').value.trim();
+            if (!targetId) { showCustomModal("Lỗi", "Vui lòng nhập ID bạn bè!"); return; }
+            let targetUserKey = null;
+            Object.entries(globalUsers).forEach(([k, u]) => { if (u.id === targetId) targetUserKey = k; });
+            if (!targetUserKey) { showCustomModal("Lỗi", "Không tìm thấy người dùng có ID này!"); return; }
+            if (targetUserKey === cleanKey(currentAuthUser)) { showCustomModal("Lỗi", "Không thể kết bạn với chính mình!"); return; }
+
+            const reqId = 'req_' + Date.now();
+            const senderProfile = getCurrentUserProfile();
+
+            db.ref(`eduspace_notifications/${targetUserKey}/${reqId}`).set({
+                type: 'friend_request',
+                senderKey: cleanKey(currentAuthUser),
+                senderName: senderProfile.name,
+                text: `${senderProfile.name} đã gửi lời mời kết bạn.`,
+                timestamp: Date.now()
+            }).then(() => {
+                toggleAddFriendModal();
+                showCustomModal("Thành Công", "Đã gửi lời mời kết bạn! Đang chờ đối phương đồng ý.");
+            });
+        }
+
+        function renderMailboxNotifications(notifs) {
+            const listEl = document.getElementById('mailbox-list');
+            const badgeEl = document.getElementById('mail-badge');
+            const keys = Object.keys(notifs);
+
+            if (keys.length === 0) {
+                badgeEl.classList.add('hidden');
+                listEl.innerHTML = `<p class="text-slate-400 italic text-center py-2">Không có thông báo nào.</p>`;
                 return;
             }
 
-            const entries = Object.entries(invitesObj);
-            badge.innerText = entries.length;
-            if (entries.length > 0) badge.classList.remove('hidden'); else badge.classList.add('hidden');
+            badgeEl.classList.remove('hidden');
+            badgeEl.innerText = keys.length;
 
-            listContainer.innerHTML = entries.map(([key, item]) => `
-                <div class="p-2.5 rounded-xl bg-slate-900 border border-slate-800 space-y-2">
-                    <p class="text-slate-200"><strong>${item.from}</strong> mời bạn thách đấu Cờ Vua!</p>
-                    <div class="flex gap-2">
-                        <button onclick="acceptInvite('${key}', '${item.gameId}', '${item.from}')" class="flex-1 py-1 rounded-lg bg-emerald-500/20 text-emerald-400 font-bold hover:bg-emerald-500 hover:text-white transition">Đồng ý</button>
-                        <button onclick="declineInvite('${key}')" class="flex-1 py-1 rounded-lg bg-rose-500/20 text-rose-400 font-bold hover:bg-rose-500 hover:text-white transition">Từ chối</button>
-                    </div>
-                </div>
-            `).join('');
+            listEl.innerHTML = Object.entries(notifs).map(([nId, n]) => {
+                if (n.type === 'friend_request') {
+                    return `
+                        <div class="p-2.5 rounded-xl bg-slate-900 border border-slate-800 space-y-2">
+                            <p class="text-slate-200">${n.text}</p>
+                            <div class="flex gap-2">
+                                <button onclick="acceptFriendRequest('${nId}', '${n.senderKey}')" class="px-3 py-1 rounded bg-cyan-500 text-slate-950 font-bold">Chấp nhận</button>
+                                <button onclick="deleteNotification('${nId}')" class="px-3 py-1 rounded bg-slate-800 text-slate-400">Xóa</button>
+                            </div>
+                        </div>`;
+                } else if (n.type === 'chess_invite') {
+                    return `
+                        <div class="p-2.5 rounded-xl bg-slate-900 border border-amber-500/30 space-y-2">
+                            <p class="text-amber-300 font-semibold"><i class="fa-solid fa-chess mr-1"></i> ${n.senderName} mời bạn đấu cờ vua!</p>
+                            <div class="flex gap-2">
+                                <button onclick="acceptChessInvite('${nId}')" class="px-3 py-1 rounded bg-amber-500 text-slate-950 font-bold">Vào ván</button>
+                                <button onclick="deleteNotification('${nId}')" class="px-3 py-1 rounded bg-slate-800 text-slate-400">Từ chối</button>
+                            </div>
+                        </div>`;
+                }
+                return '';
+            }).join('');
         }
 
-        function sendGameInvite(targetUser) {
-            if (currentAuthUser === 'Khách') { showCustomModal("Lỗi", "Vui lòng đăng nhập để mời đấu!"); return; }
-            if (!targetUser || targetUser === currentAuthUser) { showCustomModal("Lỗi", "Vui lòng chọn bạn bè hợp lệ!"); return; }
-            
-            const gameId = 'game_' + Date.now();
-            const cleanTarget = cleanKey(targetUser);
-
-            chessGame.reset();
-            db.ref(`eduspace_chess_games/${gameId}`).set({
-                white: currentAuthUser,
-                black: targetUser,
-                fen: chessGame.fen(),
-                whiteTime: 600,
-                blackTime: 600,
-                status: 'active'
-            });
-
-            db.ref(`eduspace_invites/${cleanTarget}/${gameId}`).set({
-                from: currentAuthUser,
-                gameId: gameId,
-                timestamp: Date.now()
-            });
-
-            showCustomModal("Thành Công", `Đã gửi lời mời thách đấu Cờ Vua đến ${targetUser}!`);
-            router.navigate('chess', { gameId: gameId, opponent: targetUser, color: 'w' });
+        function acceptFriendRequest(nId, senderKey) {
+            const myKey = cleanKey(currentAuthUser);
+            db.ref(`eduspace_users/${myKey}/friends/${senderKey}`).set(true);
+            db.ref(`eduspace_users/${senderKey}/friends/${myKey}`).set(true);
+            deleteNotification(nId);
+            showCustomModal("Thành Công", "Đã chấp nhận kết bạn!");
+            render();
         }
 
-        function acceptInvite(inviteKey, gameId, opponent) {
-            const cleanUser = cleanKey(currentAuthUser);
-            db.ref(`eduspace_invites/${cleanUser}/${inviteKey}`).remove();
-            toggleMailbox();
-            router.navigate('chess', { gameId: gameId, opponent: opponent, color: 'b' });
+        function acceptChessInvite(nId) {
+            deleteNotification(nId);
+            router.navigate('chess');
         }
 
-        function declineInvite(inviteKey) {
-            const cleanUser = cleanKey(currentAuthUser);
-            db.ref(`eduspace_invites/${cleanUser}/${inviteKey}`).remove();
+        function deleteNotification(nId) {
+            db.ref(`eduspace_notifications/${cleanKey(currentAuthUser)}/${nId}`).remove();
         }
 
         let router = {
@@ -911,68 +818,118 @@
             if(active) { active.classList.remove('text-slate-300'); active.classList.add('text-cyan-400'); }
         }
 
-        function toggleMobileMenu() { document.getElementById('mobile-menu').classList.toggle('hidden'); }
-
-        function showCustomModal(title, message, buttons = [{ text: "Đóng", class: "bg-cyan-500 text-slate-950 hover:bg-cyan-400 font-bold", onClick: closeModal }]) {
+        function toggleMobileMenu() { document.getElementById('mobile-menu')?.classList.toggle('hidden'); }
+        function showCustomModal(title, message, buttons = [{ text: "Đóng", class: "bg-cyan-500 text-slate-950 font-bold hover:bg-cyan-400", onClick: closeModal }]) {
             document.getElementById('modal-title').innerHTML = title;
             document.getElementById('modal-message').innerHTML = message;
-            const actionsContainer = document.getElementById('modal-actions');
-            actionsContainer.innerHTML = '';
-            buttons.forEach(btn => {
-                const b = document.createElement('button');
-                b.className = `px-4 py-2 rounded-xl text-xs transition ${btn.class}`;
-                b.innerHTML = btn.text;
-                b.onclick = btn.onClick;
-                actionsContainer.appendChild(b);
+            const act = document.getElementById('modal-actions');
+            act.innerHTML = '';
+            buttons.forEach(b => {
+                const btn = document.createElement('button');
+                btn.className = `px-4 py-2 rounded-xl text-xs transition ${b.class}`;
+                btn.innerHTML = b.text;
+                btn.onclick = b.onClick;
+                act.appendChild(btn);
             });
-            const backdrop = document.getElementById('modal-backdrop');
-            const box = document.getElementById('modal-box');
-            backdrop.classList.remove('hidden');
-            setTimeout(() => { backdrop.classList.remove('opacity-0'); box.classList.remove('scale-95'); box.classList.add('scale-100'); }, 10);
+            document.getElementById('modal-backdrop').classList.remove('hidden');
+            setTimeout(() => document.getElementById('modal-backdrop').classList.remove('opacity-0'), 10);
+        }
+        function closeModal() {
+            document.getElementById('modal-backdrop').classList.add('opacity-0');
+            setTimeout(() => document.getElementById('modal-backdrop').classList.add('hidden'), 200);
         }
 
-        function closeModal() {
-            const backdrop = document.getElementById('modal-backdrop');
-            const box = document.getElementById('modal-box');
-            backdrop.classList.add('opacity-0'); box.classList.remove('scale-100'); box.classList.add('scale-95');
-            setTimeout(() => { backdrop.classList.add('hidden'); }, 200);
+        function renderAllMath() {
+            if (typeof renderMathInElement === 'function') {
+                renderMathInElement(document.body, { delimiters: [{left: '$$', right: '$$', display: true}, {left: '$', right: '$', display: false}], throwOnError: false });
+            }
         }
 
         function render() {
             const container = document.getElementById('app-content');
-            const data = globalData;
             renderAuthNavbar();
             checkAuthGuard();
 
-            if (router.currentView === 'home') container.innerHTML = renderHome(data);
-            else if (router.currentView === 'subjects') container.innerHTML = renderSubjects(data);
-            else if (router.currentView === 'subject') container.innerHTML = renderSubjectDetail(data, router.params.subjectId);
-            else if (router.currentView === 'lesson') container.innerHTML = renderLessonDetail(data, router.params.subjectId, router.params.unitId, router.params.lessonId);
-            else if (router.currentView === 'upload') container.innerHTML = renderUploadPortal(data);
+            if (router.currentView === 'home') container.innerHTML = renderHome(globalData);
+            else if (router.currentView === 'subjects') container.innerHTML = renderSubjects(globalData);
+            else if (router.currentView === 'subject') container.innerHTML = renderSubjectDetail(globalData, router.params.subjectId);
+            else if (router.currentView === 'lesson') container.innerHTML = renderLessonDetail(globalData, router.params.subjectId, router.params.unitId, router.params.lessonId);
+            else if (router.currentView === 'upload') container.innerHTML = renderUploadPortal(globalData);
             else if (router.currentView === 'contact') container.innerHTML = renderContact();
             else if (router.currentView === 'chess') container.innerHTML = renderChessSection();
-            else container.innerHTML = renderHome(data);
+            else if (router.currentView === 'chat') container.innerHTML = renderMessengerLayout();
+            else if (router.currentView === 'profile') container.innerHTML = renderProfileSection();
+            else container.innerHTML = renderHome(globalData);
 
-            if (router.currentView === 'chess') {
-                initChessMultiplayerAndState();
-            }
+            if (router.currentView === 'chess') initChessSection();
+            if (router.currentView === 'chat') initMessengerSystem();
             setTimeout(renderAllMath, 50);
+        }
+
+        function renderProfileSection() {
+            const profile = getCurrentUserProfile();
+            return `
+                <div class="max-w-2xl mx-auto space-y-8 animate-fadeIn">
+                    <div class="glass-card p-8 rounded-3xl border border-cyan-500/30 shadow-neon-lg space-y-6">
+                        <div class="flex items-center space-x-6 border-b border-slate-800 pb-6">
+                            <div class="w-20 h-20 rounded-2xl bg-cyan-500/20 text-cyan-400 flex items-center justify-center text-3xl overflow-hidden border border-cyan-500/40 shadow-neon">
+                                ${profile.avatar ? `<img src="${profile.avatar}" class="w-full h-full object-cover">` : `<i class="fa-solid fa-user-astronaut"></i>`}
+                            </div>
+                            <div>
+                                <h2 class="text-2xl font-extrabold text-white">${profile.name || currentAuthUser}</h2>
+                                <p class="text-xs text-slate-400 mt-1">Mã ID Kết Bạn: <strong class="text-cyan-400 font-mono select-all bg-slate-900 px-2 py-1 rounded border border-slate-800">${profile.id || 'Đang tạo ID...'}</strong></p>
+                                ${isSuperAdmin() ? '<span class="inline-block mt-2 px-2.5 py-0.5 rounded bg-amber-500/20 text-amber-300 text-[10px] font-bold border border-amber-500/30">Super Admin Tối Cao</span>' : ''}
+                            </div>
+                        </div>
+
+                        <form onsubmit="handleUpdateProfile(event)" class="space-y-4">
+                            <div>
+                                <label class="block text-xs font-semibold text-slate-300 mb-1.5">Tên Hiển Thị Mới</label>
+                                <input type="text" id="profile-name" value="${profile.name || currentAuthUser}" required class="w-full bg-slate-900 border border-slate-700 rounded-xl px-4 py-3 text-sm text-slate-200 outline-none focus:border-cyan-400">
+                            </div>
+                            <div>
+                                <label class="block text-xs font-semibold text-slate-300 mb-1.5">Link Ảnh Đại Diện (Avatar URL)</label>
+                                <input type="url" id="profile-avatar" value="${profile.avatar || ''}" placeholder="https://..." class="w-full bg-slate-900 border border-slate-700 rounded-xl px-4 py-3 text-sm text-slate-200 outline-none focus:border-cyan-400">
+                            </div>
+                            <button type="submit" class="w-full py-3.5 rounded-xl bg-gradient-to-r from-cyan-500 to-blue-600 text-white font-bold text-xs shadow-neon">Lưu Cập Nhật Hồ Sơ</button>
+                        </form>
+                    </div>
+                </div>`;
+        }
+
+        function handleUpdateProfile(e) {
+            e.preventDefault();
+            const newName = document.getElementById('profile-name').value.trim();
+            const newAvatar = document.getElementById('profile-avatar').value.trim();
+            db.ref(`eduspace_users/${cleanKey(currentAuthUser)}`).update({ name: newName, avatar: newAvatar }).then(() => {
+                showCustomModal("Thành Công", "Đã cập nhật thông tin thành công!");
+                render();
+            });
         }
 
         function renderHome(data) {
             const progress = getProgressData();
             let total = 0, completed = 0;
-            Object.values(data).forEach(sub => { if(sub.units) sub.units.forEach(u => { if(u.lessons) { total += u.lessons.length; u.lessons.forEach(l => { if(progress[l.id]) completed++; }); } }); });
+            Object.values(data).forEach(sub => { 
+                if(sub.units) sub.units.forEach(u => { 
+                    if(u.lessons) { 
+                        total += u.lessons.length; 
+                        u.lessons.forEach(l => { if(progress[l.id]) completed++; }); 
+                    } 
+                }); 
+            });
             const percent = total > 0 ? Math.round((completed / total) * 100) : 0;
+
             return `
                 <div class="space-y-12 animate-fadeIn">
                     <div class="relative overflow-hidden rounded-3xl glass-card p-8 sm:p-12 border border-cyan-500/30 shadow-neon bg-gradient-to-r from-slate-900/95 via-cardBg/90 to-slate-900/95">
                         <div class="relative z-10 max-w-2xl space-y-6">
-                            <span class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-cyan-500/10 text-cyan-400 border border-cyan-500/30 text-xs font-semibold shadow-neon">Tài khoản Cloud: <strong class="text-white">${currentAuthUser}</strong></span>
+                            <span class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-cyan-500/10 text-cyan-400 border border-cyan-500/30 text-xs font-semibold shadow-neon">Tài khoản Cloud: <strong class="text-white">${getCurrentUserProfile().name || currentAuthUser}</strong></span>
                             <h2 class="text-3xl sm:text-5xl font-extrabold text-white leading-tight">Chinh Phục Kiến Thức <span class="bg-gradient-to-r from-cyan-400 via-blue-400 to-teal-300 bg-clip-text text-transparent">Toán, Lý & Anh</span></h2>
                             <p class="text-slate-300 text-base sm:text-lg">Hệ thống bài giảng chuẩn hóa, trắc nghiệm tương tác và bài tập tự luận chi tiết.</p>
                             <div class="flex flex-wrap gap-4">
                                 <button onclick="router.navigate('subjects')" class="px-7 py-4 rounded-2xl bg-gradient-to-r from-cyan-500 to-blue-600 text-white font-bold shadow-neon-lg flex items-center gap-2"><i class="fa-solid fa-rocket"></i> Khám Phá Bài Học</button>
+                                <button onclick="router.navigate('chat')" class="px-7 py-4 rounded-2xl bg-gradient-to-r from-teal-500 to-cyan-600 text-white font-bold shadow-neon-lg flex items-center gap-2"><i class="fa-solid fa-comments"></i> Messenger Cloud</button>
                                 <button onclick="router.navigate('chess')" class="px-7 py-4 rounded-2xl bg-gradient-to-r from-amber-500 to-orange-600 text-white font-bold shadow-neon-lg flex items-center gap-2"><i class="fa-solid fa-gamepad"></i> Giải Trí Cờ Vua</button>
                             </div>
                         </div>
@@ -981,11 +938,16 @@
                     <div class="glass-card rounded-3xl p-6 sm:p-8 border border-cyan-500/20 flex flex-col md:flex-row items-center justify-between gap-6">
                         <div class="flex items-center space-x-4">
                             <div class="w-16 h-16 rounded-2xl bg-cyan-500/20 text-cyan-400 flex items-center justify-center text-2xl shadow-neon shrink-0"><i class="fa-solid fa-chart-line"></i></div>
-                            <div><h3 class="text-xl font-bold text-white">Tiến Độ: <span class="text-cyan-400">${currentAuthUser}</span></h3><p class="text-slate-400 text-sm">Đã hoàn thành <span class="text-cyan-400 font-bold">${completed}</span> / <span class="text-white font-bold">${total}</span> bài học.</p></div>
+                            <div>
+                                <h3 class="text-xl font-bold text-white">Tiến Độ: <span class="text-cyan-400">${getCurrentUserProfile().name || currentAuthUser}</span></h3>
+                                <p class="text-slate-400 text-sm">Đã hoàn thành <span class="text-cyan-400 font-bold">${completed}</span> / <span class="text-white font-bold">${total}</span> bài học.</p>
+                            </div>
                         </div>
                         <div class="w-full md:w-64 space-y-2">
                             <div class="flex justify-between text-xs font-bold"><span class="text-slate-300">Hoàn thành</span><span class="text-cyan-400">${percent}%</span></div>
-                            <div class="w-full h-3 rounded-full bg-slate-800 overflow-hidden p-0.5 border border-slate-700"><div class="h-full rounded-full bg-gradient-to-r from-cyan-500 to-teal-400" style="width: ${percent}%"></div></div>
+                            <div class="w-full h-3 rounded-full bg-slate-800 overflow-hidden p-0.5 border border-slate-700">
+                                <div class="h-full rounded-full bg-gradient-to-r from-cyan-500 to-teal-400 transition-all duration-500" style="width: ${percent}%"></div>
+                            </div>
                         </div>
                     </div>
 
@@ -993,7 +955,7 @@
                         ${Object.values(data).map(sub => `
                             <div onclick="router.navigate('subject', {subjectId: '${sub.id}'})" class="glass-card p-6 sm:p-8 rounded-3xl glow-border cursor-pointer group">
                                 <div class="w-16 h-16 rounded-2xl bg-gradient-to-tr ${sub.color} flex items-center justify-center text-2xl text-white shadow-neon mb-6"><i class="fa-solid ${sub.icon}"></i></div>
-                                <h4 class="text-xl font-bold text-white mb-2 group-hover:text-cyan-400">${sub.name}</h4>
+                                <h4 class="text-xl font-bold text-white mb-2 group-hover:text-cyan-400 transition">${sub.name}</h4>
                                 <p class="text-slate-400 text-sm">${sub.description}</p>
                             </div>
                         `).join('')}
@@ -1002,26 +964,13 @@
         }
 
         function renderSubjects(data) {
-            return `
-                <div class="space-y-8 animate-fadeIn">
-                    <h2 class="text-3xl font-extrabold text-white">Chương Trình Học Toán, Lý, Anh</h2>
-                    <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-                        ${Object.values(data).map(sub => `
-                            <div onclick="router.navigate('subject', {subjectId: '${sub.id}'})" class="glass-card p-6 sm:p-8 rounded-3xl glow-border cursor-pointer">
-                                <div class="w-16 h-16 rounded-2xl bg-gradient-to-tr ${sub.color} flex items-center justify-center text-2xl text-white shadow-neon mb-6"><i class="fa-solid ${sub.icon}"></i></div>
-                                <h4 class="text-xl font-bold text-white mb-2">${sub.name}</h4>
-                                <p class="text-slate-400 text-sm">${sub.description}</p>
-                            </div>
-                        `).join('')}
-                    </div>
-                </div>`;
+            return `<div class="space-y-8 animate-fadeIn"><h2 class="text-3xl font-extrabold text-white">Chương Trình Học Toán, Lý, Anh</h2><div class="grid grid-cols-1 md:grid-cols-3 gap-6">${Object.values(data).map(sub => `<div onclick="router.navigate('subject', {subjectId: '${sub.id}'})" class="glass-card p-6 sm:p-8 rounded-3xl glow-border cursor-pointer"><div class="w-16 h-16 rounded-2xl bg-gradient-to-tr ${sub.color} flex items-center justify-center text-2xl text-white shadow-neon mb-6"><i class="fa-solid ${sub.icon}"></i></div><h4 class="text-xl font-bold text-white mb-2">${sub.name}</h4><p class="text-slate-400 text-sm">${sub.description}</p></div>`).join('')}</div></div>`;
         }
 
         function renderSubjectDetail(data, subjectId) {
             const sub = data[subjectId];
             if(!sub) return `<div class="text-center py-20 text-slate-400">Không tìm thấy môn học!</div>`;
             const progress = getProgressData();
-            const units = sub.units || [];
             return `
                 <div class="space-y-8 animate-fadeIn">
                     <div class="glass-card p-8 sm:p-10 rounded-3xl border border-cyan-500/30 shadow-neon flex items-center space-x-6">
@@ -1031,645 +980,152 @@
                     <div class="space-y-6">
                         <h3 class="text-xl font-bold text-white">Danh Sách Units & Bài Học</h3>
                         <div class="space-y-4">
-                            ${units.map((unit) => `
+                            ${(sub.units || []).map((unit) => `
                                 <div class="glass-card rounded-3xl border border-slate-800 overflow-hidden">
                                     <div class="bg-slate-800/60 px-6 py-4 border-b border-slate-800 flex items-center justify-between">
                                         <h4 class="font-bold text-lg text-cyan-300">${unit.title}</h4>
                                     </div>
                                     <div class="divide-y divide-slate-800/60">
-                                        ${(!unit.lessons || unit.lessons.length === 0) ? `<div class="p-4 text-xs text-slate-400 italic">Chưa có bài học nào.</div>` : ''}
                                         ${(unit.lessons || []).map((lesson, lIdx) => {
                                             const isDone = progress[lesson.id];
                                             return `
                                                 <div class="p-5 hover:bg-slate-800/50 transition flex items-center justify-between group">
-                                                    <div onclick="router.navigate('lesson', {subjectId: '${sub.id}', unitId: '${unit.id}', lessonId: '${lesson.id}'})" class="flex items-center space-x-4 cursor-pointer flex-grow">
-                                                        <div class="w-10 h-10 rounded-xl ${isDone ? 'bg-emerald-500/20 text-emerald-400 border' : 'bg-slate-800 text-slate-300'} flex items-center justify-center font-bold text-sm">${isDone ? '<i class="fa-solid fa-check"></i>' : (lIdx + 1)}</div>
-                                                        <h5 class="font-semibold text-white group-hover:text-cyan-300">${lesson.title}</h5>
+                                                    <div class="flex items-center space-x-4 cursor-pointer flex-grow" onclick="router.navigate('lesson', {subjectId: '${sub.id}', unitId: '${unit.id}', lessonId: '${lesson.id}'})">
+                                                        <div class="w-10 h-10 rounded-xl ${isDone ? 'bg-emerald-500/20 text-emerald-400 border border-emerald-500/30' : 'bg-slate-800 text-slate-300'} flex items-center justify-center font-bold text-sm">${isDone ? '<i class="fa-solid fa-check"></i>' : (lIdx + 1)}</div>
+                                                        <h5 class="font-semibold text-white group-hover:text-cyan-300 transition">${lesson.title}</h5>
                                                     </div>
+                                                    ${isSuperAdmin() ? `<button onclick="deleteLesson('${sub.id}', '${unit.id}', '${lesson.id}')" class="px-3 py-1.5 rounded-xl bg-rose-500/20 text-rose-400 border border-rose-500/30 text-xs font-bold hover:bg-rose-500 hover:text-white transition"><i class="fa-solid fa-trash mr-1"></i> Xóa Bài</button>` : ''}
                                                 </div>`;
                                         }).join('')}
                                     </div>
-                                </div>
-                            `).join('')}
+                                </div>`).join('')}
                         </div>
                     </div>
                 </div>`;
         }
 
+        function deleteLesson(subjectId, unitId, lessonId) {
+            if (!isSuperAdmin()) { showCustomModal("Từ Chối", "Bạn không có quyền xóa bài học!"); return; }
+            showCustomModal("Xác Nhận Xóa", "Bạn có chắc chắn muốn xóa bài học này không?", [
+                { text: "Hủy", class: "bg-slate-800 text-slate-300", onClick: closeModal },
+                { text: "Xóa Ngay", class: "bg-rose-500 text-white font-bold", onClick: () => {
+                    let data = globalData;
+                    let sub = data[subjectId];
+                    let unit = sub.units.find(u => u.id === unitId);
+                    unit.lessons = unit.lessons.filter(l => l.id !== lessonId);
+                    db.ref('eduspace_data').set(data).then(() => {
+                        closeModal();
+                        showCustomModal("Thành Công", "Đã xóa bài học!");
+                        render();
+                    });
+                }}
+            ]);
+        }
+
         function renderLessonDetail(data, subjectId, unitId, lessonId) {
-            const sub = data[subjectId];
-            const unit = sub.units.find(u => u.id === unitId);
-            const lesson = unit.lessons.find(l => l.id === lessonId);
+            const sub = data[subjectId], unit = sub.units.find(u => u.id === unitId), lesson = unit.lessons.find(l => l.id === lessonId);
             if (!lesson) return `<div class="text-center py-20 text-slate-400">Không tìm thấy bài học!</div>`;
-            const exercises = lesson.exercises || [];
-            const essays = lesson.essays || [];
+            const exercises = lesson.exercises || [], essays = lesson.essays || [];
+
             return `
                 <div class="space-y-8 max-w-4xl mx-auto animate-fadeIn">
-                    <button onclick="router.navigate('subject', {subjectId: '${sub.id}'})" class="px-4 py-2 rounded-xl bg-slate-800 text-cyan-400 text-xs font-bold border border-slate-700 hover:bg-slate-700 transition flex items-center gap-2"><i class="fa-solid fa-arrow-left"></i> Quay Lại Danh Sách Unit</button>
+                    <button onclick="router.navigate('subject', {subjectId: '${sub.id}'})" class="px-4 py-2 rounded-xl bg-slate-800 text-cyan-400 text-xs font-bold border border-slate-700 hover:bg-slate-700 flex items-center gap-2"><i class="fa-solid fa-arrow-left"></i> Quay Lại</button>
+                    
                     <div class="glass-card p-6 sm:p-8 rounded-3xl border border-cyan-500/30 shadow-neon">
-                        <span class="px-3.5 py-1 rounded-full text-xs font-semibold ${sub.badgeBg} mb-3 inline-block">${unit.title}</span>
+                        <span class="px-3.5 py-1 rounded-full text-xs font-semibold ${sub.badgeBg || 'bg-cyan-500/10 text-cyan-400'} mb-3 inline-block">${unit.title}</span>
                         <h2 class="text-2xl sm:text-3xl font-extrabold text-white mt-1 mb-3">${lesson.title}</h2>
                     </div>
+
                     <div class="flex border-b border-slate-800 space-x-6 overflow-x-auto">
                         <button onclick="switchLessonTab('theory')" id="tab-btn-theory" class="pb-3 font-bold text-cyan-400 border-b-2 border-cyan-400 text-base whitespace-nowrap"><i class="fa-solid fa-book-open"></i> Lý Thuyết</button>
                         <button onclick="switchLessonTab('quiz')" id="tab-btn-quiz" class="pb-3 font-semibold text-slate-400 hover:text-white text-base whitespace-nowrap"><i class="fa-solid fa-pen-to-square"></i> Trắc Nghiệm (${exercises.length})</button>
-                        <button onclick="switchLessonTab('essay')" id="tab-btn-essay" class="pb-3 font-semibold text-slate-400 hover:text-white text-base whitespace-nowrap"><i class="fa-solid fa-pen-nib"></i> Bài Tập Tự Luận (${essays.length})</button>
+                        <button onclick="switchLessonTab('essay')" id="tab-btn-essay" class="pb-3 font-semibold text-slate-400 hover:text-white text-base whitespace-nowrap"><i class="fa-solid fa-pen-nib"></i> Tự Luận (${essays.length})</button>
                     </div>
 
-                    <div id="lesson-tab-theory" class="glass-card p-6 sm:p-10 rounded-3xl border border-slate-800 space-y-6 text-slate-200"><div class="prose prose-invert max-w-none space-y-4">${lesson.theory}</div></div>
-                    
+                    <div id="lesson-tab-theory" class="glass-card p-6 sm:p-10 rounded-3xl border border-slate-800 space-y-6 text-slate-200">
+                        <div class="prose prose-invert max-w-none space-y-4">${lesson.theory}</div>
+                    </div>
+
                     <div id="lesson-tab-quiz" class="glass-card p-6 sm:p-10 rounded-3xl border border-slate-800 space-y-8 hidden">
-                        <div class="space-y-8">
-                            ${exercises.length === 0 ? `<p class="text-slate-400 text-sm italic">Chưa có câu hỏi trắc nghiệm/đúng sai nào.</p>` : ''}
-                            ${exercises.map((ex, exIdx) => `
-                                <div class="p-6 rounded-2xl bg-slate-900/60 border border-slate-800 space-y-4">
-                                    <div class="flex items-center justify-between">
-                                        <h4 class="font-bold text-white text-base">Câu ${exIdx+1}:${ex.question}</h4>
-                                        <span class="text-[10px] px-2.5 py-1 rounded-md bg-cyan-500/10 text-cyan-400 border border-cyan-500/30 uppercase font-bold">${ex.type === 'true_false' ? 'Đúng / Sai' : 'Trắc nghiệm'}</span>
-                                    </div>
-                                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                                        ${(ex.options || []).map((opt, optIdx) => `
-                                            <label class="flex items-center space-x-3 p-3.5 rounded-xl bg-slate-800/60 hover:bg-slate-800 border border-slate-700/60 cursor-pointer text-sm text-slate-200">
-                                                <input type="radio" name="question_${exIdx}" value="${optIdx}" class="text-cyan-500 h-4 w-4 bg-slate-900">
-                                                <span>${opt}</span>
-                                            </label>`).join('')}
-                                    </div>
-                                    <div id="feedback_${exIdx}" class="hidden p-4 rounded-xl text-xs font-semibold"></div>
-                                    <div id="explanation_${exIdx}" class="hidden pl-4 pt-3 text-xs text-slate-300 italic bg-cyan-500/5 p-4 rounded-xl border border-cyan-500/20"><strong class="text-cyan-300">Giải thích:</strong> ${ex.explanation}</div>
-                                </div>`).join('')}
-                            ${exercises.length > 0 ? `
-                                <div class="flex flex-wrap gap-4 justify-end pt-4" id="quiz-action-buttons">
-                                    <button onclick="submitLessonQuiz('${sub.id}', '${lesson.id}',${exercises.length})" id="submit-quiz-btn" class="px-8 py-4 rounded-2xl bg-gradient-to-r from-cyan-500 to-blue-600 text-white font-bold shadow-neon-lg">Nộp Bài</button>
-                                </div>` : ''}
+                        ${exercises.map((ex, exIdx) => `
+                            <div class="p-6 rounded-2xl bg-slate-900/60 border border-slate-800 space-y-4">
+                                <h4 class="font-bold text-white text-base">Câu ${exIdx+1}:${ex.question}</h4>
+                                <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                                    ${(ex.options || []).map((opt, optIdx) => `
+                                        <label class="flex items-center space-x-3 p-3.5 rounded-xl bg-slate-800/60 hover:bg-slate-800 border border-slate-700 cursor-pointer text-sm text-slate-200 transition">
+                                            <input type="radio" name="question_${exIdx}" value="${optIdx}" class="text-cyan-500 h-4 w-4 bg-slate-900">
+                                            <span>${opt}</span>
+                                        </label>`).join('')}
+                                </div>
+                                <div id="feedback_${exIdx}" class="hidden p-4 rounded-xl text-xs font-semibold"></div>
+                                <div id="explanation_${exIdx}" class="hidden pl-4 pt-3 text-xs text-slate-300 italic bg-cyan-500/5 p-4 rounded-xl border border-cyan-500/20"><strong class="text-cyan-300">Giải thích:</strong> ${ex.explanation || 'Không có giải thích.'}</div>
+                            </div>`).join('')}
+                        <div class="flex justify-end pt-4" id="quiz-action-buttons">
+                            <button onclick="submitLessonQuiz('${sub.id}', '${lesson.id}', ${exercises.length})" class="px-8 py-4 rounded-2xl bg-gradient-to-r from-cyan-500 to-blue-600 text-white font-bold shadow-neon-lg">Nộp Bài Trắc Nghiệm</button>
                         </div>
                     </div>
 
                     <div id="lesson-tab-essay" class="glass-card p-6 sm:p-10 rounded-3xl border border-slate-800 space-y-8 hidden">
-                        <div class="space-y-8">
-                            ${essays.length === 0 ? `<p class="text-slate-400 text-sm italic">Chưa có bài tập tự luận nào cho bài học này.</p>` : ''}
-                            ${essays.map((essay, eIdx) => `
-                                <div class="p-6 rounded-2xl bg-slate-900/60 border border-slate-800 space-y-4">
-                                    <h4 class="font-bold text-white text-base">Bài tự luận ${eIdx+1}:${essay.question}</h4>
-                                    <textarea rows="4" placeholder="Nhập bài giải tự luận của bạn tại đây..." class="w-full bg-slate-900 border border-slate-700 rounded-xl p-4 text-sm text-slate-200 focus:border-cyan-400 outline-none"></textarea>
-                                    <button onclick="toggleEssaySample(${eIdx})" class="px-4 py-2 rounded-xl bg-slate-800 text-cyan-400 text-xs font-bold border border-cyan-500/30 hover:bg-slate-700 transition"><i class="fa-solid fa-lightbulb mr-1"></i> Xem Gợi Ý / Lời Giải Mẫu</button>
-                                    <div id="essay-sample-${eIdx}" class="hidden p-4 rounded-xl bg-cyan-500/5 border border-cyan-500/20 text-xs text-slate-300 space-y-2">
-                                        <strong class="text-cyan-300">Lời giải mẫu:</strong><p>${essay.sampleAnswer}</p>
-                                    </div>
-                                </div>
-                            `).join('')}
-                        </div>
+                        ${essays.map((essay, eIdx) => `
+                            <div class="p-6 rounded-2xl bg-slate-900/60 border border-slate-800 space-y-4">
+                                <h4 class="font-bold text-white text-base">Bài tự luận ${eIdx+1}:${essay.question}</h4>
+                                <textarea rows="4" placeholder="Nhập bài giải của bạn vào đây..." class="w-full bg-slate-900 border border-slate-700 rounded-xl p-4 text-sm text-slate-200 outline-none focus:border-cyan-400"></textarea>
+                                <button onclick="toggleEssaySample(${eIdx})" class="px-4 py-2 rounded-xl bg-slate-800 text-cyan-400 text-xs font-bold border border-cyan-500/30 hover:bg-slate-700"><i class="fa-solid fa-lightbulb mr-1"></i> Xem Gợi Ý / Lời Giải Mẫu</button>
+                                <div id="essay-sample-${eIdx}" class="hidden p-4 rounded-xl bg-cyan-500/5 border border-cyan-500/20 text-xs text-slate-300"><strong class="text-cyan-300">Lời giải mẫu:</strong><p class="mt-1">${essay.sampleAnswer || 'Đang cập nhật.'}</p></div>
+                            </div>`).join('')}
                     </div>
                 </div>`;
         }
 
         function switchLessonTab(tab) {
-            const theoryDiv = document.getElementById('lesson-tab-theory');
-            const quizDiv = document.getElementById('lesson-tab-quiz');
-            const essayDiv = document.getElementById('lesson-tab-essay');
-            const btnTheory = document.getElementById('tab-btn-theory');
-            const btnQuiz = document.getElementById('tab-btn-quiz');
-            const btnEssay = document.getElementById('tab-btn-essay');
-
-            theoryDiv.classList.add('hidden'); quizDiv.classList.add('hidden'); essayDiv.classList.add('hidden');
-            btnTheory.className = "pb-3 font-semibold text-slate-400 hover:text-white text-base whitespace-nowrap";
-            btnQuiz.className = "pb-3 font-semibold text-slate-400 hover:text-white text-base whitespace-nowrap";
-            btnEssay.className = "pb-3 font-semibold text-slate-400 hover:text-white text-base whitespace-nowrap";
-
-            if (tab === 'theory') {
-                theoryDiv.classList.remove('hidden');
-                btnTheory.className = "pb-3 font-bold text-cyan-400 border-b-2 border-cyan-400 text-base whitespace-nowrap";
-            } else if (tab === 'quiz') {
-                quizDiv.classList.remove('hidden');
-                btnQuiz.className = "pb-3 font-bold text-cyan-400 border-b-2 border-cyan-400 text-base whitespace-nowrap";
-            } else if (tab === 'essay') {
-                essayDiv.classList.remove('hidden');
-                btnEssay.className = "pb-3 font-bold text-cyan-400 border-b-2 border-cyan-400 text-base whitespace-nowrap";
-            }
+            ['theory', 'quiz', 'essay'].forEach(t => {
+                document.getElementById(`lesson-tab-${t}`)?.classList.add('hidden');
+                const btn = document.getElementById(`tab-btn-${t}`);
+                if (btn) btn.className = "pb-3 font-semibold text-slate-400 hover:text-white text-base whitespace-nowrap";
+            });
+            document.getElementById(`lesson-tab-${tab}`)?.classList.remove('hidden');
+            const activeBtn = document.getElementById(`tab-btn-${tab}`);
+            if (activeBtn) activeBtn.className = "pb-3 font-bold text-cyan-400 border-b-2 border-cyan-400 text-base whitespace-nowrap";
             setTimeout(renderAllMath, 50);
         }
 
-        function toggleEssaySample(idx) {
-            document.getElementById(`essay-sample-${idx}`).classList.toggle('hidden');
-            setTimeout(renderAllMath, 50);
+        function toggleEssaySample(idx) { 
+            document.getElementById(`essay-sample-${idx}`)?.classList.toggle('hidden'); 
+            setTimeout(renderAllMath, 50); 
         }
 
         function submitLessonQuiz(subjectId, lessonId, totalQuestions) {
-            let score = 0;
-            const data = globalData;
-            let lessonObj = null;
-            Object.values(data).forEach(sub => { if(sub.units) sub.units.forEach(u => { if(u.lessons) u.lessons.forEach(l => { if(l.id === lessonId) lessonObj = l; }); }); });
-            
+            let score = 0, lessonObj = null;
+            Object.values(globalData).forEach(sub => { if(sub.units) sub.units.forEach(u => { if(u.lessons) u.lessons.forEach(l => { if(l.id === lessonId) lessonObj = l; }); }); });
             for (let i = 0; i < totalQuestions; i++) {
-                const selected = document.querySelector(`input[name="question_${i}"]:checked`);
-                const feedbackDiv = document.getElementById(`feedback_${i}`);
-                const expDiv = document.getElementById(`explanation_${i}`);
-                
-                feedbackDiv.classList.remove('hidden');
-                expDiv.classList.remove('hidden');
-
+                const selected = document.querySelector(`input[name="question_${i}"]:checked`), fb = document.getElementById(`feedback_${i}`), exp = document.getElementById(`explanation_${i}`);
+                if (fb) fb.classList.remove('hidden'); 
+                if (exp) exp.classList.remove('hidden');
                 const correctIdx = lessonObj.exercises[i].correct;
-
-                if (selected) {
-                    if (parseInt(selected.value) === correctIdx) {
-                        score++;
-                        feedbackDiv.className = "p-4 rounded-xl text-xs font-semibold bg-emerald-500/20 text-emerald-300 border border-emerald-500/30";
-                        feedbackDiv.innerHTML = `<i class="fa-solid fa-circle-check mr-1"></i> Chính xác!`;
-                    } else {
-                        feedbackDiv.className = "p-4 rounded-xl text-xs font-semibold bg-rose-500/20 text-rose-300 border border-rose-500/30";
-                        feedbackDiv.innerHTML = `<i class="fa-solid fa-circle-xmark mr-1"></i> Sai rồi! Đáp án đúng: <strong>${lessonObj.exercises[i].options[correctIdx]}</strong>.`;
+                if (selected && parseInt(selected.value) === correctIdx) {
+                    score++;
+                    if (fb) {
+                        fb.className = "p-4 rounded-xl text-xs font-semibold bg-emerald-500/20 text-emerald-300 border border-emerald-500/30";
+                        fb.innerHTML = `<i class="fa-solid fa-circle-check mr-1"></i> Chính xác!`;
                     }
                 } else {
-                    feedbackDiv.className = "p-4 rounded-xl text-xs font-semibold bg-amber-500/20 text-amber-300 border border-amber-500/30";
-                    feedbackDiv.innerHTML = `<i class="fa-solid fa-triangle-exclamation mr-1"></i> Chưa chọn đáp án!`;
+                    if (fb) {
+                        fb.className = "p-4 rounded-xl text-xs font-semibold bg-rose-500/20 text-rose-300 border border-rose-500/30";
+                        fb.innerHTML = `<i class="fa-solid fa-circle-xmark mr-1"></i> Sai rồi! Đáp án đúng: <strong>${lessonObj.exercises[i].options[correctIdx]}</strong>.`;
+                    }
                 }
             }
-
             let progress = getProgressData();
             progress[lessonId] = { score, total: totalQuestions, timestamp: Date.now() };
             saveProgressData(progress);
-
-            document.getElementById('quiz-action-buttons').innerHTML = `
-                <button onclick="resetQuizForm(${totalQuestions})" class="px-8 py-4 rounded-2xl bg-gradient-to-r from-amber-500 to-orange-600 text-white font-bold shadow-neon-lg flex items-center gap-2"><i class="fa-solid fa-rotate-right"></i> Làm Lại</button>
-                <button onclick="router.navigate('subject', {subjectId: '${subjectId}'})" class="px-8 py-4 rounded-2xl bg-gradient-to-r from-cyan-500 to-blue-600 text-white font-bold shadow-neon-lg">Hoàn Tất</button>
-            `;
-            showCustomModal("Kết Quả", `Bạn đúng ${score} / ${totalQuestions} câu!`);
+            showCustomModal("Kết Quả", `Bạn đã làm đúng ${score} / ${totalQuestions} câu!`);
             setTimeout(renderAllMath, 50);
         }
-
-        function resetQuizForm(totalQuestions) {
-            for (let i = 0; i < totalQuestions; i++) {
-                const radios = document.querySelectorAll(`input[name="question_${i}"]`);
-                radios.forEach(r => r.checked = false);
-                document.getElementById(`feedback_${i}`).classList.add('hidden');
-                document.getElementById(`explanation_${i}`).classList.add('hidden');
-            }
-            document.getElementById('quiz-action-buttons').innerHTML = `<button onclick="submitLessonQuiz('${router.params.subjectId}', '${router.params.lessonId}', ${totalQuestions})" id="submit-quiz-btn" class="px-8 py-4 rounded-2xl bg-gradient-to-r from-cyan-500 to-blue-600 text-white font-bold shadow-neon-lg">Nộp Bài</button>`;
-            window.scrollTo({ top: 300, behavior: 'smooth' });
-        }
-
-        // ========================== HỆ THỐNG CỜ VUA CHUẨN ==========================
-        function renderChessSection() {
-            return `
-                <div class="space-y-8 animate-fadeIn">
-                    <!-- Thanh Mời Bạn Bè Đấu Cờ -->
-                    <div class="glass-card p-5 rounded-3xl border border-amber-500/30 flex flex-col md:flex-row items-center justify-between gap-4">
-                        <div>
-                            <h2 class="text-xl font-extrabold text-white flex items-center gap-2"><i class="fa-solid fa-chess-knight text-amber-400"></i> Mục Giải Trí: Cờ Vua Đấu Bạn Bè (Multiplayer)</h2>
-                            <p class="text-xs text-slate-400">Khóa nước đi theo màu quân. Đồng bộ Realtime trên Firebase Cloud.</p>
-                        </div>
-                        <div class="flex items-center gap-3">
-                            <select id="invite-user-select" class="bg-slate-900 border border-slate-700 rounded-xl px-3 py-2 text-xs text-slate-200">
-                                <option value="">-- Chọn Bạn Bè Để Mời --</option>
-                            </select>
-                            <button onclick="sendGameInvite(document.getElementById('invite-user-select').value)" class="px-4 py-2 rounded-xl bg-gradient-to-r from-amber-500 to-orange-600 text-white font-bold text-xs shadow-neon flex items-center gap-1.5"><i class="fa-solid fa-paper-plane"></i> Gửi Lời Mời</button>
-                        </div>
-                    </div>
-
-                    <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
-                        <!-- LEFT & CENTER: CHESS BOARD & GAME DASHBOARD (Col 8) -->
-                        <div class="lg:col-span-8 space-y-4">
-                            <!-- Player Bar: Black (Opponent) -->
-                            <div class="glass-card p-3.5 rounded-2xl flex items-center justify-between border border-slate-800">
-                                <div class="flex items-center gap-3">
-                                    <div class="w-10 h-10 rounded-xl bg-rose-500/20 text-rose-500 flex items-center justify-center text-lg border border-rose-500/30">
-                                        <i class="fa-solid fa-user-ninja"></i>
-                                    </div>
-                                    <div>
-                                        <h4 class="font-bold text-sm text-slate-200" id="black-player-name">Đen: Quân Đen (Player 2)</h4>
-                                        <p class="text-[11px] text-slate-400" id="black-status">Đang chờ nước đi...</p>
-                                    </div>
-                                </div>
-                                <div id="timer-black-box" class="px-4 py-2 rounded-xl bg-slate-900/90 border border-slate-800 text-right">
-                                    <span class="text-xs text-slate-400 block font-mono">THỜI GIAN</span>
-                                    <span id="timer-black" class="text-xl font-bold font-mono text-slate-200">10:00</span>
-                                </div>
-                            </div>
-
-                            <!-- Turn Bar Indicator -->
-                            <div class="flex items-center justify-between bg-slate-900/80 px-4 py-2 rounded-xl border border-slate-800/80 text-xs">
-                                <span class="text-slate-400">Trạng thái: <span id="game-status-text" class="text-cyan-400 font-semibold">Đang chơi</span></span>
-                                <div class="flex items-center gap-2">
-                                    <span class="text-slate-400">Lượt đánh:</span>
-                                    <span id="current-turn-badge" class="px-3 py-1 rounded-full font-bold bg-cyan-500/20 text-cyan-400 border border-cyan-500/30">TRẮNG (ĐẾN LƯỢT BẠN!)</span>
-                                </div>
-                            </div>
-
-                            <!-- Interactive Chess Board Area -->
-                            <div class="flex justify-center my-2">
-                                <div id="chess-board" class="chess-grid"></div>
-                            </div>
-
-                            <p class="text-center text-xs text-slate-400" id="mode-indicator-text">Đang chơi ở chế độ: <span class="text-slate-200 font-medium">Luyện tập (Offline 2 Người / Solo)</span></p>
-
-                            <!-- Player Bar: White (User) -->
-                            <div class="glass-card p-3.5 rounded-2xl flex items-center justify-between border border-slate-800">
-                                <div class="flex items-center gap-3">
-                                    <div class="w-10 h-10 rounded-xl bg-cyan-500/20 text-cyan-400 flex items-center justify-center text-lg border border-cyan-500/30">
-                                        <i class="fa-solid fa-user-astronaut"></i>
-                                    </div>
-                                    <div>
-                                        <h4 class="font-bold text-sm text-slate-200" id="white-player-name">Trắng: Quân Trắng (Player 1)</h4>
-                                        <p class="text-[11px] text-slate-400" id="white-status">Đến lượt bạn đi</p>
-                                    </div>
-                                </div>
-                                <div id="timer-white-box" class="px-4 py-2 rounded-xl bg-slate-900/90 border border-cyan-500/40 text-right shadow-lg shadow-cyan-500/10">
-                                    <span class="text-xs text-slate-400 block font-mono">THỜI GIAN</span>
-                                    <span id="timer-white" class="text-xl font-bold font-mono text-cyan-400">10:00</span>
-                                </div>
-                            </div>
-
-                            <!-- Game Actions Controls -->
-                            <div class="grid grid-cols-3 gap-3 pt-2">
-                                <button onclick="handleResign()" class="py-3 px-4 rounded-xl bg-rose-500/10 hover:bg-rose-500/20 text-rose-400 font-bold border border-rose-500/30 transition flex items-center justify-center gap-2">
-                                    <i class="fa-solid fa-flag"></i> <span>Đầu Hàng</span>
-                                </button>
-                                <button onclick="handleOfferDraw()" class="py-3 px-4 rounded-xl bg-amber-500/10 hover:bg-amber-500/20 text-amber-400 font-bold border border-amber-500/30 transition flex items-center justify-center gap-2">
-                                    <i class="fa-solid fa-handshake"></i> <span>Cầu Hòa</span>
-                                </button>
-                                <button onclick="resetChessGame()" class="py-3 px-4 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-200 font-bold border border-slate-700 transition flex items-center justify-center gap-2">
-                                    <i class="fa-solid fa-rotate-right"></i> <span>Đặt Bàn Cờ Mới</span>
-                                </button>
-                            </div>
-                        </div>
-
-                        <!-- RIGHT SIDEBAR: BOARD SETTINGS & HISTORY (Col 4) -->
-                        <div class="lg:col-span-4 space-y-5">
-                            <div class="glass-card p-5 rounded-2xl border border-slate-800">
-                                <div class="flex items-center gap-2 mb-4 text-cyan-400 font-bold">
-                                    <i class="fa-solid fa-sliders"></i>
-                                    <h3>Cài Đặt Màu Bàn Cờ</h3>
-                                </div>
-                                <div class="grid grid-cols-2 gap-3">
-                                    <button onclick="changeBoardTheme('theme-neon')" class="p-3 rounded-xl border border-cyan-500/50 bg-cyan-950/30 text-cyan-300 font-medium text-xs hover:bg-cyan-900/40 transition text-center shadow-sm">Neon EduSpace</button>
-                                    <button onclick="changeBoardTheme('theme-wood')" class="p-3 rounded-xl border border-amber-900/50 bg-amber-950/30 text-amber-200 font-medium text-xs hover:bg-amber-900/40 transition text-center shadow-sm">Gỗ Cổ Điển</button>
-                                    <button onclick="changeBoardTheme('theme-emerald')" class="p-3 rounded-xl border border-emerald-800/50 bg-emerald-950/30 text-emerald-200 font-medium text-xs hover:bg-emerald-900/40 transition text-center shadow-sm">Lục Bảo</button>
-                                    <button onclick="changeBoardTheme('theme-midnight')" class="p-3 rounded-xl border border-purple-800/50 bg-purple-950/30 text-purple-200 font-medium text-xs hover:bg-purple-900/40 transition text-center shadow-sm">Tím Midnight</button>
-                                </div>
-                            </div>
-
-                            <div class="glass-card p-5 rounded-2xl border border-slate-800 flex flex-col h-[320px]">
-                                <div class="flex items-center justify-between mb-3 text-slate-300 font-bold border-b border-slate-800 pb-2">
-                                    <span class="text-xs flex items-center gap-2"><i class="fa-solid fa-list-ol text-cyan-400"></i> Lịch Sử Nước Đi</span>
-                                    <span id="move-count" class="text-[10px] bg-slate-800 px-2 py-0.5 rounded text-slate-400 font-mono">0 nước</span>
-                                </div>
-                                <div id="move-history" class="flex-grow overflow-y-auto space-y-1 pr-1 font-mono text-xs">
-                                    <p class="text-slate-500 italic text-center py-4">Chưa có nước đi nào</p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>`;
-        }
-
-        function renderUserDropdown() {
-            const selectEl = document.getElementById('invite-user-select');
-            if (!selectEl) return;
-            const users = Object.keys(globalUsers).map(k => globalUsers[k].name || k);
-            let html = `<option value="">-- Chọn Bạn Bè Để Mời --</option>`;
-            users.forEach(u => { if (u !== currentAuthUser) html += `<option value="${u}">${u}</option>`; });
-            selectEl.innerHTML = html;
-        }
-
-        function initChessMultiplayerAndState() {
-            renderUserDropdown();
-            chessGame.reset();
-            selectedSquare = null;
-            validMoves = [];
-
-            if (router.params.gameId) {
-                activeGameId = router.params.gameId;
-                myColor = router.params.color || 'w';
-
-                const indicator = document.getElementById('mode-indicator-text');
-                if (indicator) {
-                    const colorStr = myColor === 'w' ? 'Quân Trắng' : 'Quân Đen';
-                    indicator.innerHTML = `Đang chơi Multiplayer Online | Cầm quân: <strong class="text-amber-400">${colorStr}</strong> | Đối thủ: <strong class="text-cyan-400">${router.params.opponent || 'Bạn Bè'}</strong>`;
-                }
-
-                db.ref(`eduspace_chess_games/${activeGameId}`).on('value', (snapshot) => {
-                    const data = snapshot.val();
-                    if (!data) return;
-
-                    const whiteNameEl = document.getElementById('white-player-name');
-                    const blackNameEl = document.getElementById('black-player-name');
-                    if (whiteNameEl) whiteNameEl.innerText = `Trắng: ${data.white}`;
-                    if (blackNameEl) blackNameEl.innerText = `Đen: ${data.black}`;
-
-                    if (data.white === currentAuthUser) myColor = 'w';
-                    else if (data.black === currentAuthUser) myColor = 'b';
-
-                    if (data.fen) {
-                        chessGame.load(data.fen);
-                        renderChessBoard();
-                    }
-                    if (data.whiteTime !== undefined) whiteTime = data.whiteTime;
-                    if (data.blackTime !== undefined) blackTime = data.blackTime;
-
-                    updateChessUIState();
-                });
-            } else {
-                activeGameId = null;
-                myColor = 'all';
-                loadSavedChessState();
-                renderChessBoard();
-                startChessTimer();
-                updateChessUIState();
-            }
-        }
-
-        function renderChessBoard() {
-            const boardElement = document.getElementById('chess-board');
-            if (!boardElement) return;
-            boardElement.innerHTML = '';
-            const board = chessGame.board();
-
-            const isBlackView = myColor === 'b';
-            const rowStart = isBlackView ? 7 : 0;
-            const rowEnd = isBlackView ? -1 : 8;
-            const rowStep = isBlackView ? -1 : 1;
-
-            const colStart = isBlackView ? 7 : 0;
-            const colEnd = isBlackView ? -1 : 8;
-            const colStep = isBlackView ? -1 : 1;
-
-            for (let r = rowStart; r !== rowEnd; r += rowStep) {
-                for (let c = colStart; c !== colEnd; c += colStep) {
-                    const squareSquare = String.fromCharCode(97 + c) + (8 - r);
-                    const piece = board[r][c];
-
-                    const squareDiv = document.createElement('div');
-                    squareDiv.className = `square ${(r + c) % 2 === 0 ? 'light' : 'dark'}`;
-                    squareDiv.dataset.square = squareSquare;
-
-                    if (selectedSquare === squareSquare) {
-                        squareDiv.classList.add('selected');
-                    }
-                    if (validMoves.includes(squareSquare)) {
-                        if (piece) squareDiv.classList.add('possible-capture');
-                        else squareDiv.classList.add('possible-move');
-                    }
-                    if (piece) {
-                        const pieceSpan = document.createElement('span');
-                        const isWhite = piece.color === 'w';
-                        pieceSpan.className = `piece ${isWhite ? 'white-piece' : 'black-piece'}`;
-                        pieceSpan.textContent = PIECE_SYMBOLS[piece.type.toUpperCase()];
-                        squareDiv.appendChild(pieceSpan);
-                    }
-                    squareDiv.addEventListener('click', () => handleChessSquareClick(squareSquare));
-                    boardElement.appendChild(squareDiv);
-                }
-            }
-        }
-
-        function handleChessSquareClick(square) {
-            if (isGameOver) return;
-
-            if (myColor !== 'all' && chessGame.turn() !== myColor) {
-                showCustomModal("Chờ Lượt", "Chưa tới lượt đi của bạn!");
-                return;
-            }
-
-            const pieceOnSquare = chessGame.get(square);
-            const currentTurn = chessGame.turn();
-
-            if (selectedSquare) {
-                if (selectedSquare === square) {
-                    selectedSquare = null;
-                    validMoves = [];
-                    renderChessBoard();
-                    return;
-                }
-                const moves = chessGame.moves({ square: selectedSquare, verbose: true });
-                const isLegal = moves.some(m => m.to === square);
-
-                if (isLegal) {
-                    chessGame.move({ from: selectedSquare, to: square, promotion: 'q' });
-                    selectedSquare = null;
-                    validMoves = [];
-                    onAfterChessMove();
-                    return;
-                }
-            }
-
-            if (pieceOnSquare && pieceOnSquare.color === currentTurn) {
-                selectedSquare = square;
-                const legalMovesObjects = chessGame.moves({ square: square, verbose: true });
-                validMoves = legalMovesObjects.map(m => m.to);
-            } else {
-                selectedSquare = null;
-                validMoves = [];
-            }
-            renderChessBoard();
-        }
-
-        function onAfterChessMove() {
-            renderChessBoard();
-            updateChessUIState();
-            saveChessState();
-
-            if (activeGameId) {
-                db.ref(`eduspace_chess_games/${activeGameId}`).update({
-                    fen: chessGame.fen(),
-                    whiteTime: whiteTime,
-                    blackTime: blackTime
-                });
-            }
-
-            if (chessGame.in_checkmate()) {
-                const winner = chessGame.turn() === 'w' ? 'Đen' : 'Trắng';
-                endChessGame(`CHIẾU HẾT! ${winner} giành chiến thắng chung cuộc!`);
-            } else if (chessGame.in_draw() || chessGame.in_stalemate() || chessGame.in_threefold_repetition()) {
-                endChessGame("HÒA CỜ! Ván đấu kết thúc với kết quả hòa.");
-            }
-        }
-
-        function startChessTimer() {
-            if (timerInterval) clearInterval(timerInterval);
-            timerInterval = setInterval(() => {
-                if (isGameOver) return;
-                if (chessGame.turn() === 'w') {
-                    whiteTime--;
-                    if (whiteTime <= 0) {
-                        whiteTime = 0;
-                        updateTimerDisplay();
-                        endChessGame("HẾT GIỜ! Bên Trắng hết thời gian. Bên Đen chiến thắng!");
-                        return;
-                    }
-                } else {
-                    blackTime--;
-                    if (blackTime <= 0) {
-                        blackTime = 0;
-                        updateTimerDisplay();
-                        endChessGame("HẾT GIỜ! Bên Đen hết thời gian. Bên Trắng chiến thắng!");
-                        return;
-                    }
-                }
-                updateTimerDisplay();
-                saveChessState();
-            }, 1000);
-        }
-
-        function formatTime(seconds) {
-            const m = Math.floor(seconds / 60).toString().padStart(2, '0');
-            const s = (seconds % 60).toString().padStart(2, '0');
-            return `${m}:${s}`;
-        }
-
-        function updateTimerDisplay() {
-            const whiteTimerEl = document.getElementById('timer-white');
-            const blackTimerEl = document.getElementById('timer-black');
-            const whiteTimerBox = document.getElementById('timer-white-box');
-            const blackTimerBox = document.getElementById('timer-black-box');
-            if(!whiteTimerEl || !blackTimerEl) return;
-
-            whiteTimerEl.textContent = formatTime(whiteTime);
-            blackTimerEl.textContent = formatTime(blackTime);
-
-            if (chessGame.turn() === 'w') {
-                whiteTimerBox.className = "px-4 py-2 rounded-xl bg-slate-900/90 border border-cyan-500/80 text-right shadow-lg shadow-cyan-500/20";
-                blackTimerBox.className = "px-4 py-2 rounded-xl bg-slate-900/90 border border-slate-800 text-right opacity-60";
-                whiteTimerEl.className = "text-xl font-bold font-mono text-cyan-400";
-                blackTimerEl.className = "text-xl font-bold font-mono text-slate-300";
-            } else {
-                blackTimerBox.className = "px-4 py-2 rounded-xl bg-slate-900/90 border border-pink-500/80 text-right shadow-lg shadow-pink-500/20";
-                whiteTimerBox.className = "px-4 py-2 rounded-xl bg-slate-900/90 border border-slate-800 text-right opacity-60";
-                blackTimerEl.className = "text-xl font-bold font-mono text-pink-400";
-                whiteTimerEl.className = "text-xl font-bold font-mono text-slate-300";
-            }
-        }
-
-        function updateChessUIState() {
-            updateTimerDisplay();
-            const isWhiteTurn = chessGame.turn() === 'w';
-            const badge = document.getElementById('current-turn-badge');
-            const statusText = document.getElementById('game-status-text');
-            if(!badge || !statusText) return;
-
-            if (isGameOver) {
-                badge.textContent = "KẾT THÚC";
-                badge.className = "px-3 py-1 rounded-full font-bold bg-slate-800 text-slate-400 border border-slate-700";
-                statusText.textContent = "Trận đấu đã dừng";
-            } else if (isWhiteTurn) {
-                badge.textContent = "TRẮNG (ĐẾN LƯỢT BẠN!)";
-                badge.className = "px-3 py-1 rounded-full font-bold bg-cyan-500/20 text-cyan-400 border border-cyan-500/30";
-                statusText.textContent = chessGame.in_check() ? "ĐANG BỊ CHIẾU!" : "Đang chơi";
-            } else {
-                badge.textContent = "ĐEN (ĐẾN LƯỢT BẠN!)";
-                badge.className = "px-3 py-1 rounded-full font-bold bg-pink-500/20 text-pink-400 border border-pink-500/30";
-                statusText.textContent = chessGame.in_check() ? "ĐANG BỊ CHIẾU!" : "Đang chơi";
-            }
-
-            const historyContainer = document.getElementById('move-history');
-            const moveCountEl = document.getElementById('move-count');
-            const history = chessGame.history();
-            if(!historyContainer || !moveCountEl) return;
-
-            moveCountEl.textContent = `${history.length} nước`;
-            if (history.length === 0) {
-                historyContainer.innerHTML = `<p class="text-slate-500 italic text-center py-4">Chưa có nước đi nào</p>`;
-            } else {
-                let html = '<div class="grid grid-cols-2 gap-x-2 gap-y-1">';
-                for (let i = 0; i < history.length; i += 2) {
-                    const moveNum = Math.floor(i / 2) + 1;
-                    const whiteMove = history[i] || '';
-                    const blackMove = history[i + 1] || '';
-                    html += `
-                        <div class="text-slate-400 font-sans">${moveNum}. <span class="text-cyan-300 font-mono">${whiteMove}</span></div>
-                        <div class="text-pink-300 font-mono">${blackMove}</div>
-                    `;
-                }
-                html += '</div>';
-                historyContainer.innerHTML = html;
-                historyContainer.scrollTop = historyContainer.scrollHeight;
-            }
-        }
-
-        function handleResign() {
-            if (isGameOver) return;
-            const currentTurnName = chessGame.turn() === 'w' ? 'Trắng' : 'Đen';
-            const winnerName = chessGame.turn() === 'w' ? 'Đen' : 'Trắng';
-
-            showCustomModal("Xác nhận đầu hàng", `Bên <b>${currentTurnName}</b> có chắc chắn muốn đầu hàng không?`, [
-                { text: "Hủy", class: "bg-slate-800 text-slate-300 hover:bg-slate-700", onClick: closeModal },
-                { text: "Đầu Hàng", class: "bg-rose-500 text-white hover:bg-rose-600 font-bold", onClick: () => { closeModal(); endChessGame(`Bên ${currentTurnName} đã đầu hàng! Bên ${winnerName} thắng!`); } }
-            ]);
-        }
-
-        function handleOfferDraw() {
-            if (isGameOver) return;
-            const currentTurnName = chessGame.turn() === 'w' ? 'Trắng' : 'Đen';
-            const opponentName = chessGame.turn() === 'w' ? 'Đen' : 'Trắng';
-
-            showCustomModal("Đề nghị Cầu Hòa", `Bên <b>${currentTurnName}</b> xin hòa. Bên <b>${opponentName}</b> có đồng ý không?`, [
-                { text: "Từ Chối", class: "bg-slate-800 text-slate-300 hover:bg-slate-700", onClick: closeModal },
-                { text: "Đồng Ý Hòa", class: "bg-amber-500 text-slate-950 hover:bg-amber-400 font-bold", onClick: () => { closeModal(); endChessGame("Ván đấu hòa theo thỏa thuận hai bên!"); } }
-            ]);
-        }
-
-        function resetChessGame() {
-            showCustomModal("Tạo bàn cờ mới", "Bạn có chắc muốn đặt lại bàn cờ và tính lại thời gian?", [
-                { text: "Hủy", class: "bg-slate-800 text-slate-300 hover:bg-slate-700", onClick: closeModal },
-                { text: "Bàn Cờ Mới", class: "bg-cyan-500 text-slate-950 hover:bg-cyan-400 font-bold", onClick: () => { closeModal(); executeResetChessGame(); } }
-            ]);
-        }
-
-        function executeResetChessGame() {
-            chessGame = new Chess();
-            whiteTime = 600;
-            blackTime = 600;
-            selectedSquare = null;
-            validMoves = [];
-            isGameOver = false;
-            localStorage.removeItem('eduspace_chess_state');
-            renderChessBoard();
-            startChessTimer();
-            updateChessUIState();
-            if (activeGameId) {
-                db.ref(`eduspace_chess_games/${activeGameId}`).update({ fen: chessGame.fen(), whiteTime: 600, blackTime: 600 });
-            }
-        }
-
-        function endChessGame(message) {
-            isGameOver = true;
-            if (timerInterval) clearInterval(timerInterval);
-            updateChessUIState();
-            saveChessState();
-            showCustomModal("Kết Thúc Ván Đấu", message, [
-                { text: "Đóng", class: "bg-slate-800 text-slate-300 hover:bg-slate-700", onClick: closeModal },
-                { text: "Ván Mới", class: "bg-cyan-500 text-slate-950 hover:bg-cyan-400 font-bold", onClick: () => { closeModal(); executeResetChessGame(); } }
-            ]);
-        }
-
-        function saveChessState() {
-            const state = { fen: chessGame.fen(), whiteTime: whiteTime, blackTime: blackTime, isGameOver: isGameOver };
-            localStorage.setItem('eduspace_chess_state', JSON.stringify(state));
-        }
-
-        function loadSavedChessState() {
-            const saved = localStorage.getItem('eduspace_chess_state');
-            if (saved) {
-                try {
-                    const data = JSON.parse(saved);
-                    if (data.fen) chessGame.load(data.fen);
-                    if (data.whiteTime !== undefined) whiteTime = data.whiteTime;
-                    if (data.blackTime !== undefined) blackTime = data.blackTime;
-                    if (data.isGameOver !== undefined) isGameOver = data.isGameOver;
-                } catch(e) { console.error(e); }
-            }
-        }
-
-        function changeBoardTheme(themeName) {
-            document.body.className = `bg-darkBg text-slate-100 min-h-screen flex flex-col selection:bg-cyan-500 selection:text-white ${themeName}`;
-            renderChessBoard();
-        }
-
-        // ========================== QUẢN LÝ & ĐĂNG BÀI TẬP NÂNG CAO ==========================
-        let currentEditingQuestions = [];
 
         function renderUploadPortal(data) {
             return `
                 <div class="space-y-8 max-w-3xl mx-auto animate-fadeIn">
-                    <div class="glass-card p-8 rounded-3xl border border-cyan-500/30 shadow-neon">
+                    <div class="glass-card p-8 sm:p-10 rounded-3xl border border-cyan-500/30 shadow-neon">
                         <h2 class="text-2xl font-extrabold text-white">Quản Lý & Đăng Bài Tập Cloud</h2>
                         <p class="text-xs text-slate-400 mt-1">Hỗ trợ tạo Trắc nghiệm, Đúng/Sai và Tự luận (Tối đa 20 câu hỏi/bài học).</p>
                     </div>
@@ -1677,26 +1133,26 @@
                     <form onsubmit="handleFinalUpload(event)" class="glass-card p-8 sm:p-10 rounded-3xl border border-slate-800 space-y-6">
                         <div>
                             <label class="block text-sm font-semibold text-slate-200 mb-2">Chọn Môn Học</label>
-                            <select id="upload-subject" class="w-full bg-slate-900 border border-slate-700 rounded-2xl px-4 py-3.5 text-slate-200">
+                            <select id="upload-subject" class="w-full bg-slate-900 border border-slate-700 rounded-2xl px-4 py-3.5 text-slate-200 outline-none focus:border-cyan-400">
                                 ${Object.values(data).map(sub => `<option value="${sub.id}">${sub.name}</option>`).join('')}
                             </select>
                         </div>
                         <div>
                             <label class="block text-sm font-semibold text-slate-200 mb-2">Tên Unit</label>
-                            <input type="text" id="upload-unit-title" required placeholder="Ví dụ: Unit 2: Tích Phân" class="w-full bg-slate-900 border border-slate-700 rounded-2xl px-4 py-3.5 text-slate-200">
+                            <input type="text" id="upload-unit-title" required placeholder="Ví dụ: Unit 2: Tích Phân" class="w-full bg-slate-900 border border-slate-700 rounded-2xl px-4 py-3.5 text-slate-200 outline-none focus:border-cyan-400">
                         </div>
                         <div>
                             <label class="block text-sm font-semibold text-slate-200 mb-2">Tên Bài Học</label>
-                            <input type="text" id="upload-lesson-title" required placeholder="Ví dụ: Lesson 1: Ứng dụng tích phân" class="w-full bg-slate-900 border border-slate-700 rounded-2xl px-4 py-3.5 text-slate-200">
+                            <input type="text" id="upload-lesson-title" required placeholder="Ví dụ: Lesson 1: Ứng dụng tích phân" class="w-full bg-slate-900 border border-slate-700 rounded-2xl px-4 py-3.5 text-slate-200 outline-none focus:border-cyan-400">
                         </div>
                         <div>
-                            <label class="block text-sm font-semibold text-slate-200 mb-2">Nội Dung Lý Thuyết ($...$)</label>
-                            <textarea id="upload-theory" rows="3" required placeholder="<h3>1. Lý thuyết...</h3>" class="w-full bg-slate-900 border border-slate-700 rounded-2xl p-4 text-slate-200 font-mono text-sm"></textarea>
+                            <label class="block text-sm font-semibold text-slate-200 mb-2">Nội Dung Lý Thuyết (Hỗ trợ công thức Math $...$)</label>
+                            <textarea id="upload-theory" rows="3" required placeholder="<h3>1. Lý thuyết cơ bản...</h3>" class="w-full bg-slate-900 border border-slate-700 rounded-2xl p-4 text-slate-200 font-mono text-sm outline-none focus:border-cyan-400"></textarea>
                         </div>
 
                         <div class="border-t border-slate-800 pt-6 space-y-4">
                             <div class="flex items-center justify-between">
-                                <h3 class="font-bold text-white text-base"><i class="fa-solid fa-list-check text-cyan-400 mr-2"></i> Danh Sách Câu Hỏi & Bài Tập (<span id="question-count-badge">0</span>/20)</h3>
+                                <h3 class="font-bold text-white text-base"><i class="fa-solid fa-list-check text-cyan-400 mr-2"></i> Danh Sách Câu Hỏi (<span id="question-count-badge">0</span>/20)</h3>
                                 <button type="button" onclick="openAddQuestionModal()" class="px-4 py-2 rounded-xl bg-cyan-500/20 text-cyan-300 border border-cyan-500/40 text-xs font-bold hover:bg-cyan-500 hover:text-slate-950 transition"><i class="fa-solid fa-plus mr-1"></i> Thêm Câu Hỏi</button>
                             </div>
                             <div id="dynamic-questions-list" class="space-y-3">
@@ -1724,7 +1180,7 @@
                         </div>
                         <div>
                             <label class="block text-xs font-semibold text-slate-300 mb-1">Nội Dung Câu Hỏi</label>
-                            <textarea id="modal-q-text" rows="2" placeholder="Nhập câu hỏi..." class="w-full bg-slate-900 border border-slate-700 rounded-xl p-3 text-xs text-slate-200"></textarea>
+                            <textarea id="modal-q-text" rows="2" placeholder="Nhập câu hỏi..." class="w-full bg-slate-900 border border-slate-700 rounded-xl p-3 text-xs text-slate-200 outline-none focus:border-cyan-400"></textarea>
                         </div>
 
                         <div id="modal-options-container" class="space-y-2">
@@ -1736,7 +1192,7 @@
                                 <input type="text" id="modal-opt-3" placeholder="Đáp án D" class="bg-slate-900 border border-slate-700 rounded-xl p-2.5 text-xs text-slate-200">
                             </div>
                             <div class="pt-1">
-                                <label class="block text-xs font-semibold text-slate-300 mb-1">Đáp án đúng (Chọn số thứ tự 0-3 tương ứng A-D):</label>
+                                <label class="block text-xs font-semibold text-slate-300 mb-1">Đáp án đúng (0=A, 1=B, 2=C, 3=D):</label>
                                 <select id="modal-q-correct" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-3 py-2 text-xs text-slate-200">
                                     <option value="0">Đáp án A</option>
                                     <option value="1">Đáp án B</option>
@@ -1753,7 +1209,7 @@
 
                         <div>
                             <label class="block text-xs font-semibold text-slate-300 mb-1">Giải thích chi tiết</label>
-                            <input type="text" id="modal-q-exp" placeholder="Giải thích..." class="w-full bg-slate-900 border border-slate-700 rounded-xl p-2.5 text-xs text-slate-200">
+                            <input type="text" id="modal-q-exp" placeholder="Giải thích đáp án..." class="w-full bg-slate-900 border border-slate-700 rounded-xl p-2.5 text-xs text-slate-200">
                         </div>
 
                         <div class="flex justify-end gap-2 pt-2">
@@ -1765,10 +1221,7 @@
         }
 
         function openAddQuestionModal() {
-            if (currentEditingQuestions.length >= 20) {
-                showCustomModal("Giới Hạn", "Mỗi bài học/unit chỉ được tối đa 20 câu hỏi!");
-                return;
-            }
+            if (currentEditingQuestions.length >= 20) { showCustomModal("Giới Hạn", "Tối đa 20 câu hỏi cho mỗi bài học!"); return; }
             document.getElementById('question-modal').classList.remove('hidden');
             document.getElementById('question-modal').classList.add('flex');
         }
@@ -1793,15 +1246,9 @@
                 document.getElementById('modal-opt-1').value = "Sai";
                 document.getElementById('modal-opt-2').value = "";
                 document.getElementById('modal-opt-3').value = "";
-                document.getElementById('modal-opt-2').parentElement.parentElement.style.display = 'none';
             } else {
                 essayContainer.classList.add('hidden');
                 optContainer.classList.remove('hidden');
-                document.getElementById('modal-opt-2').parentElement.parentElement.style.display = 'grid';
-                document.getElementById('modal-opt-0').value = "";
-                document.getElementById('modal-opt-1').value = "";
-                document.getElementById('modal-opt-2').value = "";
-                document.getElementById('modal-opt-3').value = "";
             }
         }
 
@@ -1868,11 +1315,6 @@
             const lessonTitle = document.getElementById('upload-lesson-title').value.trim();
             const theory = document.getElementById('upload-theory').value;
 
-            if (currentEditingQuestions.length > 20) {
-                showCustomModal("Lỗi", "Số lượng câu hỏi vượt quá giới hạn 20 câu/unit!");
-                return;
-            }
-
             let data = globalData;
             let sub = data[subjectId];
             if (!sub.units) sub.units = [];
@@ -1894,20 +1336,473 @@
                 essays: essays
             });
 
-            saveAppData(data);
-            currentEditingQuestions = [];
-            showCustomModal("Hoàn Tất", "Đã đăng bài học kèm câu hỏi lên Firebase Cloud!");
-            setTimeout(() => { closeModal(); router.navigate('subject', {subjectId: subjectId}); }, 1500);
+            db.ref('eduspace_data').set(data).then(() => {
+                currentEditingQuestions = [];
+                showCustomModal("Hoàn Tất", "Đã đăng bài học thành công lên Firebase Cloud!");
+                setTimeout(() => { closeModal(); router.navigate('subject', {subjectId: subjectId}); }, 1500);
+            });
         }
 
-        function renderContact() {
-            return `<div class="max-w-2xl mx-auto text-center glass-card p-10 rounded-3xl border border-cyan-500/30 space-y-4"><h2 class="text-3xl font-bold text-white">Hỗ Trợ 24/7</h2><p class="text-slate-300">SĐT: 0981128536 | Email: hoangphihung2k11@gmail.com</p></div>`;
+        function renderContact() { return `<div class="max-w-2xl mx-auto text-center glass-card p-10 rounded-3xl border border-cyan-500/30 space-y-4"><h2 class="text-3xl font-bold text-white">Hỗ Trợ 24/7</h2><p class="text-slate-300">SĐT: 0981128536 | Email: hoangphihung2k11@gmail.com</p></div>`; }
+
+        function renderChessSection() {
+            const myProfile = getCurrentUserProfile();
+            const myFriends = myProfile.friends || {};
+
+            return `
+                <div class="space-y-8 animate-fadeIn">
+                    <div class="glass-card p-5 rounded-3xl border border-amber-500/30 flex flex-col md:flex-row items-center justify-between gap-4">
+                        <div>
+                            <h2 class="text-xl font-extrabold text-white flex items-center gap-2"><i class="fa-solid fa-chess-knight text-amber-400"></i> Cờ Vua Đấu Bạn Bè & Offline</h2>
+                            <p class="text-xs text-slate-400 mt-1">Mời bạn bè chơi chung trực tuyến hoặc luyện tập.</p>
+                        </div>
+                        <div class="flex items-center gap-2">
+                            <select id="chess-friend-select" class="bg-slate-900 border border-slate-700 rounded-xl px-3 py-2 text-xs text-slate-200">
+                                <option value="">-- Chọn bạn bè để mời --</option>
+                                ${Object.keys(myFriends).map(fKey => {
+                                    const fUser = globalUsers[fKey] || {};
+                                    return `<option value="${fKey}">${fUser.name || fKey}</option>`;
+                                }).join('')}
+                            </select>
+                            <button onclick="sendChessInvite()" class="px-4 py-2 rounded-xl bg-amber-500 text-slate-950 font-bold text-xs shadow-neon">Gửi Lời Mời</button>
+                        </div>
+                    </div>
+                    <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
+                        <div class="lg:col-span-8 space-y-4 flex flex-col items-center">
+                            <div class="w-full flex justify-between items-center bg-slate-900/80 px-4 py-2.5 rounded-2xl border border-slate-800 text-xs">
+                                <span class="text-slate-300 font-semibold">Lượt đánh: <strong id="chess-turn-indicator" class="text-cyan-400 font-bold">TRẮNG</strong></span>
+                                <span id="chess-status-text" class="text-slate-400">Đang chơi...</span>
+                            </div>
+                            <div id="chess-board" class="chess-grid"></div>
+                            <div class="grid grid-cols-3 gap-3 w-full max-w-md pt-2">
+                                <button onclick="handleChessResign()" class="py-3 px-4 rounded-xl bg-rose-500/10 hover:bg-rose-500/20 text-rose-400 font-bold border border-rose-500/30 transition text-xs"><i class="fa-solid fa-flag mr-1"></i> Đầu Hàng</button>
+                                <button onclick="handleChessDraw()" class="py-3 px-4 rounded-xl bg-amber-500/10 hover:bg-amber-500/20 text-amber-400 font-bold border border-amber-500/30 transition text-xs"><i class="fa-solid fa-handshake mr-1"></i> Xin Hòa</button>
+                                <button onclick="resetChessGame()" class="py-3 px-4 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-200 font-bold border border-slate-700 transition text-xs"><i class="fa-solid fa-rotate-right mr-1"></i> Bàn Cờ Mới</button>
+                            </div>
+                        </div>
+                        <div class="lg:col-span-4 glass-card p-5 rounded-2xl border border-slate-800 h-[380px] flex flex-col">
+                            <h4 class="text-xs font-bold text-slate-300 border-b border-slate-800 pb-2 mb-2 flex items-center justify-between">
+                                <span><i class="fa-solid fa-list-ol text-cyan-400 mr-1"></i> Lịch Sử Nước Đi</span>
+                                <span id="move-count-badge" class="text-[10px] bg-slate-800 px-2 py-0.5 rounded text-slate-400 font-mono">0 nước</span>
+                            </h4>
+                            <div id="move-history" class="flex-grow overflow-y-auto space-y-1 text-xs font-mono pr-1">
+                                <p class="text-slate-500 italic text-center py-4">Chưa có nước đi nào</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>`;
         }
 
-        window.onload = function() {
-            initFirebaseListeners();
-            router.navigate('home');
-        };
+        function sendChessInvite() {
+            const friendKey = document.getElementById('chess-friend-select').value;
+            if (!friendKey) { showCustomModal("Lỗi", "Vui lòng chọn bạn bè để mời!"); return; }
+            const senderProfile = getCurrentUserProfile();
+            const inviteId = 'chess_' + Date.now();
+
+            db.ref(`eduspace_notifications/${friendKey}/${inviteId}`).set({
+                type: 'chess_invite',
+                senderKey: cleanKey(currentAuthUser),
+                senderName: senderProfile.name,
+                timestamp: Date.now()
+            }).then(() => {
+                showCustomModal("Thành Công", "Đã gửi lời mời chơi cờ đến bạn của bạn!");
+            });
+        }
+
+        function initChessSection() {
+            chessGame.reset();
+            selectedSquare = null;
+            validMoves = [];
+            renderChessBoard();
+            updateChessUI();
+        }
+
+        function renderChessBoard() {
+            const boardElement = document.getElementById('chess-board');
+            if (!boardElement) return;
+            boardElement.innerHTML = '';
+            const board = chessGame.board();
+
+            for (let r = 0; r < 8; r++) {
+                for (let c = 0; c < 8; c++) {
+                    const squareSquare = String.fromCharCode(97 + c) + (8 - r);
+                    const piece = board[r][c];
+                    const squareDiv = document.createElement('div');
+                    squareDiv.className = `square ${(r + c) % 2 === 0 ? 'light' : 'dark'}`;
+                    squareDiv.dataset.square = squareSquare;
+
+                    if (selectedSquare === squareSquare) squareDiv.classList.add('selected');
+                    if (validMoves.includes(squareSquare)) {
+                        if (piece) squareDiv.classList.add('possible-capture');
+                        else squareDiv.classList.add('possible-move');
+                    }
+
+                    if (piece) {
+                        const span = document.createElement('span');
+                        const isWhite = piece.color === 'w';
+                        span.className = `piece ${isWhite ? 'white-piece' : 'black-piece'}`;
+                        span.textContent = PIECE_SYMBOLS[piece.type.toUpperCase()];
+                        squareDiv.appendChild(span);
+                    }
+
+                    squareDiv.addEventListener('click', () => handleChessSquareClick(squareSquare));
+                    boardElement.appendChild(squareDiv);
+                }
+            }
+        }
+
+        function handleChessSquareClick(square) {
+            const pieceOnSquare = chessGame.get(square);
+            const currentTurn = chessGame.turn();
+
+            if (selectedSquare) {
+                if (selectedSquare === square) { selectedSquare = null; validMoves = []; renderChessBoard(); return; }
+                const moves = chessGame.moves({ square: selectedSquare, verbose: true });
+                const isLegal = moves.some(m => m.to === square);
+
+                if (isLegal) {
+                    chessGame.move({ from: selectedSquare, to: square, promotion: 'q' });
+                    selectedSquare = null; validMoves = [];
+                    renderChessBoard(); updateChessUI();
+                    return;
+                }
+            }
+
+            if (pieceOnSquare && pieceOnSquare.color === currentTurn) {
+                selectedSquare = square;
+                validMoves = chessGame.moves({ square: square, verbose: true }).map(m => m.to);
+            } else {
+                selectedSquare = null; validMoves = [];
+            }
+            renderChessBoard();
+        }
+
+        function updateChessUI() {
+            const turnEl = document.getElementById('chess-turn-indicator');
+            const historyEl = document.getElementById('move-history');
+            const countEl = document.getElementById('move-count-badge');
+            if (turnEl) {
+                const isWhite = chessGame.turn() === 'w';
+                turnEl.innerText = isWhite ? 'TRẮNG' : 'ĐEN';
+            }
+            if (historyEl && countEl) {
+                const history = chessGame.history();
+                countEl.innerText = `${history.length} nước`;
+                if (history.length === 0) {
+                    historyEl.innerHTML = `<p class="text-slate-500 italic text-center py-4">Chưa có nước đi nào</p>`;
+                } else {
+                    let html = '<div class="grid grid-cols-2 gap-x-2 gap-y-1">';
+                    for (let i = 0; i < history.length; i += 2) {
+                        html += `<div class="text-slate-400">${Math.floor(i/2)+1}. <span class="text-cyan-300">${history[i]}</span></div><div class="text-rose-300">${history[i+1]||''}</div>`;
+                    }
+                    html += '</div>';
+                    historyEl.innerHTML = html;
+                }
+            }
+        }
+
+        function handleChessResign() { showCustomModal("Đầu Hàng", "Bạn đã đầu hàng!", [{text: "Ván Mới", class:"bg-cyan-500 text-slate-950 font-bold", onClick: ()=>{closeModal(); resetChessGame();}}]); }
+        function handleChessDraw() { showCustomModal("Hòa Cờ", "Ván đấu hòa!", [{text: "Ván Mới", class:"bg-cyan-500 text-slate-950 font-bold", onClick: ()=>{closeModal(); resetChessGame();}}]); }
+        function resetChessGame() { chessGame.reset(); selectedSquare = null; validMoves = []; renderChessBoard(); updateChessUI(); }
+
+        // ========================== MESSENGER CLOUD (BẢO MẬT TUYỆT ĐỐI & QUẢN TRỊ NHÓM) ==========================
+        function renderMessengerLayout() {
+            return `
+                <div class="glass-card rounded-3xl border border-cyan-500/30 overflow-hidden shadow-neon-lg h-[82vh] flex flex-col md:flex-row animate-fadeIn">
+                    <div class="w-full md:w-80 border-r border-slate-800 bg-slate-950/60 flex flex-col shrink-0">
+                        <div class="p-4 border-b border-slate-800 flex items-center justify-between">
+                            <h3 class="font-extrabold text-base text-white">Đoạn chat Cloud</h3>
+                            <div class="flex gap-1.5">
+                                <button onclick="toggleAddFriendModal()" class="p-2 rounded-xl bg-slate-800 text-cyan-400 text-xs" title="Kết bạn qua ID"><i class="fa-solid fa-user-plus"></i></button>
+                                <button onclick="toggleCreateGroupModal()" class="px-2.5 py-1 rounded-xl bg-cyan-500/20 text-cyan-400 border border-cyan-500/30 text-xs font-bold">Tạo Nhóm</button>
+                            </div>
+                        </div>
+                        <div id="chat-channels-list" class="flex-grow overflow-y-auto p-2 space-y-1"></div>
+                    </div>
+                    <div class="flex-grow flex flex-col bg-slate-900/40 relative">
+                        <div class="p-4 border-b border-slate-800 bg-slate-950/80 flex items-center justify-between">
+                            <div class="flex items-center gap-2">
+                                <h4 id="chat-header-title" class="font-bold text-sm text-white">Kênh Chat Chung</h4>
+                                <div id="group-action-area" class="flex items-center gap-2"></div>
+                            </div>
+                            <span class="text-[10px] text-emerald-400 flex items-center gap-1"><span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span> Online</span>
+                        </div>
+                        <div id="chat-messages-container" class="flex-grow p-4 overflow-y-auto space-y-3 text-sm"></div>
+                        <form onsubmit="handleSendMessengerMessage(event)" class="p-3 border-t border-slate-800 bg-slate-950/80 flex items-center gap-2">
+                            <input type="text" id="chat-input-text" placeholder="Nhập tin nhắn..." autocomplete="off" class="flex-grow bg-slate-900 border border-slate-800 rounded-full px-4 py-2.5 text-xs text-slate-200 outline-none focus:border-cyan-400">
+                            <button type="submit" class="w-10 h-10 rounded-full bg-cyan-400 text-slate-950 flex items-center justify-center text-xs shadow-neon"><i class="fa-solid fa-paper-plane"></i></button>
+                        </form>
+                    </div>
+                </div>`;
+        }
+
+        function initMessengerSystem() { renderChatChannelsSidebar(); switchChatChannel('global'); }
+
+        function renderChatChannelsSidebar() {
+            const container = document.getElementById('chat-channels-list');
+            if (!container) return;
+
+            const myKey = cleanKey(currentAuthUser);
+            const myProfile = getCurrentUserProfile();
+            const myFriends = myProfile.friends || {};
+
+            let html = `
+                <div class="px-3 pt-2 pb-1 text-[10px] font-bold text-slate-400 uppercase">Kênh Chung & Nhóm Riêng</div>
+                <div onclick="switchChatChannel('global')" class="p-2.5 rounded-2xl cursor-pointer transition flex items-center gap-3 ${activeChatChannel === 'global' ? 'bg-cyan-500/20 border border-cyan-500/40' : 'hover:bg-slate-800'}">
+                    <div class="w-9 h-9 rounded-xl bg-cyan-500/20 text-cyan-400 flex items-center justify-center"><i class="fa-solid fa-globe"></i></div>
+                    <div><h5 class="font-bold text-xs text-white">Kênh Chung</h5></div>
+                </div>`;
+
+            // BẢO MẬT TUYỆT ĐỐI: CHỈ HIỂN THỊ NHÓM MÀ USER LÀ THÀNH VIÊN
+            Object.entries(globalGroups).forEach(([gId, g]) => {
+                const members = g.members || {};
+                if (members[myKey]) {
+                    html += `
+                        <div onclick="switchChatChannel('${gId}')" class="p-2.5 rounded-2xl cursor-pointer transition flex items-center gap-3 ${activeChatChannel === gId ? 'bg-cyan-500/20 border border-cyan-500/40' : 'hover:bg-slate-800'}">
+                            <div class="w-9 h-9 rounded-xl bg-blue-500/20 text-blue-400 flex items-center justify-center"><i class="fa-solid fa-users"></i></div>
+                            <div class="truncate"><h5 class="font-bold text-xs text-white truncate">${g.name}</h5></div>
+                        </div>`;
+                }
+            });
+
+            // DANH SÁCH BẠN BÈ
+            html += `<div class="px-3 pt-4 pb-1 text-[10px] font-bold text-slate-400 uppercase">Bạn Bè (${Object.keys(myFriends).length})</div>`;
+
+            if (Object.keys(myFriends).length === 0) {
+                html += `<p class="text-[11px] text-slate-500 italic px-3 py-1">Chưa có bạn bè nào.</p>`;
+            } else {
+                Object.keys(myFriends).forEach(fKey => {
+                    const fUser = globalUsers[fKey] || { name: fKey, avatar: '' };
+                    const channelKey = [myKey, fKey].sort().join('_');
+                    const avatarContent = fUser.avatar ? `<img src="${fUser.avatar}" class="w-full h-full object-cover">` : `<span class="font-bold text-xs">${(fUser.name || fKey).charAt(0).toUpperCase()}</span>`;
+
+                    html += `
+                        <div onclick="switchChatChannel('private_${channelKey}')" class="p-2 rounded-xl cursor-pointer transition flex items-center gap-3 ${activeChatChannel === 'private_' + channelKey ? 'bg-cyan-500/20 border border-cyan-500/40' : 'hover:bg-slate-800'}">
+                            <div class="w-8 h-8 rounded-lg bg-slate-800 text-cyan-400 flex items-center justify-center overflow-hidden shrink-0 cursor-pointer" onclick="event.stopPropagation(); showUserProfile('${fKey}')">
+                                ${avatarContent}
+                            </div>
+                            <div class="truncate"><h5 class="font-bold text-xs text-white truncate">${fUser.name || fKey}</h5></div>
+                        </div>`;
+                });
+            }
+
+            container.innerHTML = html;
+        }
+
+        function switchChatChannel(cId) {
+            activeChatChannel = cId;
+            renderChatChannelsSidebar();
+
+            const headerTitle = document.getElementById('chat-header-title');
+            const actionArea = document.getElementById('group-action-area');
+            if (actionArea) actionArea.innerHTML = '';
+
+            const myKey = cleanKey(currentAuthUser);
+
+            if (cId === 'global') {
+                if (headerTitle) headerTitle.innerText = "Kênh Chat Chung";
+            } else if (cId.startsWith('private_')) {
+                const keys = cId.replace('private_', '').split('_');
+                const friendKey = keys.find(k => k !== myKey) || keys[0];
+                const fUser = globalUsers[friendKey] || {};
+                if (headerTitle) headerTitle.innerText = `Chat riêng với: ${fUser.name || friendKey}`;
+            } else if (globalGroups[cId]) {
+                const g = globalGroups[cId];
+                if (headerTitle) headerTitle.innerText = `Nhóm: ${g.name}`;
+                
+                const isCreator = g.createdBy === currentAuthUser;
+                const isAdmin = (g.admins && g.admins[myKey]) || isCreator || isSuperAdmin();
+                
+                let actionHtml = '';
+                if (isAdmin) {
+                    actionHtml += `<button onclick="toggleAddMemberModal()" class="px-2.5 py-1 rounded-lg bg-cyan-500/20 text-cyan-300 border border-cyan-500/30 text-[10px] font-bold hover:bg-cyan-500 hover:text-slate-950"><i class="fa-solid fa-user-plus mr-1"></i> Thêm</button>`;
+                    actionHtml += `<button onclick="toggleGroupSettingsModal()" class="px-2 py-1 rounded-lg bg-slate-800 text-slate-300 border border-slate-700 text-[10px] font-bold hover:bg-slate-700" title="Cài đặt nhóm / Cấp quyền"><i class="fa-solid fa-ellipsis-vertical"></i></button>`;
+                }
+                if (isCreator || isSuperAdmin()) {
+                    actionHtml += `<button onclick="deleteGroup('${cId}')" class="px-2.5 py-1 rounded-lg bg-rose-500/20 text-rose-400 border border-rose-500/30 text-[10px] font-bold hover:bg-rose-500 hover:text-white" title="Xóa nhóm"><i class="fa-solid fa-trash"></i></button>`;
+                }
+                if (actionArea) actionArea.innerHTML = actionHtml;
+            }
+
+            renderChatMessagesList();
+        }
+
+        function deleteGroup(gId) {
+            showCustomModal("Xác Nhận Xóa Nhóm", "Bạn có chắc chắn muốn xóa vĩnh viễn nhóm chat này không?", [
+                { text: "Hủy", class: "bg-slate-800 text-slate-300", onClick: closeModal },
+                { text: "Xóa Nhóm", class: "bg-rose-500 text-white font-bold", onClick: () => {
+                    db.ref(`eduspace_chat_groups/${gId}`).remove().then(() => {
+                        db.ref(`eduspace_chat_channels/${gId}`).remove().then(() => {
+                            closeModal();
+                            switchChatChannel('global');
+                        });
+                    });
+                }}
+            ]);
+        }
+
+        function renderChatMessagesList() {
+            const container = document.getElementById('chat-messages-container');
+            if (!container) return;
+            db.ref(`eduspace_chat_channels/${activeChatChannel}`).limitToLast(100).on('value', (s) => {
+                const data = s.val();
+                if (!data) { container.innerHTML = `<p class="text-slate-500 italic text-center py-10">Chưa có tin nhắn nào.</p>`; return; }
+                container.innerHTML = Object.entries(data).map(([k, m]) => `
+                    <div class="flex flex-col ${m.sender === currentAuthUser ? 'items-end' : 'items-start'} space-y-1">
+                        <span class="text-[10px] text-slate-400">${m.senderName || m.sender}</span>
+                        <div class="p-3 rounded-2xl text-xs ${m.sender === currentAuthUser ? 'bg-cyan-500 text-slate-950 font-medium' : 'bg-slate-800 text-slate-200'}">${m.text}</div>
+                    </div>`).join('');
+                container.scrollTop = container.scrollHeight;
+            });
+        }
+
+        function handleSendMessengerMessage(e) {
+            e.preventDefault();
+            const input = document.getElementById('chat-input-text');
+            const text = input.value.trim();
+            if (!text) return;
+            const profile = getCurrentUserProfile();
+            db.ref(`eduspace_chat_channels/${activeChatChannel}`).push({ 
+                sender: currentAuthUser, 
+                senderName: profile.name || currentAuthUser,
+                text: text, 
+                timestamp: Date.now() 
+            });
+            input.value = '';
+        }
+
+        function toggleCreateGroupModal() {
+            const modal = document.getElementById('create-group-modal');
+            modal.classList.toggle('hidden');
+            modal.classList.toggle('flex');
+
+            if (!modal.classList.contains('hidden')) {
+                const listEl = document.getElementById('group-friends-checkbox-list');
+                const myProfile = getCurrentUserProfile();
+                const myFriends = myProfile.friends || {};
+
+                if (Object.keys(myFriends).length === 0) {
+                    listEl.innerHTML = `<p class="text-slate-500 italic text-center">Bạn chưa có bạn bè nào để thêm.</p>`;
+                } else {
+                    listEl.innerHTML = Object.keys(myFriends).map(fKey => {
+                        const fUser = globalUsers[fKey] || {};
+                        return `
+                            <label class="flex items-center gap-2 cursor-pointer hover:bg-slate-800 p-1.5 rounded-lg">
+                                <input type="checkbox" name="create_group_members" value="${fKey}" class="accent-cyan-400">
+                                <span class="text-slate-200 font-medium">${fUser.name || fKey}</span>
+                            </label>`;
+                    }).join('');
+                }
+            }
+        }
+
+        function handleCreateGroup(e) {
+            e.preventDefault();
+            const name = document.getElementById('group-name-input').value.trim();
+            const id = 'group_' + Date.now();
+            const myKey = cleanKey(currentAuthUser);
+
+            const members = {};
+            members[myKey] = true;
+
+            const admins = {};
+            admins[myKey] = true; // Người tạo mặc định là admin nhóm
+
+            const checkboxes = document.querySelectorAll('input[name="create_group_members"]:checked');
+            checkboxes.forEach(cb => { members[cb.value] = true; });
+
+            db.ref(`eduspace_chat_groups/${id}`).set({ 
+                id: id, 
+                name: name, 
+                createdBy: currentAuthUser, 
+                members: members,
+                admins: admins
+            }).then(() => { 
+                toggleCreateGroupModal(); 
+                switchChatChannel(id); 
+            });
+        }
+
+        function toggleAddMemberModal() {
+            const modal = document.getElementById('add-member-modal');
+            modal.classList.toggle('hidden');
+            modal.classList.toggle('flex');
+
+            if (!modal.classList.contains('hidden')) {
+                const listEl = document.getElementById('add-member-friends-list');
+                const myProfile = getCurrentUserProfile();
+                const myFriends = myProfile.friends || {};
+                const currentGroup = globalGroups[activeChatChannel] || {};
+                const currentMembers = currentGroup.members || {};
+
+                const nonMembers = Object.keys(myFriends).filter(fKey => !currentMembers[fKey]);
+
+                if (nonMembers.length === 0) {
+                    listEl.innerHTML = `<p class="text-slate-500 italic text-center py-2">Tất cả bạn bè đã có trong nhóm.</p>`;
+                } else {
+                    listEl.innerHTML = nonMembers.map(fKey => {
+                        const fUser = globalUsers[fKey] || {};
+                        return `
+                            <label class="flex items-center gap-2 cursor-pointer hover:bg-slate-800 p-1.5 rounded-lg">
+                                <input type="checkbox" name="add_group_members" value="${fKey}" class="accent-cyan-400">
+                                <span class="text-slate-200 font-medium">${fUser.name || fKey}</span>
+                            </label>`;
+                    }).join('');
+                }
+            }
+        }
+
+        function handleAddMemberToGroupSubmit() {
+            const checkboxes = document.querySelectorAll('input[name="add_group_members"]:checked');
+            if (checkboxes.length === 0) { showCustomModal("Lỗi", "Vui lòng chọn ít nhất 1 bạn bè!"); return; }
+
+            const updates = {};
+            checkboxes.forEach(cb => { updates[`eduspace_chat_groups/${activeChatChannel}/members/${cb.value}`] = true; });
+
+            db.ref().update(updates).then(() => {
+                toggleAddMemberModal();
+                showCustomModal("Thành Công", "Đã thêm thành viên vào nhóm!");
+                renderChatChannelsSidebar();
+            });
+        }
+
+        function toggleGroupSettingsModal() {
+            const modal = document.getElementById('group-settings-modal');
+            modal.classList.toggle('hidden');
+            modal.classList.toggle('flex');
+
+            if (!modal.classList.contains('hidden')) {
+                const listEl = document.getElementById('group-members-setting-list');
+                const group = globalGroups[activeChatChannel] || {};
+                const members = group.members || {};
+                const admins = group.admins || {};
+                const isCreator = group.createdBy === currentAuthUser;
+
+                listEl.innerHTML = Object.keys(members).map(mKey => {
+                    const u = globalUsers[mKey] || { name: mKey };
+                    const isAdmin = admins[mKey];
+                    return `
+                        <div class="flex items-center justify-between p-2 rounded-xl bg-slate-900 border border-slate-800">
+                            <div>
+                                <span class="text-white font-bold">${u.name || mKey}</span>
+                                ${isAdmin ? '<span class="ml-2 px-1.5 py-0.5 rounded bg-cyan-500/20 text-cyan-300 text-[10px]">Quản trị viên</span>' : ''}
+                            </div>
+                            ${(isCreator || isSuperAdmin()) && !isAdmin ? `<button onclick="promoteToGroupAdmin('${activeChatChannel}', '${mKey}')" class="px-2.5 py-1 rounded bg-cyan-500 text-slate-950 font-bold text-[10px]">Cấp Quyền Admin</button>` : ''}
+                        </div>`;
+                }).join('');
+            }
+        }
+
+        function promoteToGroupAdmin(gId, memberKey) {
+            db.ref(`eduspace_chat_groups/${gId}/admins/${memberKey}`).set(true).then(() => {
+                toggleGroupSettingsModal();
+                showCustomModal("Thành Công", "Đã cấp quyền quản trị nhóm cho thành viên!");
+            });
+        }
+
+        function toggleAddFriendModal() { document.getElementById('add-friend-modal').classList.toggle('hidden'); document.getElementById('add-friend-modal').classList.toggle('flex'); }
+
+        window.onload = function() { initFirebaseListeners(); router.navigate('home'); };
     </script>
 </body>
 </html>
