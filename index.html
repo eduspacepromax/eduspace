@@ -116,6 +116,63 @@
         ::-webkit-scrollbar-track { background: #0b0f19; }
         ::-webkit-scrollbar-thumb { background: #1f2937; border-radius: 4px; }
         ::-webkit-scrollbar-thumb:hover { background: #00f2fe; }
+
+        /* EFFCTS DANH HIỆU ĐẸP & CẦU VỒNG 7 SẮC */
+        @keyframes rainbowAnimation {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        .title-badge {
+            display: inline-flex;
+            align-items: center;
+            padding: 2px 8px;
+            border-radius: 8px;
+            font-size: 10px;
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.3);
+            white-space: nowrap;
+        }
+
+        .title-rainbow {
+            background: linear-gradient(90deg, #ff0000, #ff7f00, #ffff00, #00ff00, #0000ff, #4b0082, #8b00ff, #ff0000);
+            background-size: 200% 200%;
+            color: #ffffff;
+            text-shadow: 0 0 4px rgba(0,0,0,0.8);
+            animation: rainbowAnimation 3s linear infinite;
+            border: 1px solid rgba(255, 255, 255, 0.4);
+        }
+
+        .title-neon {
+            background: rgba(0, 242, 254, 0.15);
+            color: #00f2fe;
+            border: 1px solid #00f2fe;
+            box-shadow: 0 0 10px rgba(0, 242, 254, 0.4);
+        }
+
+        .title-gold {
+            background: linear-gradient(135deg, #bf953f, #fcf6ba, #b38728, #fbf5b7);
+            color: #1a1200;
+            border: 1px solid #ffe57f;
+            box-shadow: 0 0 10px rgba(255, 215, 0, 0.5);
+        }
+
+        .title-fire {
+            background: linear-gradient(90deg, #ff416c, #ff4b2b);
+            color: #ffffff;
+            border: 1px solid #ff758c;
+            box-shadow: 0 0 10px rgba(255, 75, 43, 0.5);
+        }
+
+        .title-purple {
+            background: linear-gradient(90deg, #8a2387, #e94057, #f27121);
+            color: #ffffff;
+            border: 1px solid #f27121;
+            box-shadow: 0 0 10px rgba(233, 64, 87, 0.5);
+        }
     </style>
 </head>
 <body class="bg-darkBg text-slate-100 min-h-screen flex flex-col selection:bg-cyan-500 selection:text-white theme-neon">
@@ -235,7 +292,7 @@
         </div>
     </div>
 
-    <!-- MODAL XEM THÔNG TIN TÀI KHOẢN & HỦY KẾT BẠN -->
+    <!-- MODAL XEM THÔNG TIN TÀI KHOẢN & KẾT BẠN TRỰC TIẾP -->
     <div id="user-info-modal" class="fixed inset-0 z-50 hidden items-center justify-center bg-black/80 backdrop-blur-sm p-4">
         <div class="glass-card max-w-sm w-full p-6 rounded-3xl border border-cyan-500/40 shadow-neon-lg text-center space-y-4">
             <div id="modal-user-avatar-wrap" class="w-20 h-20 rounded-2xl bg-cyan-500/20 text-cyan-400 mx-auto flex items-center justify-center text-3xl overflow-hidden border border-cyan-500/40 shadow-neon">
@@ -243,6 +300,7 @@
             </div>
             <div>
                 <h3 id="modal-user-name" class="text-xl font-extrabold text-white">Tên người dùng</h3>
+                <div id="modal-user-title-badge" class="mt-1"></div>
                 <p class="text-xs text-slate-400 mt-1">ID: <strong id="modal-user-id" class="text-cyan-400 font-mono">id_xyz</strong></p>
             </div>
             <div id="modal-friend-action-area" class="pt-2"></div>
@@ -261,6 +319,27 @@
                 <label class="block text-xs font-semibold text-slate-300">Nhập Mã ID Của Bạn Bè</label>
                 <input type="text" id="friend-id-input" placeholder="Ví dụ: id_xyz123" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-3 py-2.5 text-xs text-slate-200 outline-none focus:border-cyan-400">
                 <button onclick="sendFriendRequest()" class="w-full py-3 rounded-xl bg-gradient-to-r from-cyan-500 to-blue-600 text-white font-bold text-xs shadow-neon">Gửi Lời Mời Kết Bạn</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- MODAL CẤP DANH HIỆU BẰNG ID (DÀNH CHO SUPER ADMIN) -->
+    <div id="give-title-modal" class="fixed inset-0 z-50 hidden items-center justify-center bg-black/80 backdrop-blur-sm p-4">
+        <div class="glass-card max-w-md w-full p-6 rounded-3xl border border-cyan-500/40 shadow-neon-lg space-y-4">
+            <div class="flex items-center justify-between border-b border-slate-800 pb-3">
+                <h3 class="font-bold text-base text-white flex items-center gap-2"><i class="fa-solid fa-award text-amber-400"></i> Cấp Danh Hiệu Qua ID</h3>
+                <button onclick="toggleGiveTitleModal()" class="text-slate-400 hover:text-white"><i class="fa-solid fa-xmark text-lg"></i></button>
+            </div>
+            <div class="space-y-3">
+                <div>
+                    <label class="block text-xs font-semibold text-slate-300 mb-1">Mã ID Người Nhận</label>
+                    <input type="text" id="give-title-target-id" placeholder="Nhập ID người dùng (vd: id_abc123)..." class="w-full bg-slate-900 border border-slate-700 rounded-xl px-3 py-2.5 text-xs text-slate-200 outline-none focus:border-cyan-400">
+                </div>
+                <div>
+                    <label class="block text-xs font-semibold text-slate-300 mb-1">Chọn Danh Hiệu Đã Tạo</label>
+                    <select id="give-title-select" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-3 py-2.5 text-xs text-slate-200"></select>
+                </div>
+                <button onclick="submitGiveTitleToUser()" class="w-full py-3 rounded-xl bg-gradient-to-r from-amber-500 to-orange-600 text-slate-950 font-bold text-xs shadow-neon">Trao Danh Hiệu Ngay</button>
             </div>
         </div>
     </div>
@@ -399,6 +478,7 @@
         let globalUsers = {};
         let globalProgress = {};
         let globalGroups = {};
+        let globalTitles = {};
         let activeChatChannel = 'global';
         let currentEditingQuestions = [];
 
@@ -564,12 +644,22 @@
 
         function cleanKey(str) { return str ? str.replace(/[\.\#\$\[\]]/g, "_") : "guest"; }
 
-        // Kiểm tra quyền Super Admin tối cao cho Hoàng Phi Hùng
         function isSuperAdmin() {
             if (!currentAuthUser || currentAuthUser === 'Khách') return false;
             const clean = cleanKey(currentAuthUser);
-            const user = globalUsers[clean] || {};
             return currentAuthUser === 'hoangphihung2k11@gmail.com' || currentAuthUser === 'hoangphihung' || clean === 'hoangphihung2k11_gmail_com';
+        }
+
+        function renderTitleBadge(titleObj) {
+            if (!titleObj) return '';
+            const styleClass = titleObj.style || 'title-neon';
+            return `<span class="title-badge ${styleClass}">${titleObj.text}</span>`;
+        }
+
+        function getUserActiveTitleHtml(userKey) {
+            const user = globalUsers[userKey];
+            if (!user || !user.activeTitleKey || !globalTitles[user.activeTitleKey]) return '';
+            return renderTitleBadge(globalTitles[user.activeTitleKey]);
         }
 
         function initFirebaseListeners() {
@@ -582,6 +672,7 @@
             });
             db.ref('eduspace_progress').on('value', (s) => { globalProgress = s.val() || {}; if (router.currentView === 'home') render(); });
             db.ref('eduspace_chat_groups').on('value', (s) => { globalGroups = s.val() || {}; if (router.currentView === 'chat') renderChatChannelsSidebar(); });
+            db.ref('eduspace_titles').on('value', (s) => { globalTitles = s.val() || {}; if (router.currentView === 'profile') render(); });
             
             if (currentAuthUser && currentAuthUser !== 'Khách') {
                 db.ref(`eduspace_notifications/${cleanKey(currentAuthUser)}`).on('value', (s) => {
@@ -612,7 +703,7 @@
 
         function getCurrentUserProfile() {
             const clean = cleanKey(currentAuthUser);
-            const user = globalUsers[clean] || { name: currentAuthUser, id: '', avatar: '', friends: {} };
+            const user = globalUsers[clean] || { name: currentAuthUser, id: '', avatar: '', friends: {}, activeTitleKey: '', ownedTitles: {} };
             if (!user.id) {
                 user.id = 'id_' + Math.random().toString(36).substring(2, 8);
                 db.ref(`eduspace_users/${clean}/id`).set(user.id);
@@ -626,10 +717,15 @@
             if (currentAuthUser && currentAuthUser !== 'Khách') {
                 const profile = getCurrentUserProfile();
                 const avatarHtml = profile.avatar ? `<img src="${profile.avatar}" class="w-7 h-7 rounded-lg object-cover cursor-pointer" onclick="router.navigate('profile')">` : `<div class="w-7 h-7 rounded-lg bg-gradient-to-tr from-cyan-500 to-blue-600 text-white flex items-center justify-center font-bold text-xs shadow-neon cursor-pointer" onclick="router.navigate('profile')">${currentAuthUser.charAt(0).toUpperCase()}</div>`;
+                const titleHtml = getUserActiveTitleHtml(cleanKey(currentAuthUser));
+
                 container.innerHTML = `
                     <div class="flex items-center gap-2 px-3 py-1.5 rounded-2xl bg-slate-800/90 border border-cyan-500/35 cursor-pointer" onclick="router.navigate('profile')">
                         ${avatarHtml}
-                        <div class="hidden sm:block text-left"><div class="text-xs font-bold text-white truncate max-w-[100px]">${profile.name || currentAuthUser}</div></div>
+                        <div class="hidden sm:flex flex-col text-left">
+                            <div class="text-xs font-bold text-white truncate max-w-[100px]">${profile.name || currentAuthUser}</div>
+                            ${titleHtml}
+                        </div>
                         <button onclick="event.stopPropagation(); handleLogout()" title="Đăng xuất" class="ml-1 text-slate-400 hover:text-rose-400 p-1"><i class="fa-solid fa-right-from-bracket"></i></button>
                     </div>`;
             } else {
@@ -690,6 +786,10 @@
             const modal = document.getElementById('user-info-modal');
             document.getElementById('modal-user-name').innerText = user.name || userKey;
             document.getElementById('modal-user-id').innerText = user.id || 'id_unknown';
+            
+            const titleBadgeEl = document.getElementById('modal-user-title-badge');
+            titleBadgeEl.innerHTML = getUserActiveTitleHtml(userKey);
+
             const avatarWrap = document.getElementById('modal-user-avatar-wrap');
             if (user.avatar) {
                 avatarWrap.innerHTML = `<img src="${user.avatar}" class="w-full h-full object-cover">`;
@@ -699,14 +799,25 @@
 
             const myKey = cleanKey(currentAuthUser);
             const actionArea = document.getElementById('modal-friend-action-area');
-            if (userKey !== myKey && getCurrentUserProfile().friends && getCurrentUserProfile().friends[userKey]) {
-                actionArea.innerHTML = `<button onclick="removeFriend('${userKey}')" class="w-full py-2 rounded-xl bg-rose-500/20 text-rose-400 font-bold text-xs border border-rose-500/30 hover:bg-rose-500 hover:text-white"><i class="fa-solid fa-user-xmark mr-1"></i> Xóa Kết Bạn</button>`;
+            
+            if (userKey !== myKey) {
+                if (getCurrentUserProfile().friends && getCurrentUserProfile().friends[userKey]) {
+                    actionArea.innerHTML = `<button onclick="removeFriend('${userKey}')" class="w-full py-2.5 rounded-xl bg-rose-500/20 text-rose-400 font-bold text-xs border border-rose-500/30 hover:bg-rose-500 hover:text-white transition"><i class="fa-solid fa-user-xmark mr-1"></i> Xóa Kết Bạn</button>`;
+                } else {
+                    actionArea.innerHTML = `<button onclick="sendDirectFriendRequest('${user.id}')" class="w-full py-2.5 rounded-xl bg-gradient-to-r from-cyan-500 to-blue-600 text-white font-bold text-xs shadow-neon transition"><i class="fa-solid fa-user-plus mr-1"></i> Gửi Lời Mời Kết Bạn</button>`;
+                }
             } else {
-                actionArea.innerHTML = '';
+                actionArea.innerHTML = '<span class="text-xs text-cyan-400 italic">Đây là tài khoản của bạn</span>';
             }
 
             modal.classList.remove('hidden');
             modal.classList.add('flex');
+        }
+
+        function sendDirectFriendRequest(targetId) {
+            closeUserInfoModal();
+            document.getElementById('friend-id-input').value = targetId;
+            sendFriendRequest();
         }
 
         function closeUserInfoModal() {
@@ -743,7 +854,9 @@
                 text: `${senderProfile.name} đã gửi lời mời kết bạn.`,
                 timestamp: Date.now()
             }).then(() => {
-                toggleAddFriendModal();
+                if (!document.getElementById('add-friend-modal').classList.contains('hidden')) {
+                    toggleAddFriendModal();
+                }
                 showCustomModal("Thành Công", "Đã gửi lời mời kết bạn! Đang chờ đối phương đồng ý.");
             });
         }
@@ -868,6 +981,69 @@
 
         function renderProfileSection() {
             const profile = getCurrentUserProfile();
+            const myKey = cleanKey(currentAuthUser);
+            const ownedTitles = profile.ownedTitles || {};
+            const activeTitleKey = profile.activeTitleKey || '';
+
+            let titleSelectionHtml = '';
+            if (Object.keys(ownedTitles).length === 0) {
+                titleSelectionHtml = `<p class="text-xs text-slate-500 italic">Bạn chưa sở hữu danh hiệu nào.</p>`;
+            } else {
+                titleSelectionHtml = `
+                    <div class="space-y-2">
+                        <label class="block text-xs font-semibold text-slate-300">Chọn Danh Hiệu Hiển Thị Đeo Trên Người</label>
+                        <select id="user-active-title-select" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-3 py-2.5 text-xs text-slate-200" onchange="handleSelectActiveTitle(this.value)">
+                            <option value="">-- Không đeo danh hiệu --</option>
+                            ${Object.keys(ownedTitles).map(tKey => {
+                                const tObj = globalTitles[tKey];
+                                if (!tObj) return '';
+                                return `<option value="${tKey}" ${tKey === activeTitleKey ? 'selected' : ''}>${tObj.text}</option>`;
+                            }).join('')}
+                        </select>
+                    </div>`;
+            }
+
+            let adminTitleManagementSection = '';
+            if (isSuperAdmin()) {
+                adminTitleManagementSection = `
+                    <div class="glass-card p-6 rounded-3xl border border-amber-500/40 shadow-neon-lg space-y-4">
+                        <div class="flex items-center justify-between border-b border-slate-800 pb-3">
+                            <h3 class="font-extrabold text-base text-amber-400 flex items-center gap-2"><i class="fa-solid fa-crown"></i> Bảng Tạo & Trao Danh Hiệu (Hoàng Phi Hùng Admin)</h3>
+                            <button onclick="toggleGiveTitleModal()" class="px-3 py-1.5 rounded-xl bg-amber-500 text-slate-950 font-bold text-xs shadow-neon"><i class="fa-solid fa-gift mr-1"></i> Trao Bằng ID</button>
+                        </div>
+                        
+                        <form onsubmit="handleCreateNewTitle(event)" class="space-y-3">
+                            <div>
+                                <label class="block text-xs font-semibold text-slate-300 mb-1">Tên Danh Hiệu Mới</label>
+                                <input type="text" id="new-title-name" required placeholder="Ví dụ: Huyền Thoại EduSpace, Vua Cờ Vua..." class="w-full bg-slate-900 border border-slate-700 rounded-xl px-3 py-2 text-xs text-slate-200 outline-none focus:border-amber-400">
+                            </div>
+                            <div>
+                                <label class="block text-xs font-semibold text-slate-300 mb-1">Kiểu Màu Sắc & Hiệu Ứng</label>
+                                <select id="new-title-style" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-3 py-2 text-xs text-slate-200">
+                                    <option value="title-rainbow">🌈 7 Sắc Cầu Vồng (Chuyển Động Rực Rỡ)</option>
+                                    <option value="title-neon">💎 Glow Neon Cyan (Xanh Dạ Quang)</option>
+                                    <option value="title-gold">👑 Hoàng Gia Gold (Vàng Kim Sang Trọng)</option>
+                                    <option value="title-fire">🔥 Fire Flame (Đỏ Cam Lửa)</option>
+                                    <option value="title-purple">🔮 Purple Galaxy (Tím Hồng Vũ Trụ)</option>
+                                </select>
+                            </div>
+                            <button type="submit" class="w-full py-2.5 rounded-xl bg-gradient-to-r from-amber-500 to-orange-600 text-slate-950 font-bold text-xs shadow-neon">Tạo Danh Hiệu Mới Vĩnh Viễn</button>
+                        </form>
+
+                        <div class="pt-2">
+                            <h4 class="text-xs font-semibold text-slate-300 mb-2">Danh Sách Danh Hiệu Đã Tạo Trong Hệ Thống:</h4>
+                            <div class="flex flex-wrap gap-2 max-h-40 overflow-y-auto p-2 bg-slate-950/60 rounded-xl border border-slate-800">
+                                ${Object.entries(globalTitles).map(([tk, tv]) => `
+                                    <div class="flex items-center gap-2 p-1.5 rounded-lg bg-slate-900 border border-slate-800">
+                                        ${renderTitleBadge(tv)}
+                                        <button onclick="deleteGlobalTitle('${tk}')" class="text-rose-400 hover:text-rose-300 p-0.5"><i class="fa-solid fa-xmark text-xs"></i></button>
+                                    </div>
+                                `).join('')}
+                            </div>
+                        </div>
+                    </div>`;
+            }
+
             return `
                 <div class="max-w-2xl mx-auto space-y-8 animate-fadeIn">
                     <div class="glass-card p-8 rounded-3xl border border-cyan-500/30 shadow-neon-lg space-y-6">
@@ -876,11 +1052,16 @@
                                 ${profile.avatar ? `<img src="${profile.avatar}" class="w-full h-full object-cover">` : `<i class="fa-solid fa-user-astronaut"></i>`}
                             </div>
                             <div>
-                                <h2 class="text-2xl font-extrabold text-white">${profile.name || currentAuthUser}</h2>
+                                <div class="flex items-center gap-2">
+                                    <h2 class="text-2xl font-extrabold text-white">${profile.name || currentAuthUser}</h2>
+                                    ${getUserActiveTitleHtml(myKey)}
+                                </div>
                                 <p class="text-xs text-slate-400 mt-1">Mã ID Kết Bạn: <strong class="text-cyan-400 font-mono select-all bg-slate-900 px-2 py-1 rounded border border-slate-800">${profile.id || 'Đang tạo ID...'}</strong></p>
                                 ${isSuperAdmin() ? '<span class="inline-block mt-2 px-2.5 py-0.5 rounded bg-amber-500/20 text-amber-300 text-[10px] font-bold border border-amber-500/30">Super Admin Tối Cao</span>' : ''}
                             </div>
                         </div>
+
+                        ${titleSelectionHtml}
 
                         <form onsubmit="handleUpdateProfile(event)" class="space-y-4">
                             <div>
@@ -894,7 +1075,65 @@
                             <button type="submit" class="w-full py-3.5 rounded-xl bg-gradient-to-r from-cyan-500 to-blue-600 text-white font-bold text-xs shadow-neon">Lưu Cập Nhật Hồ Sơ</button>
                         </form>
                     </div>
+
+                    ${adminTitleManagementSection}
                 </div>`;
+        }
+
+        function handleSelectActiveTitle(titleKey) {
+            db.ref(`eduspace_users/${cleanKey(currentAuthUser)}/activeTitleKey`).set(titleKey).then(() => {
+                showCustomModal("Thành Công", "Đã đổi danh hiệu hiển thị!");
+                render();
+            });
+        }
+
+        function handleCreateNewTitle(e) {
+            e.preventDefault();
+            if (!isSuperAdmin()) return;
+            const name = document.getElementById('new-title-name').value.trim();
+            const style = document.getElementById('new-title-style').value;
+            const titleId = 'title_' + Date.now();
+
+            db.ref(`eduspace_titles/${titleId}`).set({ text: name, style: style }).then(() => {
+                db.ref(`eduspace_users/${cleanKey(currentAuthUser)}/ownedTitles/${titleId}`).set(true);
+                document.getElementById('new-title-name').value = '';
+                showCustomModal("Thành Công", "Đã tạo thành công danh hiệu mới!");
+                render();
+            });
+        }
+
+        function deleteGlobalTitle(titleId) {
+            if (!isSuperAdmin()) return;
+            db.ref(`eduspace_titles/${titleId}`).remove().then(() => {
+                showCustomModal("Thành Công", "Đã xóa danh hiệu!");
+                render();
+            });
+        }
+
+        function toggleGiveTitleModal() {
+            const modal = document.getElementById('give-title-modal');
+            modal.classList.toggle('hidden');
+            modal.classList.toggle('flex');
+
+            if (!modal.classList.contains('hidden')) {
+                const selectEl = document.getElementById('give-title-select');
+                selectEl.innerHTML = Object.entries(globalTitles).map(([tk, tv]) => `<option value="${tk}">${tv.text}</option>`).join('');
+            }
+        }
+
+        function submitGiveTitleToUser() {
+            const targetId = document.getElementById('give-title-target-id').value.trim();
+            const titleKey = document.getElementById('give-title-select').value;
+            if (!targetId || !titleKey) { showCustomModal("Lỗi", "Vui lòng nhập ID và chọn danh hiệu!"); return; }
+
+            let targetUserKey = null;
+            Object.entries(globalUsers).forEach(([k, u]) => { if (u.id === targetId) targetUserKey = k; });
+            if (!targetUserKey) { showCustomModal("Lỗi", "Không tìm thấy người dùng có ID này!"); return; }
+
+            db.ref(`eduspace_users/${targetUserKey}/ownedTitles/${titleKey}`).set(true).then(() => {
+                toggleGiveTitleModal();
+                showCustomModal("Thành Công", `Đã trao danh hiệu thành công cho người dùng ID ${targetId}!`);
+            });
         }
 
         function handleUpdateProfile(e) {
@@ -905,6 +1144,81 @@
                 showCustomModal("Thành Công", "Đã cập nhật thông tin thành công!");
                 render();
             });
+        }
+
+        // TÍNH TOÁN BẢNG XẾP HẠNG HỌC TẬP & TẠO BÀI TẬP
+        function renderLeaderboards() {
+            // 1. Tính toán bảng xếp hạng học tập (hoàn thành nhiều bài & thời gian sớm nhất)
+            let studentScores = [];
+            Object.entries(globalProgress).forEach(([uKey, uProg]) => {
+                const userObj = globalUsers[uKey] || { name: uKey };
+                let count = 0;
+                let earliestTime = Infinity;
+                Object.values(uProg).forEach(p => {
+                    count++;
+                    if (p.timestamp && p.timestamp < earliestTime) earliestTime = p.timestamp;
+                });
+                if (count > 0) {
+                    studentScores.push({ key: uKey, name: userObj.name || uKey, count, time: earliestTime === Infinity ? 0 : earliestTime });
+                }
+            });
+            // Sắp xếp: Số bài hoàn thành giảm dần, nếu bằng nhau thì thời gian (time) nhỏ hơn lên đầu (nhanh nhất)
+            studentScores.sort((a, b) => b.count - a.count || a.time - b.time);
+
+            // 2. Tính toán bảng xếp hạng người tạo bài tập nhiều nhất
+            let creatorScores = {};
+            Object.values(globalData).forEach(sub => {
+                if (sub.units) {
+                    sub.units.forEach(u => {
+                        if (u.lessons) {
+                            u.lessons.forEach(l => {
+                                // Mặc định nếu không có người tạo thì gán cho Hoàng Phi Hùng hoặc hệ thống
+                                const creator = l.createdBy || 'Hoàng Phi Hùng';
+                                creatorScores[creator] = (creatorScores[creator] || 0) + 1;
+                            });
+                        }
+                    });
+                }
+            });
+            let creatorList = Object.entries(creatorScores).map(([name, count]) => ({ name, count }));
+            creatorList.sort((a, b) => b.count - a.count);
+
+            let studentHtml = studentScores.length === 0 ? `<p class="text-slate-500 italic text-center py-4 text-xs">Chưa có học viên hoàn thành bài tập.</p>` : studentScores.map((s, idx) => `
+                <div class="flex items-center justify-between p-2.5 rounded-xl bg-slate-900 border border-slate-800 text-xs">
+                    <div class="flex items-center gap-2.5">
+                        <span class="w-6 h-6 rounded-lg ${idx === 0 ? 'bg-amber-500 text-slate-950 font-bold' : (idx === 1 ? 'bg-slate-300 text-slate-950 font-bold' : (idx === 2 ? 'bg-amber-700 text-white font-bold' : 'bg-slate-800 text-slate-400'))} flex items-center justify-center text-[11px]">${idx+1}</span>
+                        <div>
+                            <span class="font-bold text-white">${s.name}</span>
+                            <div class="scale-90 origin-left">${getUserActiveTitleHtml(s.key)}</div>
+                        </div>
+                    </div>
+                    <div class="text-right">
+                        <span class="font-extrabold text-cyan-400">${s.count} bài</span>
+                    </div>
+                </div>
+            `).join('');
+
+            let creatorHtml = creatorList.length === 0 ? `<p class="text-slate-500 italic text-center py-4 text-xs">Chưa có bài tập nào được tạo.</p>` : creatorList.map((c, idx) => `
+                <div class="flex items-center justify-between p-2.5 rounded-xl bg-slate-900 border border-slate-800 text-xs">
+                    <div class="flex items-center gap-2.5">
+                        <span class="w-6 h-6 rounded-lg ${idx === 0 ? 'bg-amber-500 text-slate-950 font-bold' : 'bg-slate-800 text-slate-400'} flex items-center justify-center text-[11px]">${idx+1}</span>
+                        <span class="font-bold text-white">${c.name}</span>
+                    </div>
+                    <span class="font-extrabold text-amber-400">${c.count} bài đăng</span>
+                </div>
+            `).join('');
+
+            return `
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6 pt-6">
+                    <div class="glass-card p-6 rounded-3xl border border-cyan-500/30 shadow-neon space-y-4">
+                        <h3 class="font-extrabold text-base text-white flex items-center gap-2 border-b border-slate-800 pb-3"><i class="fa-solid fa-trophy text-amber-400"></i> Bảng Xếp Hạng Học Tập (Nhiều & Nhanh Nhất)</h3>
+                        <div class="space-y-2 max-h-64 overflow-y-auto pr-1">${studentHtml}</div>
+                    </div>
+                    <div class="glass-card p-6 rounded-3xl border border-amber-500/30 shadow-neon-lg space-y-4">
+                        <h3 class="font-extrabold text-base text-white flex items-center gap-2 border-b border-slate-800 pb-3"><i class="fa-solid fa-cloud-arrow-up text-amber-400"></i> Bảng Xếp Hạng Người Tạo Bài Tập Nhiều Nhất</h3>
+                        <div class="space-y-2 max-h-64 overflow-y-auto pr-1">${creatorHtml}</div>
+                    </div>
+                </div>`;
         }
 
         function renderHome(data) {
@@ -951,7 +1265,10 @@
                         </div>
                     </div>
 
-                    <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                    <!-- BẢNG XẾP HẠNG -->
+                    ${renderLeaderboards()}
+
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-6 pt-4">
                         ${Object.values(data).map(sub => `
                             <div onclick="router.navigate('subject', {subjectId: '${sub.id}'})" class="glass-card p-6 sm:p-8 rounded-3xl glow-border cursor-pointer group">
                                 <div class="w-16 h-16 rounded-2xl bg-gradient-to-tr ${sub.color} flex items-center justify-center text-2xl text-white shadow-neon mb-6"><i class="fa-solid ${sub.icon}"></i></div>
@@ -1314,6 +1631,7 @@
             const unitTitle = document.getElementById('upload-unit-title').value.trim();
             const lessonTitle = document.getElementById('upload-lesson-title').value.trim();
             const theory = document.getElementById('upload-theory').value;
+            const profile = getCurrentUserProfile();
 
             let data = globalData;
             let sub = data[subjectId];
@@ -1332,6 +1650,7 @@
                 id: subjectId + '_l_' + Date.now(),
                 title: lessonTitle,
                 theory: theory,
+                createdBy: profile.name || currentAuthUser,
                 exercises: exercises.length > 0 ? exercises : [{ question: 'Câu hỏi mẫu?', options: ['A', 'B', 'C', 'D'], correct: 0, explanation: 'Mẫu.' }],
                 essays: essays
             });
@@ -1505,7 +1824,7 @@
         function handleChessDraw() { showCustomModal("Hòa Cờ", "Ván đấu hòa!", [{text: "Ván Mới", class:"bg-cyan-500 text-slate-950 font-bold", onClick: ()=>{closeModal(); resetChessGame();}}]); }
         function resetChessGame() { chessGame.reset(); selectedSquare = null; validMoves = []; renderChessBoard(); updateChessUI(); }
 
-        // ========================== MESSENGER CLOUD (BẢO MẬT TUYỆT ĐỐI & QUẢN TRỊ NHÓM) ==========================
+        // ========================== MESSENGER CLOUD ==========================
         function renderMessengerLayout() {
             return `
                 <div class="glass-card rounded-3xl border border-cyan-500/30 overflow-hidden shadow-neon-lg h-[82vh] flex flex-col md:flex-row animate-fadeIn">
@@ -1553,7 +1872,6 @@
                     <div><h5 class="font-bold text-xs text-white">Kênh Chung</h5></div>
                 </div>`;
 
-            // BẢO MẬT TUYỆT ĐỐI: CHỈ HIỂN THỊ NHÓM MÀ USER LÀ THÀNH VIÊN
             Object.entries(globalGroups).forEach(([gId, g]) => {
                 const members = g.members || {};
                 if (members[myKey]) {
@@ -1565,7 +1883,6 @@
                 }
             });
 
-            // DANH SÁCH BẠN BÈ
             html += `<div class="px-3 pt-4 pb-1 text-[10px] font-bold text-slate-400 uppercase">Bạn Bè (${Object.keys(myFriends).length})</div>`;
 
             if (Object.keys(myFriends).length === 0) {
@@ -1647,11 +1964,26 @@
             db.ref(`eduspace_chat_channels/${activeChatChannel}`).limitToLast(100).on('value', (s) => {
                 const data = s.val();
                 if (!data) { container.innerHTML = `<p class="text-slate-500 italic text-center py-10">Chưa có tin nhắn nào.</p>`; return; }
-                container.innerHTML = Object.entries(data).map(([k, m]) => `
-                    <div class="flex flex-col ${m.sender === currentAuthUser ? 'items-end' : 'items-start'} space-y-1">
-                        <span class="text-[10px] text-slate-400">${m.senderName || m.sender}</span>
-                        <div class="p-3 rounded-2xl text-xs ${m.sender === currentAuthUser ? 'bg-cyan-500 text-slate-950 font-medium' : 'bg-slate-800 text-slate-200'}">${m.text}</div>
-                    </div>`).join('');
+                container.innerHTML = Object.entries(data).map(([k, m]) => {
+                    const senderKey = cleanKey(m.sender);
+                    const senderUser = globalUsers[senderKey] || {};
+                    const titleHtml = getUserActiveTitleHtml(senderKey);
+                    const isMe = m.sender === currentAuthUser;
+
+                    const avatarHtml = senderUser.avatar 
+                        ? `<img src="${senderUser.avatar}" class="w-6 h-6 rounded-full object-cover shrink-0 cursor-pointer border border-cyan-500/40 hover:scale-110 transition" onclick="showUserProfile('${senderKey}')">`
+                        : `<div class="w-6 h-6 rounded-full bg-cyan-500/20 text-cyan-400 flex items-center justify-center font-bold text-[10px] shrink-0 cursor-pointer border border-cyan-500/30 hover:scale-110 transition" onclick="showUserProfile('${senderKey}')">${(m.senderName || m.sender).charAt(0).toUpperCase()}</div>`;
+
+                    return `
+                        <div class="flex flex-col ${isMe ? 'items-end' : 'items-start'} space-y-1">
+                            <div class="flex items-center gap-1.5 text-[10px] text-slate-400 ${isMe ? 'flex-row-reverse' : ''}">
+                                ${avatarHtml}
+                                <span class="font-semibold text-slate-300 hover:text-cyan-400 cursor-pointer transition" onclick="showUserProfile('${senderKey}')">${m.senderName || m.sender}</span>
+                                ${titleHtml}
+                            </div>
+                            <div class="p-3 rounded-2xl text-xs ${isMe ? 'bg-cyan-500 text-slate-950 font-medium' : 'bg-slate-800 text-slate-200'} max-w-[80%] break-words shadow-sm">${m.text}</div>
+                        </div>`;
+                }).join('');
                 container.scrollTop = container.scrollHeight;
             });
         }
@@ -1706,7 +2038,7 @@
             members[myKey] = true;
 
             const admins = {};
-            admins[myKey] = true; // Người tạo mặc định là admin nhóm
+            admins[myKey] = true;
 
             const checkboxes = document.querySelectorAll('input[name="create_group_members"]:checked');
             checkboxes.forEach(cb => { members[cb.value] = true; });
